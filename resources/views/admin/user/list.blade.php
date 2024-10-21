@@ -26,8 +26,8 @@
                             
                             <tbody id="userTableBody">
                                 @foreach($userRecords as $user)
-                                <tr data-user-id="{{ $user->id }}" data-exchange-id="{{ $user->exchange->id }}">
-                                    <td style="width: 45%;">{{ $user->name }}</td>
+                                <tr data-user-id="{{ $user->id }}" data-exchange-id="{{ $user->exchange->id  ?? 'N/A' }}">
+                                    <td style="width: 45%;">{{ $user->name  ?? 'N/A' }}</td>
                                     <td style="width: 45%;">{{ $user->exchange->name ?? 'N/A' }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>

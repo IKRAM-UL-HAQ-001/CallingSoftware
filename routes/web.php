@@ -53,8 +53,8 @@ Route::group(['middleware' => ['auth', 'role:carecenter']], function () {
     Route::post('/carecenter/complain/post', [ComplainController::class, 'store'])->name('care_center.complain.store');
     Route::post('/carecenter/complain/destroy', [ComplainController::class, 'destroy'])->name('care_center.complain.destroy');
 
-        // follow up
-        Route::get('/carecenter/followup', [FollowUpController::class, 'index'])->name('care_center.follow_up.list');
-        Route::post('/carecenter/followup/post', [FollowUpController::class, 'store'])->name('care_center.follow_up.store');
-        Route::post('/carecenter/followup/destroy', [FollowUpController::class, 'destroy'])->name('care_center.follow_up.destroy');
+    // follow up
+    Route::get('/carecenter/followup', [FollowUpController::class, 'index'])->name('care_center.follow_up.list');
+    Route::post('/carecenter/followup/post', [FollowUpController::class, 'store'])->name('care_center.follow_up.store');
+    Route::post('/carecenter/followup/destroy', [FollowUpController::class, 'destroy'])->name('care_center.follow_up.destroy');
 });

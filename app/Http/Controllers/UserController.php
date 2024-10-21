@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $userRecords = User::with('exchange')->where('role', '!=', 'admin')->get();
+        $userRecords = User::with('exchange')->whereNotIn('role', ['admin', 'carecenter'])->get();
         $exchangeRecords = Exchange::all();
         return view("admin.user.list", compact('userRecords', 'exchangeRecords'));
     }
