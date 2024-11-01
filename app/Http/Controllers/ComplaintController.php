@@ -12,7 +12,7 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.compalint.list');
     }
 
     /**

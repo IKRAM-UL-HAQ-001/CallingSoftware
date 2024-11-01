@@ -12,7 +12,7 @@ class DemoSendController extends Controller
      */
     public function index()
     {
-        //
+        return view ('admin.demo_send.list');
     }
 
     /**

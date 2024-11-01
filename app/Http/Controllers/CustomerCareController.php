@@ -12,7 +12,7 @@ class CustomerCareController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.customer_care.list');
     }
 
     /**

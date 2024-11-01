@@ -12,7 +12,7 @@ class TotalCallController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.total_call.list');
     }
 
     /**
