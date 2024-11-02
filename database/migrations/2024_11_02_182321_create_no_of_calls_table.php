@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('no_o_f_calls', function (Blueprint $table) {
+        Schema::create('no_of_calls', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('no_o_f_calls');
+        Schema::dropIfExists('no_of_calls');
     }
 };

@@ -4,7 +4,10 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Walks</h2>
+                <h2 class="mb-0">Exchanges</h2>
+                <div>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Exchange</button>
+                </div>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
                 <div class="card-body px-0 pb-2 px-3 col-12">
@@ -12,14 +15,14 @@
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Id</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Exchange Name</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="DataTableBody">
-                                @foreach ($Walks as $walk)
+                                @foreach ($Exchanges as $exchange)
                                 <tr data-user-id="a" data-exchange-id="a">
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->id}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$exchange->name}}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -34,7 +37,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -82,9 +84,9 @@
         $('#DataTable').DataTable().ajax.reload();
         $('#myModal').modal('hide');
         $('#form')[0].reset();
-        setTimeout(function() { 
+        setTimeout(function() {
             $('#success').fadeOut('slow');
-        }, 2000); 
+        }, 2000);
     } else {
         $('#error').show().text(response.message);
         setTimeout(function() { 
@@ -94,7 +96,7 @@
 },
 error: function() {
     $('#error').show().text('An error occurred.');
-    setTimeout(function() { 
+    setTimeout(function() { // Hide error message after 2 seconds
         $('#error').fadeOut('slow');
     }, 2000);
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\NoOFCall;
+use App\Models\NoOfCall;
 use Illuminate\Http\Request;
 
-class NoOFCallController extends Controller
+class NoOfCallController extends Controller
 {
     /**
      * Display a listing of the resource.
