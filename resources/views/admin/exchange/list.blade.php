@@ -15,7 +15,7 @@
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">User Name</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Exchange Name</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
@@ -24,8 +24,8 @@
                                 <tr data-user-id="a" data-exchange-id="a">
                                     <td style="width: 45%;" class="encrypted-data">{{$exchange->name}}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
+                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -42,7 +42,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #007bff; color: white;">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #344767; color: white;">
                 <h5 class="modal-title" id="myModalLabel">Add New Exchange</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -111,12 +111,12 @@
         $('#DataTable').DataTable().ajax.reload();
         $('#myModal').modal('hide');
         $('#form')[0].reset();
-        setTimeout(function() { // Set a timeout function to hide the alert after 2 seconds
+        setTimeout(function() {
             $('#success').fadeOut('slow');
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 2000);
     } else {
         $('#error').show().text(response.message);
-        setTimeout(function() { // Hide error message after 2 seconds
+        setTimeout(function() { 
             $('#error').fadeOut('slow');
         }, 2000);
     }

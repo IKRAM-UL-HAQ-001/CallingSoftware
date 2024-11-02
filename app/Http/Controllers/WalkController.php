@@ -12,7 +12,8 @@ class WalkController extends Controller
      */
     public function index()
     {
-        return view('admin.walk.list');
+        $Walks =  Walk::all();
+        return view('admin.walk.list',compact('Walks'));
     }
 
     /**

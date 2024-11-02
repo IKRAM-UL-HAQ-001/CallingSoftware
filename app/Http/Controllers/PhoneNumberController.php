@@ -20,11 +20,6 @@ class PhoneNumberController extends Controller
         $PhoneNumbers = PhoneNumber::all();
         return view('admin.phone_number.list', compact('users', 'PhoneNumbers'));
     }
-    public function noOfCallIndex()
-    {
-        return view('admin.no_of_call.list');
-    }
-
     /**
      * Show the form for creating a new resource.
      */

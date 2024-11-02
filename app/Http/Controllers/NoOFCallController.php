@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DemoSend;
+use App\Models\NoOFCall;
 use Illuminate\Http\Request;
 
-class DemoSendController extends Controller
+class NoOFCallController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $DemoSends = DemoSend::all();
-        return view ('admin.demo_send.list',compact('DemoSends'));
+        $NoOfCalls = NoOfCall::all();
+        return view('admin.no_of_call.list',compact('NoOfCalls'));
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         //
@@ -33,7 +35,7 @@ class DemoSendController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DemoSend $demoSend)
+    public function show(NoOFCall $noOFCall)
     {
         //
     }
@@ -41,7 +43,7 @@ class DemoSendController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DemoSend $demoSend)
+    public function edit(NoOFCall $noOFCall)
     {
         //
     }
@@ -49,7 +51,7 @@ class DemoSendController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DemoSend $demoSend)
+    public function update(Request $request, NoOFCall $noOFCall)
     {
         //
     }
@@ -57,7 +59,7 @@ class DemoSendController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DemoSend $demoSend)
+    public function destroy(NoOFCall $noOFCall)
     {
         //
     }

@@ -35,6 +35,7 @@
                                     <td style="width: 45%;">{{ $phoneNumber->user->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
+                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -117,8 +118,29 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#DataTable').DataTable({
+            pagingType: "full_numbers",
+            order: [[0, 'desc']],
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
+        });
+
+    });
+</script>
 <script>
     $(document).ready(function() {
         const displayedNumbers = new Set(); // Use a Set to track displayed numbers
@@ -161,19 +183,28 @@
                 url: $(this).attr('action'),
                 type: 'POST',
                 data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        $('#success').show().text(response.success);
-                        $('#DataTable').DataTable().ajax.reload(); // Reload data table to reflect changes
-                    } else {
-                        $('#error').show().text(response.error);
-                    }
-                },
-                error: function () {
-                    $('#error').show().text('An error occurred.');
-                }
+                if (response.success) {
+        $('#success').show().text(response.message);
+        $('#DataTable').DataTable().ajax.reload();
+        $('#myModal').modal('hide');
+        $('#form')[0].reset();
+        setTimeout(function() { // Set a timeout function to hide the alert after 2 seconds
+            $('#success').fadeOut('slow');
+        }, 2000); // 2000 milliseconds = 2 seconds
+    } else {
+        $('#error').show().text(response.message);
+        setTimeout(function() { // Hide error message after 2 seconds
+            $('#error').fadeOut('slow');
+        }, 2000);
+    }
+},
+error: function() {
+    $('#error').show().text('An error occurred.');
+    setTimeout(function() { // Hide error message after 2 seconds
+        $('#error').fadeOut('slow');
+    }, 2000);
+}
             });
-        });
     });
 </script>
 @endsection
