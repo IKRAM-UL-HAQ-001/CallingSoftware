@@ -69,19 +69,19 @@ Route::group(['middleware' => ['auth', 'customercare']], function () {
 
 //Assistan Routes
 Route::get('/assistant', [DashboardController::class, 'assistantIndex'])->name('assistant.dashboard');
-Route::get('/exchange', [ExchangeController::class, 'assistantIndex'])->name('assistant.exchange.list');
-Route::get('/phoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
-Route::get('/numberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
-Route::get('/user', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
-Route::get('/assignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistandemo_Send.list');
-Route::get('/assignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
-Route::get('/customer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
-Route::get('/complaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
-Route::get('/followup', [FollowUpController::class, 'assistantIndex'])->name('assistant.follow_up.list');
-Route::get('/reject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
-Route::get('/referId', [ReferIdController::class, 'assistantIndex'])->name('assistant.refer_id.list');
-Route::get('/walk', [WalkController::class, 'assistantIndex'])->name('assistant.walk.list');
-Route::get('/total-call', [TotalCallController::class, 'index'])->name('assistant.total_call.list');
+Route::get('/assistantexchange', [ExchangeController::class, 'assistantIndex'])->name('assistant.exchange.list');
+Route::get('/assistantphoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
+Route::get('/assistantnumberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
+Route::get('/assistantuser', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
+Route::get('/assistantassignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistandemo_Send.list');
+Route::get('/assistantassignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
+Route::get('/assistantcustomer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
+Route::get('/assistantcomplaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
+Route::get('/assistantfollowup', [FollowUpController::class, 'assistantIndex'])->name('assistant.follow_up.list');
+Route::get('/assistantreject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
+Route::get('/assistantreferId', [ReferIdController::class, 'assistantIndex'])->name('assistant.refer_id.list');
+Route::get('/assistantwalk', [WalkController::class, 'assistantIndex'])->name('assistant.walk.list');
+Route::get('/assistanttotalCall', [TotalCallController::class, 'index'])->name('assistant.total_call.list');
 
 
 
