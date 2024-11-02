@@ -11,4 +11,7 @@ class User extends Model
     public function phone(){
         return $this->hasMany(PhoneNumber::class);
     }
+    public function exchange(){
+        return $this->belongsTo(Exchange::class);
+    }
 }

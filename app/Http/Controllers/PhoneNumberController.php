@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-// use App\Http\Controllers\Validator;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 
 class PhoneNumberController extends Controller
 {
@@ -36,7 +36,7 @@ class PhoneNumberController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function fileStore(Request $request)
     {
         $request->validate([
             'file' => 'required|file|mimes:xlsx,xls,csv|max:2048',
@@ -84,7 +84,43 @@ class PhoneNumberController extends Controller
 
         return redirect()->route('admin.phone_number.list');
     }
-
+    public function formStore(Request $request)
+    {
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'phone_number' => 'required'
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
+    
+        try {
+            $secretKey = 'MRikram@#@2024!';
+            // Decrypt user_id and phone
+            $encryptedUserId = $request->input('user_id');
+            $encryptedPhone = $request->input('phone_number');
+    
+            // Check if the phone number already exists
+            $existingPhoneNumber = PhoneNumber::where('phone_number', $encryptedPhone)->first();
+            if ($existingPhoneNumber) {
+                return response()->json(['error' => 'Duplicate phone number. This phone number already exists.'], 409);
+            }
+    
+            // Store the data using Eloquent ORM
+            $phoneNumber = new PhoneNumber();
+            $phoneNumber->user_id = $encryptedUserId;
+            $phoneNumber->phone_number = $encryptedPhone;
+            $phoneNumber->save();
+    
+            return response()->json(['success' => 'Phone number added successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to add phone number.', 'exception' => $e->getMessage()], 500);
+        }
+    }
+     
 
 
 

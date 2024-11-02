@@ -14,6 +14,18 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard');
     }
+    public function userIndex()
+    {
+        return view('user.dashboard');
+    }
+    public function assistanIndex()
+    {
+        return view('assistan.dashboard');
+    }
+    public function customerCareIndex()
+    {
+        return view('customer_care.dashboard');
+    }
 
     /**
      * Show the form for creating a new resource.

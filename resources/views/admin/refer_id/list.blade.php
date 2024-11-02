@@ -5,7 +5,6 @@
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
                 <h2 class="mb-0">Page Heading</h2>
-                <button class="btn btn-primary">Add</button>
             </div>
 
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
@@ -25,8 +24,8 @@
                                     <td style="width: 45%;">aaa</td>
                                     <td style="width: 45%;">dddd</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteUser(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="editUser(this)">Edit</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
+                                        <button class="btn btn-warning btn-sm" onclick="editId(this)">Edit</button>
                                     </td>
                                 </tr>
                                 <tr data-user-id="a" data-exchange-id="a">
@@ -45,6 +44,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection
