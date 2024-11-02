@@ -16,6 +16,12 @@ class FollowUpController extends Controller
         return view('admin.follow_up.list',compact('FollowUps'));
     }
 
+    public function assistantIndex()
+    {
+        $FollowUps = FollowUp::all();
+        return view('assistant.follow_up.list',compact('FollowUps'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

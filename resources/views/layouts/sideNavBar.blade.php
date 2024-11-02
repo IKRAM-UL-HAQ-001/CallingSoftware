@@ -98,6 +98,95 @@
             <span class="nav-link-text ms-1">Total Call</span>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a class="nav-link  {{ request()->routeIs('assistant.dashboard') ? 'active' : '' }}" href="{{route('assistant.dashboard')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.exchange.list') ? 'active' : '' }}" href="{{route('assistant.exchange.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Exchange</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.phone_number.list') ? 'active' : '' }}" href="{{route('assistant.phone_number.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Phone Numbers</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.no_of_call.list') ? 'active' : '' }}" href="{{route('assistant.no_of_call.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">No of Call</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.user.list') ? 'active' : '' }}" href="{{route('assistant.user.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">User</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.customer.list') ? 'active' : '' }}" href="{{route('assistant.customer.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Customer</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.reject.list') ? 'active' : '' }}" href="{{route('assistant.reject.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Reject</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.walk.list') ? 'active' : '' }}" href="{{route('assistant.walk.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Walk</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.refer_id.list') ? 'active' : '' }}" href="{{route('assistant.refer_id.list')}}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Refer ID</span>
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('assistant.total_call.list') ? 'active' : '' }}" href="{{ route('assistant.total_call.list') }}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Total Call</span>
+          </a>
+        </li>
       </ul>
     </div>
   </aside>

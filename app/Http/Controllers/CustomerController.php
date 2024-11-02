@@ -15,6 +15,11 @@ class CustomerController extends Controller
         $Customers =Customer::all();
         return view('admin.customer.list',compact('Customers'));
     }
+    public function assistantIndex()
+    {
+        $Customers =Customer::all();
+        return view('assistant.customer.list',compact('Customers'));
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -15,6 +15,11 @@ class CustomerCareController extends Controller
         $CustomerCares = CutomerCare::all();
         return view('admin.customer_care.list',compact('CustomerCare'));
     }
+    public function assistantIndex()
+    {
+        $CustomerCares = CutomerCare::all();
+        return view('assistant.customer_care.list',compact('CustomerCare'));
+    }
 
     /**
      * Show the form for creating a new resource.

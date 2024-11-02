@@ -15,6 +15,11 @@ class DemoSendController extends Controller
         $DemoSends = DemoSend::all();
         return view ('admin.demo_send.list',compact('DemoSends'));
     }
+    public function assistantIndex()
+    {
+        $DemoSends = DemoSend::all();
+        return view ('assistant.demo_send.list',compact('DemoSends'));
+    }
 
 
     public function create()

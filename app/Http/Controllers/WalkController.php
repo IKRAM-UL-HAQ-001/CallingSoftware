@@ -15,6 +15,12 @@ class WalkController extends Controller
         $Walks =  Walk::all();
         return view('admin.walk.list',compact('Walks'));
     }
+    
+    public function assistantIndex()
+    {
+        $Walks =  Walk::all();
+        return view('assistant.walk.list',compact('Walks'));
+    }
 
     /**
      * Show the form for creating a new resource.

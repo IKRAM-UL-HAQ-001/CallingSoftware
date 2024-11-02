@@ -16,6 +16,12 @@ class ComplaintController extends Controller
         return view('admin.compalint.list',compact('Complaints'));
     }
 
+    public function assistantIndex()
+    {
+        $Complaints = Complaint::all();
+        return view('assistant.compalint.list',compact('Complaints'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

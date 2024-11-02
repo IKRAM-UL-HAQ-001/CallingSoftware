@@ -16,6 +16,12 @@ class NoOfCallController extends Controller
         return view('admin.no_of_call.list',compact('NoOfCalls'));
     }
 
+    public function assistantIndex()
+    {
+        $NoOfCalls = NoOfCall::all();
+        return view('assistant.no_of_call.list',compact('NoOfCalls'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

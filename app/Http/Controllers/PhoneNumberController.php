@@ -20,6 +20,13 @@ class PhoneNumberController extends Controller
         $PhoneNumbers = PhoneNumber::all();
         return view('admin.phone_number.list', compact('users', 'PhoneNumbers'));
     }
+
+    public function assistantIndex()
+    {
+        $users = User::all();
+        $PhoneNumbers = PhoneNumber::all();
+        return view('assistant.phone_number.list', compact('users', 'PhoneNumbers'));
+    }
     /**
      * Show the form for creating a new resource.
      */

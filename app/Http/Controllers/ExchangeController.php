@@ -17,6 +17,12 @@ class ExchangeController extends Controller
         return view('admin.exchange.list',compact('Exchanges'));
     }
 
+    public function assistantIndex()
+    {
+        $Exchanges = Exchange::all();
+        return view('assistant.exchange.list',compact('Exchanges'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

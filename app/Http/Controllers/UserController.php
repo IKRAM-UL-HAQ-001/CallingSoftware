@@ -19,6 +19,13 @@ class UserController extends Controller
         return view('admin.user.list',compact('Exchanges','Users'));
     }
 
+    public function assistantIndex()
+    {
+        
+        $Users = User::all();
+        return view('admin.user.list',compact('Users'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -15,6 +15,12 @@ class ReferIdController extends Controller
         $ReferIds = ReferId::all();
         return view('admin.refer_id.list',compact('ReferIds'));
     }
+    
+    public function assistantIndex()
+    {
+        $ReferIds = ReferId::all();
+        return view('assistant.refer_id.list',compact('ReferIds'));
+    }
 
     /**
      * Show the form for creating a new resource.

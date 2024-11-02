@@ -15,6 +15,11 @@ class TotalCallController extends Controller
         $TotalCalls = TotalCall::all();
         return view('admin.total_call.list',compact('TotalCalls'));
     }
+    public function assistantIndex()
+    {
+        $TotalCalls = TotalCall::all();
+        return view('assiatant.total_call.list',compact('TotalCalls'));
+    }
 
     /**
      * Show the form for creating a new resource.

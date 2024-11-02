@@ -16,6 +16,12 @@ class RejectController extends Controller
         return view('admin.reject.list',compact('Rejects'));
     }
 
+    public function assistantIndex()
+    {
+        $Rejects = Reject::all();
+        return view('assistant.reject.list',compact('Rejects'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
