@@ -12,12 +12,11 @@ class DemoSendController extends Controller
      */
     public function index()
     {
-        return view ('admin.demo_send.list');
+        $DemoSends = DemoSend::all();
+        return view ('admin.demo_send.list',compact('DemoSend'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //

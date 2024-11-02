@@ -12,7 +12,8 @@ class TotalCallController extends Controller
      */
     public function index()
     {
-        return view('admin.total_call.list');
+        $TotalCalls = TotalCall::all();
+        return view('admin.total_call.list',compact('TotalCalls'));
     }
 
     /**

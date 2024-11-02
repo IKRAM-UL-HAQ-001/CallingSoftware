@@ -12,7 +12,8 @@ class RejectController extends Controller
      */
     public function index()
     {
-        return view('admin.reject.list');
+        $Reject = Reject::all();
+        return view('admin.reject.list',compact('Reject'));
     }
 
     /**

@@ -12,7 +12,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('admin.customer.list');
+        $Customres =Customer::all();
+        return view('admin.customer.list',compact('Customers'));
     }
 
     /**

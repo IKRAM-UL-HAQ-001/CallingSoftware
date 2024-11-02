@@ -4,9 +4,9 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Phone Numbers</h2>
+                <h2 class="mb-0">Users </h2>
                 <div>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Number</button>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add User</button>
                 </div>
             </div>
 
@@ -30,8 +30,8 @@
                             <tbody id="DataTableBody">
                                 @foreach ($Users as $user)
                                 <tr>
-                                    <td style="width: 45%;" class="encrypted-phone-number">{{ $user->user_name }}</td>
-                                    <td style="width: 45%;">{{ $user->exchange->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $user->user_name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $user->exchange->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                     </td>
@@ -90,22 +90,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 <script>
     $(document).ready(function() {
-        const displayedNumbers = new Set(); // Use a Set to track displayed numbers
+        const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
 
-        // Decrypt phone numbers on page load
-        $('.encrypted-phone-number').each(function() {
-            const encryptedNumber = $(this).text().trim();
-            const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
-            const decryptedNumber = CryptoJS.AES.decrypt(encryptedNumber, secretKey).toString(CryptoJS.enc.Utf8);
-
-            // Check if the number has already been displayed
-            if (!displayedNumbers.has(decryptedNumber)) {
-                $(this).text(decryptedNumber); // Update the text with the decrypted number
-                displayedNumbers.add(decryptedNumber); // Add it to the displayed numbers
-            } else {
-                $(this).closest('tr').remove(); // Remove the row if the number is a duplicate
-            }
+        // Decrypt data on page load
+        $('.encrypted-data').each(function() {
+            const encryptedData = $(this).text().trim();
+            const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
+            $(this).text(decryptedData); // Update the text with the decrypted data
         });
+
 
         // Handle form submission via AJAX
         $('#form').on('submit', function(e) {

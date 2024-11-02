@@ -12,6 +12,7 @@ class ReferIdController extends Controller
      */
     public function index()
     {
+        $ReferId = ReferId::all();
         return view('admin.refer_id.list');
     }
 

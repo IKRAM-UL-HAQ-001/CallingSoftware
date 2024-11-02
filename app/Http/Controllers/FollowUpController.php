@@ -12,7 +12,8 @@ class FollowUpController extends Controller
      */
     public function index()
     {
-        return view('admin.follow_up.list');
+        $FollowUps = FollowUp::all();
+        return view('admin.follow_up.list',compact('FollowUps'));
     }
 
     /**

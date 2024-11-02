@@ -12,7 +12,8 @@ class ComplaintController extends Controller
      */
     public function index()
     {
-        return view('admin.compalint.list');
+        $Complaints = Complaint::all();
+        return view('admin.compalint.list',compact('Complaints'));
     }
 
     /**

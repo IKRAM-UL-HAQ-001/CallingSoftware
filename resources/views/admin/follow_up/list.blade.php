@@ -45,6 +45,26 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#DataTable').DataTable({
+            pagingType: "full_numbers",
+            order: [[0, 'desc']],
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
+        });
 
+    });
+</script>
 
 @endsection

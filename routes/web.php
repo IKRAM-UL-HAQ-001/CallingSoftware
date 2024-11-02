@@ -18,6 +18,7 @@ use App\Http\Controllers\TotalCallController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
+Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
 Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
 Route::get('/numberOfCall', [PhoneNumberController::class, 'noOfCallIndex'])->name('admin.no_of_call.list');
 Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');

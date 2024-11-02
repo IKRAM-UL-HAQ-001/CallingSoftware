@@ -12,7 +12,8 @@ class CustomerCareController extends Controller
      */
     public function index()
     {
-        return view('admin.customer_care.list');
+        $CustomerCares = CutomerCare::all();
+        return view('admin.customer_care.list',compact('CustomerCare'));
     }
 
     /**
