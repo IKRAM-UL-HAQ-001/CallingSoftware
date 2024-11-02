@@ -73,7 +73,7 @@ Route::get('/exchange', [ExchangeController::class, 'assistantIndex'])->name('as
 Route::get('/phoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
 Route::get('/numberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
 Route::get('/user', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
-Route::get('/assignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistant.demo_Send.list');
+Route::get('/assignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistandemo_Send.list');
 Route::get('/assignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
 Route::get('/customer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
 Route::get('/complaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
@@ -81,7 +81,7 @@ Route::get('/followup', [FollowUpController::class, 'assistantIndex'])->name('as
 Route::get('/reject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
 Route::get('/referId', [ReferIdController::class, 'assistantIndex'])->name('assistant.refer_id.list');
 Route::get('/walk', [WalkController::class, 'assistantIndex'])->name('assistant.walk.list');
-Route::get('/total-call', [TotalCallController::class, 'assistantIndex'])->name('assistant.total_call.list');
+Route::get('/total-call', [TotalCallController::class, 'index'])->name('assistant.total_call.list');
 
 
 

@@ -10,10 +10,10 @@
     </div>
 
     <!-- Daily Metrics Section -->
-    <h3 class="text-uppercase text-center mb-3">Daily Metrics</h3>
+    <h3 class="text-uppercase text-center mt-5 mb-2">Daily Metrics</h3>
     <div class="row mt-5 d-flex justify-content-between mx-2">
         @foreach ($dailyData as $data)
-        <div class="col-xl-3 col-sm-6 mb-xl-0 my-4 mx-1">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
@@ -36,10 +36,10 @@
     </div>
 
     <!-- Monthly Metrics Section -->
-    <h3 class="text-uppercase text-center mb-3">Monthly Metrics</h3>
+    <h3 class="text-uppercase text-center mt-5 mb-2">Monthly Metrics</h3>
     <div class="row mt-5">
         @foreach ($monthlyData as $data)
-        <div class="col-xl-4 col-sm-6 mb-xl-0 my-4 mx-2">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
