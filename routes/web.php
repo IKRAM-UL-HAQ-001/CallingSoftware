@@ -15,40 +15,63 @@ use App\Http\Controllers\WalkController;
 use App\Http\Controllers\ReferIdController;
 use App\Http\Controllers\TotalCallController;
 use App\Http\Controllers\NoOfCallController;
+use App\Http\Controllers\LoginController;
 
 
-Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
-Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
-Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
-Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
-Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
-Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
-Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
-Route::get('/assignNumebr', [DemoSendController::class, 'index'])->name('admin.demo_Send.list');
-Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
-Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
-Route::get('/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
-Route::get('/reject', [RejectController::class, 'index'])->name('admin.reject.list');
-Route::get('/referId', [ReferIdController::class, 'index'])->name('admin.refer_id.list');
-Route::get('/walk', [WalkController::class, 'index'])->name('admin.walk.list');
-Route::get('/total-call', [TotalCallController::class, 'index'])->name('admin.total_call.list');
 
-Route::post('/admin/phone-number/filepost', [PhoneNumberController::class, 'fileStore'])->name('admin.phone_number.filePost');
-Route::post('/admin/phone-number/formPost', [PhoneNumberController::class, 'formStore'])->name('admin.phone_number.formPost');
+Route::get('/', [LoginController::class, 'index'])->name('auth.login');
+Route::post('/post', [LoginController::class, 'login'])->name('login.post');
+Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logout');
 
 
 
 
 
 
+Route::group(['middleware' => ['admin']], function () {
+    //update password
+    Route::post('/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
+    
+    //logout all
+    Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
 
+    //dashboard
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
+    Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
+    Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
+    Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
+    Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
+    Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
+    Route::get('/assignNumebr', [DemoSendController::class, 'index'])->name('admin.demo_Send.list');
+    Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
+    Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
+    Route::get('/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
+    Route::get('/reject', [RejectController::class, 'index'])->name('admin.reject.list');
+    Route::get('/referId', [ReferIdController::class, 'index'])->name('admin.refer_id.list');
+    Route::get('/walk', [WalkController::class, 'index'])->name('admin.walk.list');
+    Route::get('/total-call', [TotalCallController::class, 'index'])->name('admin.total_call.list');
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
+    Route::post('/admin/phone-number/filepost', [PhoneNumberController::class, 'fileStore'])->name('admin.phone_number.filePost');
+    Route::post('/admin/phone-number/formPost', [PhoneNumberController::class, 'formStore'])->name('admin.phone_number.formPost');
 
 });
 
-Route::group(['middleware' => ['auth', 'assistant']], function () {
-
+Route::group(['middleware' => ['assistant']], function () {
+    Route::get('/assistant', [DashboardController::class, 'assistantIndex'])->name('assistant.dashboard');
+    Route::get('/assistantexchange', [ExchangeController::class, 'assistantIndex'])->name('assistant.exchange.list');
+    Route::get('/assistantphoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
+    Route::get('/assistantnumberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
+    Route::get('/assistantuser', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
+    Route::get('/assistantassignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistandemo_Send.list');
+    Route::get('/assistantassignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
+    Route::get('/assistantcustomer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
+    Route::get('/assistantcomplaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
+    Route::get('/assistantfollowup', [FollowUpController::class, 'assistantIndex'])->name('assistant.follow_up.list');
+    Route::get('/assistantreject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
+    Route::get('/assistantreferId', [ReferIdController::class, 'assistantIndex'])->name('assistant.refer_id.list');
+    Route::get('/assistantwalk', [WalkController::class, 'assistantIndex'])->name('assistant.walk.list');
+    Route::get('/assistanttotalCall', [TotalCallController::class, 'index'])->name('assistant.total_call.list');
 });
 
 Route::group(['middleware' => ['auth', 'exchange']], function () {
@@ -58,30 +81,10 @@ Route::group(['middleware' => ['auth', 'exchange']], function () {
 Route::group(['middleware' => ['auth', 'customercare']], function () {
 
 });
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
-
-
 
 
 //Assistan Routes
-Route::get('/assistant', [DashboardController::class, 'assistantIndex'])->name('assistant.dashboard');
-Route::get('/assistantexchange', [ExchangeController::class, 'assistantIndex'])->name('assistant.exchange.list');
-Route::get('/assistantphoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
-Route::get('/assistantnumberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
-Route::get('/assistantuser', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
-Route::get('/assistantassignNumebr', [DemoSendController::class, 'assistantIndex'])->name('assistandemo_Send.list');
-Route::get('/assistantassignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
-Route::get('/assistantcustomer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
-Route::get('/assistantcomplaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
-Route::get('/assistantfollowup', [FollowUpController::class, 'assistantIndex'])->name('assistant.follow_up.list');
-Route::get('/assistantreject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
-Route::get('/assistantreferId', [ReferIdController::class, 'assistantIndex'])->name('assistant.refer_id.list');
-Route::get('/assistantwalk', [WalkController::class, 'assistantIndex'])->name('assistant.walk.list');
-Route::get('/assistanttotalCall', [TotalCallController::class, 'index'])->name('assistant.total_call.list');
+
 
 
 
