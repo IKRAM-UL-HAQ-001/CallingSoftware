@@ -65,7 +65,7 @@
                         <select class="form-select px-3" id="editExchange" name="exchange_id">
                             <option value="" disabled selected>Select Exchange</option>
                             @foreach($Exchanges as $exchange)
-                            <option value="{{ $exchange->id }}">{{ $exchange->name }}</option>
+                            <option value="{{ $exchange->id }}" class="encrypted-data">{{ $exchange->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -111,13 +111,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 <script>
     $(document).ready(function() {
-        const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
-
-        // Decrypt data on page load
+        const secretKey = 'MRikam@#@2024!'; // Consider moving this to server-side
         $('.encrypted-data').each(function() {
             const encryptedData = $(this).text().trim();
             const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
-            $(this).text(decryptedData); // Update the text with the decrypted data
+            $(this).text(decryptedData);
         });
 
 
@@ -150,11 +148,17 @@
                 success: function(response) {
                     if (response.success) {
                         $('#success').show().text(response.success);
-                        $('#DataTable').DataTable().ajax.reload(); // Reload data table to reflect changes
+                        window.location.reload();  // Reload data table to reflect changes
                         $('#myModal').modal('hide'); // Close the modal on success
                         $('#form')[0].reset(); // Reset the form fields
+                        setTimeout(function() { 
+                            $('#success').fadeOut('slow');
+                        }, 2000);
                     } else {
                         $('#error').show().text(response.error);
+                        setTimeout(function() { 
+                            $('#error').fadeOut('slow');
+                        }, 2000);
                     }
                 },
                 error: function() {

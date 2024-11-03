@@ -3,28 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>
-    CallignSoftware
-  </title>
-  <!-- Fonts and icons -->
+  <title>CallignSoftware</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Nucleo Icons -->
   <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
   <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 </head>
 
-<body class="">
-  <div class="container position-sticky z-index-sticky top-0">
-    <div class="row">
-    </div>
-  </div>
-  <main class="main-content  mt-0">
+<body>
+  <main class="main-content mt-0">
     <section>
       <div class="page-header min-vh-100">
         <div class="container">
@@ -36,7 +24,6 @@
                   <p class="mb-0">Enter your User Name and password to sign in</p>
                 </div>
                 <div class="card-body">
-                  <!-- Display Validation Errors -->
                   @if ($errors->any())
                     <div class="alert alert-danger text-white">
                       <ul>
@@ -47,7 +34,7 @@
                     </div>
                   @endif
 
-                  <form id="loginForm" role="form" method="post" action="{{ route('login.post') }}">
+                  <form id="form" method="post" action="{{ route('login.post') }}" onsubmit="encryptFormData()">
                     @csrf
                     <div class="mb-3">
                       <select class="form-control form-control-lg" name="role" id="role" onchange="toggleExchangeDropdown()">
@@ -56,6 +43,7 @@
                         <option value="exchange">Exchange</option>
                         <option value="assistant">Assistant</option>
                       </select>
+                      <input type="hidden" id="role_encrypted" name="role_encrypted">
                     </div>
                     <div id="userFields">
                       <div class="mb-3">
@@ -87,20 +75,28 @@
       </div>
     </section>
   </main>
-  <!-- Core JS Files -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+
   <script>
     function toggleExchangeDropdown() {
       const userRole = document.getElementById('role').value;
-      const exchangeDropdown = document.getElementById('ExchangeDropdown');
-      exchangeDropdown.style.display = (userRole === 'exchange') ? 'block' : 'none';
+      document.getElementById('ExchangeDropdown').style.display = (userRole === 'exchange') ? 'block' : 'none';
+    }
+
+    function encryptFormData() {
+      const secretKey = 'MRikam@#@2024!';
+      
+      // Encrypt sensitive form fields
+      const role = document.getElementById('role').value;
+      const name = document.getElementById('name').value;
+      const password = document.getElementById('password').value;
+
+      // Store the original role value for validation
+      document.getElementById('role_encrypted').value = CryptoJS.AES.encrypt(role, secretKey).toString();
+
+      // Encrypt name and password fields only
+      document.getElementById('name').value = CryptoJS.AES.encrypt(name, secretKey).toString();
+      document.getElementById('password').value = CryptoJS.AES.encrypt(password, secretKey).toString();
     }
   </script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <script src="../assets/js/argon-dashboard.min.js?v=2.1.0"></script>
 </body>
-
 </html>

@@ -37,8 +37,11 @@ Route::group(['middleware' => ['admin']], function () {
 
     //dashboard
     Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    
+    //exchange
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
     Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
+    
     Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
     Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');

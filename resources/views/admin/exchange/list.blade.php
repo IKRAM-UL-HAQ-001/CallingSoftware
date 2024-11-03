@@ -21,8 +21,8 @@
                             </thead>
                             <tbody id="DataTableBody">
                                 @foreach ($Exchanges as $exchange)
-                                <tr data-user-id="a" data-exchange-id="a">
-                                    <td style="width: 45%;" class="encrypted-data">{{$exchange->name}}</td>
+                                <tr data-user-id="{{ $exchange->id }}" data-exchange-id="{{ $exchange->id }}">
+                                    <td style="width: 45%;" class="encrypted-data">{{ $exchange->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -49,11 +49,11 @@
             <div class="modal-body">
                 <div class="alert alert-success text-white" id='success' style="display:none;"></div>
                 <div class="alert alert-danger text-white" id='error' style="display:none;"></div>
-                <form id="form" method="post" action="{{ route('admin.user.formPost') }}" enctype="multipart/form-data">
+                <form id="form" method="post" action="{{ route('admin.exchange.formPost') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="exchange_name" class="form-label">Name</label>
-                        <input type="text" class="form-control border px-3" id="exchange_name" name="exchange_name" placeholder="Enter Username" required>
+                        <input type="text" class="form-control border px-3" id="exchange_name" name="exchange_name" placeholder="Enter Exchange Name" required>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -71,21 +71,22 @@
 <script>
     $(document).ready(function() {
         $('#DataTable').DataTable({
-            pagingType: "full_numbers",
-            order: [[0, 'desc']],
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+    pagingType: "full_numbers",
+    order: [[0, 'asc']], // Ascending order
+    language: {
+        paginate: {
+            first: '«',
+            last: '»',
+            next: '›',
+            previous: '‹'
+        }
+    },
+    lengthMenu: [5, 10, 25, 50],
+    pageLength: 10
+});
 
-        const secretKey = 'MRikam@#@2024!';
+
+        const secretKey = 'MRikam@#@2024!'; // Consider moving this to server-side
         $('.encrypted-data').each(function() {
             const encryptedData = $(this).text().trim();
             const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
@@ -94,6 +95,7 @@
 
         $('#form').on('submit', function(e) {
             e.preventDefault();
+
             const exchangeName = $('#exchange_name').val();
             const encryptedExchangeName = CryptoJS.AES.encrypt(exchangeName, secretKey).toString();
             const formData = {
@@ -106,28 +108,27 @@
                 type: 'POST',
                 data: formData,
                 success: function(response) {
-    if (response.success) {
-        $('#success').show().text(response.message);
-        $('#DataTable').DataTable().ajax.reload();
-        $('#myModal').modal('hide');
-        $('#form')[0].reset();
-        setTimeout(function() {
-            $('#success').fadeOut('slow');
-        }, 2000);
-    } else {
-        $('#error').show().text(response.message);
-        setTimeout(function() { 
-            $('#error').fadeOut('slow');
-        }, 2000);
-    }
-},
-error: function() {
-    $('#error').show().text('An error occurred.');
-    setTimeout(function() { // Hide error message after 2 seconds
-        $('#error').fadeOut('slow');
-    }, 2000);
-}
-
+                    if (response.success) {
+                        $('#success').show().text(response.message);
+                        $('#myModal').modal('hide');
+                        $('#form')[0].reset();
+                        window.location.reload(); 
+                        setTimeout(function() {
+                            $('#success').fadeOut('slow');
+                        }, 2000);
+                    } else {
+                        $('#error').show().text(response.message);
+                        setTimeout(function() { 
+                            $('#error').fadeOut('slow');
+                        }, 2000);
+                    }
+                },
+                error: function() {
+                    $('#error').show().text('An error occurred.');
+                    setTimeout(function() {
+                        $('#error').fadeOut('slow');
+                    }, 2000);
+                }
             });
         });
     });

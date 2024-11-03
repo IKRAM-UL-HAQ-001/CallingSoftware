@@ -11,7 +11,7 @@
 
     <!-- Daily Metrics Section -->
     <h3 class="text-uppercase text-center mt-5 mb-2">Daily Metrics</h3>
-    <div class="row mt-5 d-flex justify-content-between mx-2">
+    <div class="row mt-5 ">
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">

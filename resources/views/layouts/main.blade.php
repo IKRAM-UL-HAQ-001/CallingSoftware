@@ -4,7 +4,7 @@
 <body class="g-sidenav-show   bg-gray" style="background: lightgray;">
     <div class="min-height-300 bg-dark position-absolute w-100"></div>
     @include("layouts.sideNavBar")
-    <main class="main-content position-relative border-radius-lg ">
+    <main class="main-content position-relative border-radius-lg pt-1">
         @include("layouts.topNavBar")
         @yield("content")
         @include("layouts.footer")
