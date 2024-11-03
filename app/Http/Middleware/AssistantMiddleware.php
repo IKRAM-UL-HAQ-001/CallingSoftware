@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // Import the Auth facade
 use Symfony\Component\HttpFoundation\Response;
 
 class AssistantMiddleware
@@ -20,6 +21,6 @@ class AssistantMiddleware
         }
 
         // If not an admin, redirect or abort
-        return redirect('/')->with('error', 'Access denied: Admins only.');
+        return redirect('/')->with('error', 'Access denied: Assistant only.');
     }
 }

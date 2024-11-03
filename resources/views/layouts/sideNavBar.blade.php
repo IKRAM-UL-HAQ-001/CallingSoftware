@@ -92,7 +92,26 @@
               <span class="nav-link-text ms-1">Refer ID</span>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.demo_send.list') ? 'active' : '' }}" href="{{route('admin.demo_send.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Demo Send</span>
+            </a>
+          </li>
           
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('admin.amount.list') ? 'active' : '' }}" href="{{route('admin.amount.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Amount</span>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.total_call.list') ? 'active' : '' }}" href="{{ route('admin.total_call.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -183,9 +202,100 @@
               <span class="nav-link-text ms-1">Refer ID</span>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('assistant.demo_send.list') ? 'active' : '' }}" href="{{route('assistant.demo_send.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Demo Send</span>
+            </a>
+          </li>
         
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('assistant.total_call.list') ? 'active' : '' }}" href="{{ route('assistant.total_call.list') }}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Total Call</span>
+            </a>
+          </li>
+        @endif
+        @if(Auth::user()->role === "exchange")
+          <li class="nav-item">
+            <a class="nav-link  {{ request()->routeIs('user.dashboard') ? 'active' : '' }}" href="{{route('user.dashboard')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.assign_number.list') ? 'active' : '' }}" href="{{route('user.assign_number.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Assign Numbers</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.no_of_call.list') ? 'active' : '' }}" href="{{route('user.no_of_call.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">No of Call</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.customer.list') ? 'active' : '' }}" href="{{route('user.customer.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Customer</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.reject.list') ? 'active' : '' }}" href="{{route('user.reject.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Reject</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.walk.list') ? 'active' : '' }}" href="{{route('user.walk.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Walk</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.refer_id.list') ? 'active' : '' }}" href="{{route('user.refer_id.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Refer ID</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.demo_send.list') ? 'active' : '' }}" href="{{route('user.demo_send.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Demo Send</span>
+            </a>
+          </li>
+        
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.total_call.list') ? 'active' : '' }}" href="{{ route('user.total_call.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
