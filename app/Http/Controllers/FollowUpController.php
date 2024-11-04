@@ -21,6 +21,11 @@ class FollowUpController extends Controller
         $FollowUps = FollowUp::all();
         return view('assistant.follow_up.list',compact('FollowUps'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $FollowUps = FollowUp::where('exchange_id', $exchageId);
+        return view('assistant.follow_up.list',compact('FollowUps'));
+    }
 
     /**
      * Show the form for creating a new resource.

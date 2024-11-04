@@ -81,17 +81,17 @@ Route::group(['middleware' => ['assistant']], function () {
 
 Route::group(['middleware' => ['exchange']], function () {
 //  user routes 
-Route::get('/userDashboard', [DashboardController::class, 'userIndex'])->name('exchange.dashboard');
-Route::get('/userNumberOfCall', [PhoneNumberController::class, 'userINoOfCallIndex'])->name('exchange.no_of_call.list');
-Route::get('/userDemoSend', [DemoSendController::class, 'index'])->name('exchange.demo_send.list');
-Route::get('/userAssignNumebr', [AssignNumberController::class, 'userIndex'])->name('exchange.assign_number.list');
-Route::get('/userCustomer', [CustomerController::class, 'userIndex'])->name('exchange.customer.list');
-Route::get('/userComplaint', [ComplaintController::class, 'userIndex'])->name('exchange.complaint.list');
-Route::get('/userFollowup', [FollowUpController::class, 'userIndex'])->name('exchange.follow_up.list');
-Route::get('/userReject', [RejectController::class, 'userIndex'])->name('exchange.reject.list');
-Route::get('/userReferId', [ReferIdController::class, 'userIndex'])->name('exchange.refer_id.list');
-Route::get('/userWalk', [WalkController::class, 'userIndex'])->name('exchange.walk.list');
-Route::get('/userTotalCall', [TotalCallController::class, 'userIndex'])->name('exchange.total_call.list');
+Route::get('/userDashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
+Route::get('/userNumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
+Route::get('/userDemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
+Route::get('/userAssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
+Route::get('/userCustomer', [CustomerController::class, 'exchangeIndex'])->name('exchange.customer.list');
+Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
+Route::get('/userFollowup', [FollowUpController::class, 'exchangeIndex'])->name('exchange.follow_up.list');
+Route::get('/userReject', [RejectController::class, 'exchangeIndex'])->name('exchange.reject.list');
+Route::get('/userReferId', [ReferIdController::class, 'exchangeIndex'])->name('exchange.refer_id.list');
+Route::get('/userWalk', [WalkController::class, 'exchangeIndex'])->name('exchange.walk.list');
+Route::get('/userTotalCall', [TotalCallController::class, 'exchangeIndex'])->name('exchange.total_call.list');
 });
 
 Route::group(['middleware' => ['auth', 'customercare']], function () {

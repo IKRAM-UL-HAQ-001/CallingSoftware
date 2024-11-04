@@ -21,6 +21,11 @@ class RejectController extends Controller
         $Rejects = Reject::all();
         return view('assistant.reject.list',compact('Rejects'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $Rejects = Reject::where('exchange_id', $exchageId);
+        return view('assistant.reject.list',compact('Rejects'));
+    }
 
     /**
      * Show the form for creating a new resource.

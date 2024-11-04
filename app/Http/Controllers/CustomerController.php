@@ -20,6 +20,11 @@ class CustomerController extends Controller
         $Customers =Customer::all();
         return view('assistant.customer.list',compact('Customers'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $Customers = Customer::where('exchange_id', $exchageId);
+        return view('assistant.customer.list',compact('Customers'));
+    }
 
     /**
      * Show the form for creating a new resource.

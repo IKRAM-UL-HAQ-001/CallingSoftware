@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('ip_addresses', function (Blueprint $table) {
             $table->id();
             $table->string('ipAddress');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('exchange_id')->nullable();
+            $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
             $table->timestamps();
         });
     }

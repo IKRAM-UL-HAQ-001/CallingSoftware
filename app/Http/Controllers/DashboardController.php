@@ -156,7 +156,7 @@ class DashboardController extends Controller
     }
 
 
-    public function userIndex()
+    public function exchangeIndex()
     {
         $today = now();
         $startOfMonth = now()->startOfMonth();

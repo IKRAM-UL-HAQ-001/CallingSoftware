@@ -21,6 +21,11 @@ class WalkController extends Controller
         $Walks =  Walk::all();
         return view('assistant.walk.list',compact('Walks'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $Walks = Walk::where('exchange_id', $exchageId);
+        return view('assistant.walk.list',compact('Walks'));
+    }
 
     /**
      * Show the form for creating a new resource.

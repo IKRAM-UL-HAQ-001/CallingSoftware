@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AssignNumber;
+use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 
 class AssignNumberController extends Controller
@@ -13,6 +14,13 @@ class AssignNumberController extends Controller
     public function index()
     {
         return view('admin.assign_number.list');
+    }
+
+    public function exchangeIndex()
+    {
+        $exchangeId = "1";
+        $PhoneNumbers =PhoneNumber::where('exchange_id',$exchangeId)->get();
+        return view('exchange.assign_number.list',compact('PhoneNumbers'));
     }
 
     /**

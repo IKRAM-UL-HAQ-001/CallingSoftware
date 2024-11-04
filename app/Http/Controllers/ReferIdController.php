@@ -21,6 +21,11 @@ class ReferIdController extends Controller
         $ReferIds = ReferId::all();
         return view('assistant.refer_id.list',compact('ReferIds'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $ReferIds = ReferId::where('exchange_id', $exchageId);
+        return view('assistant.refer_id.list',compact('ReferIds'));
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -20,6 +20,11 @@ class TotalCallController extends Controller
         $TotalCalls = TotalCall::all();
         return view('assiatant.total_call.list',compact('TotalCalls'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $TotalCalls = TotalCall::where('exchange_id', $exchageId);
+        return view('assistant.total_call.list',compact('TotalCalls'));
+    }
 
     /**
      * Show the form for creating a new resource.

@@ -20,6 +20,11 @@ class DemoSendController extends Controller
         $DemoSends = DemoSend::all();
         return view ('assistant.demo_send.list',compact('DemoSends'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $DemoSends = DemoSend::where('exchange_id', $exchageId);
+        return view('assistant.demo_send.list',compact('DemoSends'));
+    }
 
 
     public function create()

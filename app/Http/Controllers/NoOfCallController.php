@@ -21,6 +21,11 @@ class NoOfCallController extends Controller
         $NoOfCalls = NoOfCall::all();
         return view('assistant.no_of_call.list',compact('NoOfCalls'));
     }
+    public function exchangeIndex()
+    {   $exchageId = 1;
+        $NoOfCalls = NoOFCall::where('exchange_id', $exchageId);
+        return view('assistant.no_of_call.list',compact('NoOfCalls'));
+    }
 
     /**
      * Show the form for creating a new resource.
