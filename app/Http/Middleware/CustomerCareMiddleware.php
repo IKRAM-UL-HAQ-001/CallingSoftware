@@ -17,7 +17,7 @@ class CustomerCareMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'customercare') {
+        if (session('user_role') == 'customercare') {
             return $next($request); // User is an admin, allow request
         }
 
