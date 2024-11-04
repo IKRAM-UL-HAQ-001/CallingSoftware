@@ -30,7 +30,7 @@
                                 @foreach ($Users as $user)
                                 <tr>
                                     <td style="width: 45%;" class="encrypted-data">{{ $user->name }}</td>
-                                    <td style="width: 45%;" class=" ">{{ $user->exchange->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data ">{{ $user->exchange->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -64,7 +64,7 @@
                         <select class="form-select px-3" id="editExchange" name="exchange_id">
                             <option value="" disabled selected>Select Exchange</option>
                             @foreach($Exchanges as $exchange)
-                            <option value="{{ $exchange->id }}" class="exchange-option">{{ $exchange->name }}</option>
+                            <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -91,65 +91,66 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
 <script>
-    const secretKey = 'MRikam@#@2024!';
-    const fixedIV = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // Fixed IV for deterministic encryption
-
-    $(document).ready(function() {
+     $(document).ready(function() {
         $('#DataTable').DataTable({
-            pagingType: "full_numbers",
-            order: [[0, 'desc']],
-            language: {
+            pagingType: "full_numbers"
+            , order: [
+                [0, 'asc']
+            ]
+            , language: {
                 paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
+                    first: '«'
+                    , last: '»'
+                    , next: '›'
+                    , previous: '‹'
                 }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
+            }
+            , lengthMenu: [5, 10, 25, 50]
+            , pageLength: 10
         });
 
-        $('#form').on('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+        // const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
+        // const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
 
-            const userName = $('#user_name').val();
-            const exchangeId = $('#editExchange').val();
-            const password = $('#password').val();
+        // function encryptData(data) {
+        //     return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
+        // }
 
-            const encryptedUserName = CryptoJS.AES.encrypt(userName, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString();
-            const encryptedExchangeId = exchangeId; // Assuming exchange ID does not need encryption
-            const encryptedPassword = CryptoJS.AES.encrypt(password, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString();
+        // function decryptData(encryptedData) {
+        //     const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
+        //     return decrypted.toString(CryptoJS.enc.Utf8);
+        // }
 
-            $('#user_name').val(encryptedUserName);
-            $('#editExchange').val(encryptedExchangeId);
-            $('#password').val(encryptedPassword);
+        $('#form').on('submit', function(e) {
+            e.preventDefault();
+
+            const userName = encryptData($('#user_name').val());
+            // const exchangeId = $('#editExchange').val();
+            const password = encryptData($('#password').val());
+
+
+            $('#user_name').val(userName);
+            // $('#editExchange').val(exchangeId);
+            $('#password').val(password);
 
             this.submit();
         });
-    });
-        $('.encrypted-data').each(function() {
-    const encryptedData = $(this).text().trim();
-            // alert(encryptedData);
-    if (encryptedData) {
-        try {
-            // Attempt to decrypt the data
-            const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV });
-            const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
 
-            // Check if decryption returned a valid result
-            if (decryptedData) {
-                $(this).text(decryptedData); // Update the element's text with decrypted data
-            } else {
-                console.warn("Decryption resulted in an empty string. Check key or data format.");
-            }
-        } catch (error) {
-            console.error("Error decrypting data:", error);
-        }
-    } else {
-        console.warn("No data to decrypt.");
-    }
-});
+
+
+        // $('.encrypted-data').each(function() {
+        //     const encryptedData = $(this).text().trim();
+        //     console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+        //         const decryptedData = decryptData(encryptedData);
+        //         if (decryptedData) {
+        //             $(this).text(decryptedData);
+        //         } else {
+        //             console.warn("Decryption returned empty text, check the key or data format.");
+        //         }
+        // });
+    });
+
 
 </script>
 

@@ -31,8 +31,8 @@
                             <tbody id="DataTableBody">
                                 @foreach ($PhoneNumbers as $phoneNumber)
                                 <tr>
-                                    <td style="width: 45%;" class="encrypted-phone-number">{{ $phoneNumber->phone_number }}</td>
-                                    <td style="width: 45%;">{{ $phoneNumber->user->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -66,7 +66,7 @@
                         <select class="form-select px-3" id="editExchange" name="user_id">
                             <option value="" disabled selected>Select User</option>
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" class="encrypted-data">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -117,94 +117,66 @@
         </div>
     </div>
 </div>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
         $('#DataTable').DataTable({
-            pagingType: "full_numbers",
-            order: [[0, 'desc']],
-            language: {
+            pagingType: "full_numbers"
+            , order: [
+                [0, 'desc']
+            ]
+            , language: {
                 paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
+                    first: '«'
+                    , last: '»'
+                    , next: '›'
+                    , previous: '‹'
                 }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
-
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        const displayedNumbers = new Set(); // Use a Set to track displayed numbers
-
-        // Decrypt phone numbers on page load
-        $('.encrypted-phone-number').each(function() {
-            const encryptedNumber = $(this).text().trim();
-            const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
-            const decryptedNumber = CryptoJS.AES.decrypt(encryptedNumber, secretKey).toString(CryptoJS.enc.Utf8);
-
-            // Check if the number has already been displayed
-            if (!displayedNumbers.has(decryptedNumber)) {
-                $(this).text(decryptedNumber); // Update the text with the decrypted number
-                displayedNumbers.add(decryptedNumber); // Add it to the displayed numbers
-            } else {
-                $(this).closest('tr').remove(); // Remove the row if the number is a duplicate
             }
+            , lengthMenu: [5, 10, 25, 50]
+            , pageLength: 10
         });
 
-        // Handle form submission via AJAX
-        $('#form').on('submit', function (e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+        const displayedNumbers = new Set(); // Use a Set to track displayed numbers
+        const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
+    const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
 
-            // Get the phone number and user_id values from the form fields
-            const phone_number = $('#phone_number').val();
-            const userId = $('#editExchange').val();
-
-            // Encrypt the phone number
-            const encryptedPhone = CryptoJS.AES.encrypt(phone_number, 'MRikam@#@2024!').toString();
-
-            // Create form data with encrypted phone number
-            const formData = {
-                user_id: userId,
-                phone_number: encryptedPhone,
-                _token: '{{ csrf_token() }}'
-            };
-
-            // Send data via AJAX
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                if (response.success) {
-        $('#success').show().text(response.message);
-        $('#DataTable').DataTable().ajax.reload();
-        $('#myModal').modal('hide');
-        $('#form')[0].reset();
-        setTimeout(function() { // Set a timeout function to hide the alert after 2 seconds
-            $('#success').fadeOut('slow');
-        }, 2000); // 2000 milliseconds = 2 seconds
-    } else {
-        $('#error').show().text(response.message);
-        setTimeout(function() { // Hide error message after 2 seconds
-            $('#error').fadeOut('slow');
-        }, 2000);
+    function encryptData(data) {
+        return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
     }
-},
-error: function() {
-    $('#error').show().text('An error occurred.');
-    setTimeout(function() { // Hide error message after 2 seconds
-        $('#error').fadeOut('slow');
-    }, 2000);
-}
-            });
+
+    function decryptData(encryptedData) {
+        const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    $('.encrypted-data').each(function() {
+        const encryptedData = $(this).text().trim();
+        console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+            const decryptedData = decryptData(encryptedData);
+            if (decryptedData) {
+                $(this).text(decryptedData);
+            } else {
+                console.warn("Decryption returned empty text, check the key or data format.");
+            }
     });
+
+        $('#form').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#phone_number').val(encryptData($('#phone_number').val()));
+                
+                $this->submit();
+
+            })
+
+
+    });
+
 </script>
 @endsection

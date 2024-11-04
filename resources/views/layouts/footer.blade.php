@@ -16,6 +16,31 @@
 
 <!-- Style for search bar -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
+<script>
+    const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
+    const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
 
+    function encryptData(data) {
+        return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
+    }
+
+    function decryptData(encryptedData) {
+        const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    $('.encrypted-data').each(function() {
+        const encryptedData = $(this).text().trim();
+        console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+            const decryptedData = decryptData(encryptedData);
+            if (decryptedData) {
+                $(this).text(decryptedData);
+            } else {
+                console.warn("Decryption returned empty text, check the key or data format.");
+            }
+    });
+</script>
 </footer>

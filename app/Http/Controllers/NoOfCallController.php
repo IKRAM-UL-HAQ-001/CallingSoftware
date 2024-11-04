@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\NoOfCall;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class NoOfCallController extends Controller
 {
@@ -12,19 +13,20 @@ class NoOfCallController extends Controller
      */
     public function index()
     {
-        $NoOfCalls = NoOfCall::all();
-        return view('admin.no_of_call.list',compact('NoOfCalls'));
+        $NoOfCalls = NoOfCall::whereDate('created_at', Carbon::today())->get();
+        return view('admin.no_of_call.list', compact('NoOfCalls'));
     }
 
     public function assistantIndex()
     {
-        $NoOfCalls = NoOfCall::all();
-        return view('assistant.no_of_call.list',compact('NoOfCalls'));
+        $NoOfCalls = NoOfCall::whereDate('created_at', Carbon::today())->get();
+        return view('assistant.no_of_call.list', compact('NoOfCalls'));
     }
     public function exchangeIndex()
-    {   $exchageId = 1;
-        $NoOfCalls = NoOFCall::where('exchange_id', $exchageId);
-        return view('assistant.no_of_call.list',compact('NoOfCalls'));
+    {
+        $exchageId = 1;
+        $NoOfCalls = NoOFCall::where('exchange_id', $exchageId)->whereDate('created_at', Carbon::today())->get();
+        return view('assistant.no_of_call.list', compact('NoOfCalls'));
     }
 
     /**

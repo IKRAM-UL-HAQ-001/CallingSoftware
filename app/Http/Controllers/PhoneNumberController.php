@@ -16,7 +16,7 @@ class PhoneNumberController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::where('role', '!=', 'admin')->where('role', '!=', 'assistant')->get();
         $PhoneNumbers = PhoneNumber::all();
         return view('admin.phone_number.list', compact('users', 'PhoneNumbers'));
     }
@@ -117,9 +117,9 @@ class PhoneNumberController extends Controller
             $phoneNumber->phone_number = $encryptedPhone;
             $phoneNumber->save();
     
-            return response()->json(['success' => 'Phone number added successfully!']);
+            return redirect()->back();
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to add phone number.', 'exception' => $e->getMessage()], 500);
+            return redirect()->back();
         }
     }
      

@@ -75,52 +75,28 @@
       </div>
     </section>
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
   <script>
     $(document).ready(function() {
-        const secretKey = 'MRikam@#@2024!';
-        const fixedIV = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // Fixed IV for deterministic encryption
+      const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
+      const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
+
+
+        function encryptData(data) {
+        return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
+    }
         
         $('#form').on('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); 
 
-            // Encrypt the user_name and password fields
-            const userName = $('#name').val();
-            const exchangeId = $('#exchange').val(); // Correct reference to the exchange select
-            const password = $('#password').val();
+            $('#name').val(encryptData($('#name').val()));
+            $('#password').val(encryptData($('#password').val()));
 
-            const encryptedUserName = CryptoJS.AES.encrypt(userName, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString();
-            const encryptedExchangeId = exchangeId; // Assuming exchange ID does not need encryption
-            const encryptedPassword = CryptoJS.AES.encrypt(password, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString();
-
-            // Set the encrypted values to the fields before submission
-            $('#name').val(encryptedUserName);
-            $('#exchange').val(encryptedExchangeId); // Update to use the correct ID
-            $('#password').val(encryptedPassword);
             
-            // Submit the form
             this.submit();
         });
 
-        // Decrypt data on load
-        $('.encrypted-data').each(function() {
-            const encryptedData = $(this).text().trim();
-
-            if (encryptedData) { // Check if data is non-empty
-                try {
-                    const decryptedData = CryptoJS.AES.decrypt(encryptedData, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString(CryptoJS.enc.Utf8);
-                    if (decryptedData) {
-                        $(this).text(decryptedData); // Display decrypted data
-                    } else {
-                        console.warn("Decryption failed. Empty result. Check key or data format.");
-                    }
-                } catch (error) {
-                    console.error("Error decrypting data:", error);
-                }
-            } else {
-                console.warn("No data to decrypt.");
-            }
-        });
     });
 
     // Define the toggleExchangeDropdown function

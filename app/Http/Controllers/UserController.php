@@ -68,9 +68,9 @@ class UserController extends Controller
         $user->role = 'exchange';
         $user->save();
 
-        return response()->json(['success' => 'User added successfully!']);
+        return redirect()->back();
     } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to add new user.', 'exception' => $e->getMessage()], 500);
+        return redirect()->back();
     }
 }
 

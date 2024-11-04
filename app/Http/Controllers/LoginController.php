@@ -107,7 +107,7 @@ class LoginController extends Controller
         if (!auth()->check()) {
             return redirect()->route('auth.login');
         } elseif (auth()->check()) {
-            Auth::logout();
+          session()->flush();
             return redirect()->route('auth.login')
                 ->withHeaders([
                     'X-Frame-Options' => 'DENY', // Prevents framing
@@ -118,9 +118,8 @@ class LoginController extends Controller
 
     public function logoutAll(Request $request)
     {
-        $admin = Auth::user();
-        Auth::logout();
-        $this->invalidateAllSessions();
+        session()->flush();
+        
         
         return redirect()->route('auth.login')->with('status', 'All users have been logged out.')
             ->withHeaders([
