@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+use Hash;
+
 class UserController extends Controller
 {
     /**
@@ -38,39 +40,39 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        {
-            // Define validation rules
-            $validator = Validator::make($request->all(), [
-                'user_name' => 'required',
-                'password' => 'required',
-                'exchange_id' => 'required',
-            ]);
-        
-            // Check if validation fails
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()->first()], 422);
-            }
-        
-            try {
-                $encryptedUserName = $request->input('user_name');
-                $encryptedPassword = $request->input('password');
-                $encryptedExchangeId = $request->input('exchange_id');        
-        
-                // Store the data using Eloquent ORM
-                $user = new User();
-                $user->name = $encryptedUserName;
-                $user->password = $encryptedPassword;
-                $user->exchange_id = $encryptedExchangeId;
-                $user->role = 'exchange';
-                $user->save();
-        
-                return response()->json(['success' => 'User added successfully!']);
-            } catch (\Exception $e) {
-                return response()->json(['error' => 'Failed to add New User.', 'exception' => $e->getMessage()], 500);
-            }
-        }
+{
+
+    // Define validation rules
+    $validator = Validator::make($request->all(), [
+        'user_name' => 'required',
+        'password' => 'required',
+        'exchange_id' => 'nullable',
+    ]);
+
+    // Check if validation fails
+    if ($validator->fails()) {
+        return response()->json(['error' => $validator->errors()->first()], 422);
     }
+
+    try {
+        // Get encrypted inputs
+        $encryptedUserName = $request->input('user_name');
+        $encryptedPassword = $request->input('password');
+        $encryptedExchangeId = $request->input('exchange_id');
+        
+        // Store the data using Eloquent ORM
+        $user = new User();
+        $user->name = $encryptedUserName;
+        $user->password = $encryptedPassword;
+        $user->exchange_id = $encryptedExchangeId;
+        $user->role = 'exchange';
+        $user->save();
+
+        return response()->json(['success' => 'User added successfully!']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to add new user.', 'exception' => $e->getMessage()], 500);
+    }
+}
 
     /**
      * Display the specified resource.

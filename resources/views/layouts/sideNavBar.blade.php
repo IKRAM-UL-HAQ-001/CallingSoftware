@@ -1,4 +1,7 @@
-@if(Auth::check())
+@if(session()->has('user_role'))
+@php
+$userRole = session('user_role'); // Retrieve the user role from the session
+@endphp
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -11,7 +14,7 @@
     <div class="collapse navbar-collapse  w-auto " style="height: 80%" id="sidenav-collapse-main">
 
       <ul class="navbar-nav">
-        @if(Auth::user()->role === "admin")
+        @if(session('user_role') === "admin")
           <li class="nav-item">
             <a class="nav-link  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{route('admin.dashboard')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -102,7 +105,6 @@
             </a>
           </li>
           
-
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.amount.list') ? 'active' : '' }}" href="{{route('admin.amount.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -111,6 +113,7 @@
               <span class="nav-link-text ms-1">Amount</span>
             </a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.follow_up.list') ? 'active' : '' }}" href="{{ route('admin.follow_up.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -119,6 +122,7 @@
               <span class="nav-link-text ms-1">Follow Up</span>
             </a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.total_call.list') ? 'active' : '' }}" href="{{ route('admin.total_call.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -128,7 +132,8 @@
             </a>
           </li>
         @endif
-        @if(Auth::user()->role === "assistant")
+        
+        @if(session('user_role') === "assistant")
           <li class="nav-item">
             <a class="nav-link  {{ request()->routeIs('assistant.dashboard') ? 'active' : '' }}" href="{{route('assistant.dashboard')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -228,9 +233,10 @@
             </a>
           </li>
         @endif
-        @if(Auth::user()->role === "exchange")
+
+        @if(session('user_role') === "exchange")
           <li class="nav-item">
-            <a class="nav-link  {{ request()->routeIs('user.dashboard') ? 'active' : '' }}" href="{{route('user.dashboard')}}">
+            <a class="nav-link  {{ request()->routeIs('exchange.dashboard') ? 'active' : '' }}" href="{{route('exchange.dashboard')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
               </div>
@@ -239,7 +245,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.assign_number.list') ? 'active' : '' }}" href="{{route('user.assign_number.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.assign_number.list') ? 'active' : '' }}" href="{{route('exchange.assign_number.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -248,7 +254,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.no_of_call.list') ? 'active' : '' }}" href="{{route('user.no_of_call.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.no_of_call.list') ? 'active' : '' }}" href="{{route('exchange.no_of_call.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -257,7 +263,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.customer.list') ? 'active' : '' }}" href="{{route('user.customer.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.customer.list') ? 'active' : '' }}" href="{{route('exchange.customer.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -266,7 +272,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.reject.list') ? 'active' : '' }}" href="{{route('user.reject.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.reject.list') ? 'active' : '' }}" href="{{route('exchange.reject.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -275,7 +281,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.walk.list') ? 'active' : '' }}" href="{{route('user.walk.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.walk.list') ? 'active' : '' }}" href="{{route('exchange.walk.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -284,7 +290,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.refer_id.list') ? 'active' : '' }}" href="{{route('user.refer_id.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.refer_id.list') ? 'active' : '' }}" href="{{route('exchange.refer_id.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -293,7 +299,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.demo_send.list') ? 'active' : '' }}" href="{{route('user.demo_send.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.demo_send.list') ? 'active' : '' }}" href="{{route('exchange.demo_send.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -302,7 +308,7 @@
           </li>
         
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('user.total_call.list') ? 'active' : '' }}" href="{{ route('user.total_call.list') }}">
+            <a class="nav-link {{ request()->routeIs('exchange.total_call.list') ? 'active' : '' }}" href="{{ route('exchange.total_call.list') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>

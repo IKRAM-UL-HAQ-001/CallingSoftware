@@ -21,8 +21,8 @@
                             </thead>
                             <tbody id="DataTableBody">
                                 @foreach ($Exchanges as $exchange)
-                                <tr data-user-id="{{ $exchange->id }}" data-exchange-id="{{ $exchange->id }}">
-                                    <td style="width: 45%;" class="encrypted-data">{{ $exchange->name }}</td>
+                                <tr data-exchange-id="{{ $exchange->id }}">
+                                    <td style="width: 45%;" class="text-dark encrypted-data">{{ $exchange->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -68,36 +68,52 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 <script>
     $(document).ready(function() {
+        const secretKey = 'MRikam@#@2024!';
+
+        // DataTable initialization
         $('#DataTable').DataTable({
-    pagingType: "full_numbers",
-    order: [[0, 'asc']], // Ascending order
-    language: {
-        paginate: {
-            first: '«',
-            last: '»',
-            next: '›',
-            previous: '‹'
-        }
-    },
-    lengthMenu: [5, 10, 25, 50],
-    pageLength: 10
-});
-
-
-        const secretKey = 'MRikam@#@2024!'; // Consider moving this to server-side
-        $('.encrypted-data').each(function() {
-            const encryptedData = $(this).text().trim();
-            const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
-            $(this).text(decryptedData);
+            pagingType: "full_numbers",
+            order: [[0, 'asc']],
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
         });
 
+        // Decrypt data on load
+        $('.encrypted-data').each(function() {
+            const encryptedData = $(this).text().trim();
+            console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+            try {
+                const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
+                if (decryptedData) {
+                    $(this).text(decryptedData);
+                } else {
+                    console.warn("Decryption returned empty text, check the key or data format.");
+                }
+            } catch (error) {
+                console.error("Error decrypting data:", error);
+            }
+        });
+
+        // Encrypt data before form submission
         $('#form').on('submit', function(e) {
             e.preventDefault();
 
             const exchangeName = $('#exchange_name').val();
             const encryptedExchangeName = CryptoJS.AES.encrypt(exchangeName, secretKey).toString();
+            console.log("Encrypted Name:", encryptedExchangeName); // Debugging
+
             const formData = {
                 exchange_name: encryptedExchangeName,
                 _token: '{{ csrf_token() }}'

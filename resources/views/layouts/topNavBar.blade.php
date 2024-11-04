@@ -3,23 +3,23 @@
 <div class="container-fluid py-1 px-3">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-12 me-5">
-            @if(Auth::check())
-                @switch(Auth::user()->role)
+            @if(session()->has('user_role'))
+                @switch(session('user_role'))
                     @case('admin')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white mb-2" href="javascript:void(0);">Admin</a>
-                        </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                        @break
+                    <li class="breadcrumb-item text-sm">
+                        <a class="text-white mb-2" href="javascript:void(0);">Admin</a>
+                    </li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                    @break
                     @case('assistant')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);">Assistant</a>
-                        </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                        @break
+                    <li class="breadcrumb-item text-sm">
+                        <a class="text-white" href="javascript:void(0);">Assistant</a>
+                    </li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                    @break
                     @case('exchange')
                         <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);" style="font-size:18px">{{ Auth::user()->exchange->name ?? 'No Exchange' }} Exchange Dashboard</a>
+                            <a class="text-white" href="javascript:void(0);" style="font-size:18px">{{ session()->has('exchange') ?? 'No Exchange' }} Exchange Dashboard</a>
                         </li>
                         @break
                 @endswitch
@@ -27,10 +27,10 @@
         </ol>
     </nav>
     <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
-        <ul class="navbar-nav align-items-center "> <!-- Removed justify-content-end -->
+        <ul class="navbar-nav align-items-center "> 
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                @if(Auth::check())
-                    @if(Auth::user()->role === "admin")
+                @if(session()->has('user_role'))
+                    @if(session('user_role')=== "admin")
                         <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmLogout()">
                             Logout ALL
                         </a>
@@ -40,12 +40,12 @@
                     @endif
                 @endif
                 <a href="javascript:void(0);" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="d-sm-inline" style="color:white">{{ Auth::user()->name }}</span>
+                    <span class="d-sm-inline encrypted-data " style="color:white">{{ session('name') }}</span>
                     <i class="fa fa-user cursor-pointer" style="color:white; margin-left: 8px;"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                    @if(Auth::check())
-                        @if(Auth::user()->role === "admin")
+                    @if(session()->has('user_role'))
+                        @if(session('user_role')=== "admin")
                             <li class="mb-2">
                                 <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
                                     <div class="d-flex align-items-center py-2">
@@ -119,7 +119,38 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
 <script>
+ $('.encrypted-data').each(function() {
+            const encryptedData = $(this).text().trim();
+
+            if (encryptedData) { // Check if data is non-empty
+                try {
+                    const decryptedData = CryptoJS.AES.decrypt(encryptedData, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString(CryptoJS.enc.Utf8);
+                    if (decryptedData) {
+                        $(this).text(decryptedData); // Display decrypted data
+                    } else {
+                        console.warn("Decryption failed. Empty result. Check key or data format.");
+                    }
+                } catch (error) {
+                    console.error("Error decrypting data:", error);
+                }
+            } else {
+                console.warn("No data to decrypt.");
+            }
+        });
+    // });
+// $(document).ready(function() {
+//         const secretKey = 'MRikam@#@2024!'; // Consider moving this to server-side
+//         $('.encrypted-data').each(function() {
+//             const encryptedData = $(this).text().trim();
+//             const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
+//             $(this).text(decryptedData);
+//         });
+//     });
+
+
 function submitPasswordUpdate() {
     var formData = {
         currentPassword: $('#currentPassword').val(),

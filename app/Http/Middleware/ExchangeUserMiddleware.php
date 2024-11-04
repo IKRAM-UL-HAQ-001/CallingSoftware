@@ -17,7 +17,7 @@ class ExchangeUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'exchange') {
+        if (session('user_role') == 'exchange') {
             return $next($request); // User is an admin, allow request
         }
 

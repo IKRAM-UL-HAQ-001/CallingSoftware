@@ -16,7 +16,7 @@ class AssistantMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role === 'assistant') {
+        if (session('user_role') == 'assistant') {
             return $next($request); // User is an admin, allow request
         }
 

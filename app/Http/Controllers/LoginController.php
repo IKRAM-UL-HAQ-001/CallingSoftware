@@ -16,64 +16,91 @@ class LoginController extends Controller
         $exchangeRecords = Exchange::all();
         return view('auth.login', compact('exchangeRecords'));
     }
+
     public function login(Request $request)
     {
-        // Validate incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'required',
-            'role' => 'required',
+            'role' => 'nullable',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
-    
-        // Decrypt the encrypted input values
-        $secretKey = 'MRikam@#@2024!';
-    
-        $decryptedName = openssl_decrypt($request->input('name'), 'AES-256-CBC', $secretKey, 0, $iv = '');
-        $decryptedPassword = openssl_decrypt($request->input('password'), 'AES-256-CBC', $secretKey, 0, $iv = '');
-    
-        // Attempt to find the user by decrypted name
-        $user = User::where('name', $decryptedName)->first();
-    
-        if ($user) {
-            // Decrypt the stored password for comparison
-            $storedPasswordDecrypted = openssl_decrypt($user->password, 'AES-256-CBC', $secretKey, 0, $iv = '');
-    
-            // Check if the decrypted passwords match
-            if ($decryptedPassword === $storedPasswordDecrypted) {
-                // Log in the user
-                Auth::login($user);
-    
-                // Regenerate session to prevent session fixation
-                $request->session()->regenerate();
-    
-                // Redirect based on user role
-                switch ($user->role) {
-                    case 'admin':
-                        return redirect()->route('admin.dashboard');
-                    case 'exchange':
-                        return redirect()->route('user.dashboard');
-                    case 'assistant':
-                        return redirect()->route('assistant.dashboard');
-                    default:
-                        // Logout and show error if role is not recognized
-                        Auth::logout();
-                        return back()->withErrors([
-                            'name' => 'The provided credentials do not match our records.',
-                        ]);
-                }
+
+        $name = $request->name;
+        $password = $request->password;
+
+        $user = User::where('name', $name)->first();
+
+        if ($user && $request->password === $user->password) { 
+    //         if ($user->role=="admin") {
+    //             $sessionData = [
+    //                 'user_role' => $user->role,
+    //                 'name' => $user->name
+    //             ];
+    //             $request->session()->put($sessionData);
+    //                 return redirect()->route('admin.dashboard');
+    //         }elseif ($user->role=="assistant") {
+    //             $sessionData = [
+    //                 'user_role' => $user->role,
+    //                 'name' => $user->name
+    //             ];
+    //             $request->session()->put($sessionData);
+    //             return redirect()->route('assistant.dashboard');
+    //         }elseif ($user->role=="exchange"){
+    //             $sessionData = [
+    //                 'user_role' => $user->role,
+    //                 'name' => $user->name,
+    //                 'exchange' => $user->exchnage->name
+    //             ];
+    //             $request->session()->put($sessionData);
+    //             return redirect()->route('user.dashboard');
+    //         }
+    //     }
+
+    //     return back()
+    //         ->withErrors([
+    //             'name' => 'The provided credentials do not match our records.',
+    //         ])
+    //         ->withInput($request->only('name'))
+    //         ->header('X-Frame-Options', 'DENY') // Prevents framing
+    //         ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
+    // }
+         // Set session data based on user role
+            $sessionData = [
+                'user_role' => $user->role,
+                'name' => $user->name,
+            ];
+
+            // Add exchange to session data if the user is an exchange
+            if ($user->role === "exchange") {
+                // Make sure to check if the user has an exchange related to them
+                $sessionData['exchange'] = $user->exchange->name ?? null;
+            }
+
+            // Store session data
+            $request->session()->put($sessionData);
+
+            // Redirect based on user role
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'assistant':
+                    return redirect()->route('assistant.dashboard');
+                case 'exchange':
+                    return redirect()->route('exchange.dashboard');
+                default:
+                    return back()->withErrors(['name' => 'User role is not recognized.'])->withInput($request->only('name'));
             }
         }
-    
-        // Handle failed login attempts
+
+        // Handle failed login attempt
         return back()
-            ->withErrors([
-                'name' => 'The provided credentials do not match our records.',
-            ])
+            ->withErrors(['name' => 'The provided credentials do not match our records.'])
             ->withInput($request->only('name'))
             ->header('X-Frame-Options', 'DENY') // Prevents framing
             ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
     }
+
     
     public function logout(Request $request)
     {
