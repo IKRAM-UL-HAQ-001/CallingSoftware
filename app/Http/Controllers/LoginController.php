@@ -88,6 +88,8 @@ class LoginController extends Controller
                     return redirect()->route('assistant.dashboard');
                 case 'exchange':
                     return redirect()->route('exchange.dashboard');
+                case 'customercare':
+                    return redirect()->route('cutomer_care.dashboard');    
                 default:
                     return back()->withErrors(['name' => 'User role is not recognized.'])->withInput($request->only('name'));
             }

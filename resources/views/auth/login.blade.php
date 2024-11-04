@@ -43,6 +43,7 @@
                         <option value="admin">Admin</option>
                         <option value="exchange">Exchange</option>
                         <option value="assistant">Assistant</option>
+                        <option value="customer_care">Customer Care</option>
                       </select>
                     </div>
                     <div id="userFields">
