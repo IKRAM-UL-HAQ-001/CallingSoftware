@@ -71,47 +71,45 @@
 
 <script>
     $(document).ready(function() {
-        const secretKey = 'MRikam@#@2024!';
-
         // DataTable initialization
         $('#DataTable').DataTable({
-            pagingType: "full_numbers",
-            order: [[0, 'asc']],
-            language: {
+            pagingType: "full_numbers"
+            , order: [
+                [0, 'asc']
+            ]
+            , language: {
                 paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
+                    first: '«'
+                    , last: '»'
+                    , next: '›'
+                    , previous: '‹'
                 }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
-
-        // Decrypt data on load
-        $('.encrypted-data').each(function() {
-            const encryptedData = $(this).text().trim();
-            console.log("Encrypted Data from Database:", encryptedData); // Debugging
-
-            try {
-                const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
-                if (decryptedData) {
-                    $(this).text(decryptedData);
-                } else {
-                    console.warn("Decryption returned empty text, check the key or data format.");
-                }
-            } catch (error) {
-                console.error("Error decrypting data:", error);
             }
+            , lengthMenu: [5, 10, 25, 50]
+            , pageLength: 10
         });
+
+         // Encryption and decryption setup
+         const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
+        const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
+
+        // Encrypt data with fixed IV
+        function encryptData(data) {
+            return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
+        }
+
+        // Decrypt data with fixed IV
+        function decryptData(encryptedData) {
+            const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
 
         // Encrypt data before form submission
         $('#form').on('submit', function(e) {
             e.preventDefault();
 
             const exchangeName = $('#exchange_name').val();
-            const encryptedExchangeName = CryptoJS.AES.encrypt(exchangeName, secretKey).toString();
+            const encryptedExchangeName = encryptData(exchangeName); // Use encryptData function
             console.log("Encrypted Name:", encryptedExchangeName); // Debugging
 
             const formData = {
@@ -128,13 +126,13 @@
                         $('#success').show().text(response.message);
                         $('#myModal').modal('hide');
                         $('#form')[0].reset();
-                        window.location.reload(); 
+                        window.location.reload();
                         setTimeout(function() {
                             $('#success').fadeOut('slow');
                         }, 2000);
                     } else {
                         $('#error').show().text(response.message);
-                        setTimeout(function() { 
+                        setTimeout(function() {
                             $('#error').fadeOut('slow');
                         }, 2000);
                     }
@@ -147,6 +145,22 @@
                 }
             });
         });
+
+
+
+        $('.encrypted-data').each(function() {
+            const encryptedData = $(this).text().trim();
+            console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+                const decryptedData = decryptData(encryptedData);
+                if (decryptedData) {
+                    $(this).text(decryptedData);
+                } else {
+                    console.warn("Decryption returned empty text, check the key or data format.");
+                }
+        });
     });
+
 </script>
+
 @endsection

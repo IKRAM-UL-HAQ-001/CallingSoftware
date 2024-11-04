@@ -28,7 +28,7 @@ class ExchangeController extends Controller
         {
             // Define validation rules
             $validator = Validator::make($request->all(), [
-                'exchange_name' => 'required',
+                'exchange_name' => 'required|unique:exchanges,name',
             ]);
         
             // Check if validation fails
