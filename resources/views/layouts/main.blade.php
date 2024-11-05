@@ -13,5 +13,12 @@
     <script src="../assets/js/core/bootstrap.min.js"></script>
     <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        // JavaScript to toggle the sidebar
+        document.getElementById('iconNavbarSidenav').addEventListener('click', function() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.style.display = (sidebar.style.display === 'none' || sidebar.style.display === '') ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
