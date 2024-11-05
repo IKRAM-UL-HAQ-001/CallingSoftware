@@ -55,7 +55,6 @@ $(document).ready(function() {
 
     $('.encrypted-data').each(function() {
         const encryptedData = $(this).text().trim();
-        console.log("Encrypted Data from Database:", encryptedData); // Debugging
 
             const decryptedData = decryptData(encryptedData);
             if (decryptedData) {

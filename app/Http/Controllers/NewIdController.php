@@ -2,47 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReferId;
-use Illuminate\Http\Request;
+use App\Models\NewId;
 use App\Models\PhoneNumber;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ReferIdController extends Controller
+class NewIdController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $ReferIds = ReferId::all();
-        return view('admin.refer_id.list',compact('ReferIds'));
+        $NewIds =  NewId::all();
+        return view('admin.walk.list',compact('NewIds'));
     }
     
     public function assistantIndex()
     {
-        $ReferIds = ReferId::all();
-        return view('assistant.refer_id.list',compact('ReferIds'));
+        $NewIds =  NewId::all();
+        return view('assistant.walk.list',compact('NewIds'));
     }
     public function exchangeIndex()
     {   
         $exchangeId = session('exchange_id');
         $userId = session('user_id');
-        $ReferIds = ReferId::where('exchange_id', $exchangeId)
+        $NewIds = NewId::where('exchange_id', $exchangeId)
         ->where('user_id', $userId)->get();
-        return view('exchange.refer_id.list',compact('ReferIds'));
+        return view('exchange.walk.list',compact('NewIds'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // dd($request);
@@ -65,7 +51,7 @@ class ReferIdController extends Controller
             $userId = session('user_id');
             $PhoneId = $request->phone_id;
         
-            $demoSend = new ReferId();
+            $demoSend = new NewId();
             $demoSend->name = $customer_name;
             $demoSend->phone = $customer_phone;
             $demoSend->feedback = $customer_feedback;
@@ -91,7 +77,7 @@ class ReferIdController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ReferId $referId)
+    public function show(NewId $newId)
     {
         //
     }
@@ -99,7 +85,7 @@ class ReferIdController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ReferId $referId)
+    public function edit(NewId $newId)
     {
         //
     }
@@ -107,7 +93,7 @@ class ReferIdController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ReferId $referId)
+    public function update(Request $request, NewId $newId)
     {
         //
     }
@@ -115,7 +101,7 @@ class ReferIdController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ReferId $referId)
+    public function destroy(NewId $newId)
     {
         //
     }

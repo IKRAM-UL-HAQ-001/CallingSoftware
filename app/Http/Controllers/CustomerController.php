@@ -21,8 +21,8 @@ class CustomerController extends Controller
         return view('assistant.customer.list',compact('Customers'));
     }
     public function exchangeIndex()
-    {   $exchageId = 1;
-        $Customers = Customer::where('exchange_id', $exchageId);
+    {    $exchangeId = session('exchange_id');
+        $Customers = Customer::where('exchange_id', $exchangeId);
         return view('assistant.customer.list',compact('Customers'));
     }
 

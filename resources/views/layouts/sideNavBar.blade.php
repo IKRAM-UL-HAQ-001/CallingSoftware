@@ -141,14 +141,6 @@ $userRole = session('user_role'); // Retrieve the user role from the session
             </a>
           </li>
           
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.total_call.list') ? 'active' : '' }}" href="{{ route('admin.total_call.list') }}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Total Call</span>
-            </a>
-          </li>
         @endif
         
         @if(session('user_role') === "assistant")
@@ -242,14 +234,6 @@ $userRole = session('user_role'); // Retrieve the user role from the session
             </a>
           </li>
         
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('assistant.total_call.list') ? 'active' : '' }}" href="{{ route('assistant.total_call.list') }}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Total Call</span>
-            </a>
-          </li>
         @endif
 
         @if(session('user_role') === "exchange")
@@ -324,15 +308,16 @@ $userRole = session('user_role'); // Retrieve the user role from the session
               <span class="nav-link-text ms-1">Demo Send</span>
             </a>
           </li>
-        
+          
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('exchange.total_call.list') ? 'active' : '' }}" href="{{ route('exchange.total_call.list') }}">
+            <a class="nav-link {{ request()->routeIs('exchange.complaint.list') ? 'active' : '' }}" href="{{route('exchange.complaint.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Total Call</span>
+              <span class="nav-link-text ms-1">Complaints</span>
             </a>
           </li>
+        
         @endif
 
         @if(session('user_role') == "customercare")

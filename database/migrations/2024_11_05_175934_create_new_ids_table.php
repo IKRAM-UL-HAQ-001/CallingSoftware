@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('complaints', function (Blueprint $table) {
+        Schema::create('new_ids', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('feedback')->nullable();
             $table->string('amount')->nullable();
-
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('exchange_id')->nullable();
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('complaints');
+        Schema::dropIfExists('new_ids');
     }
 };

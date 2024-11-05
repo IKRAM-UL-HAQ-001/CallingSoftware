@@ -70,6 +70,7 @@ class PhoneNumberController extends Controller
                         'phone_number' => $decryptedPhoneNumber,
                         'user_id' => $request->user_id, 
                         'exchange_id' => $exchange_id, 
+                        'status' => 'active', 
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
@@ -126,6 +127,7 @@ class PhoneNumberController extends Controller
             $phoneNumber->user_id = $encryptedUserId;
             $phoneNumber->phone_number = $encryptedPhone;
             $phoneNumber->exchange_id = $exchange_id;
+            $phoneNumber->status = 'active';
             $phoneNumber->save();
     
             return redirect()->back();

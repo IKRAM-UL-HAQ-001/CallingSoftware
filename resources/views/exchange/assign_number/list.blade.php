@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Assisgn Phone Numbers</h2>
+                <h2 class="mb-0">Assign Phone Numbers</h2>
             </div>
 
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
@@ -20,6 +20,7 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary font-weight-bolder text-dark">Phone Number</th>
                                     <th class="text-uppercase text-secondary font-weight-bolder text-dark ps-2">User Name</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark ps-2">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
@@ -27,12 +28,12 @@
                             <tbody id="DataTableBody">
                                 @foreach ($PhoneNumbers as $phoneNumber)
                                 <tr>
-                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->created_at }}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-primary btn-sm" onclick="FormId(this)">Form</button>
-                                        <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPhoneNumberModal" 
+                                        data-id="{{ $phoneNumber->id }}">Form</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -45,92 +46,94 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#DataTable').DataTable({
-            pagingType: "full_numbers",
-            order: [[0, 'desc']],
-            language: {
-                paginate: {
-                    first: '«',
-                    last: '»',
-                    next: '›',
-                    previous: '‹'
-                }
-            },
-            lengthMenu: [5, 10, 25, 50],
-            pageLength: 10
-        });
+<!-- Add Phone Number Modal -->
+<div class="modal fade" id="addPhoneNumberModal" tabindex="-1" aria-labelledby="addPhoneNumberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #344767;">
+                <h5 class="modal-title text-white" id="addPhoneNumberModalLabel" >Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="addPhoneForm">
+                  @csrf <!-- Add CSRF token for Laravel -->
+                  <div class="mb-3">
+                      <label for="customer_name" class="form-label">Customer Name </label>
+                      <input type="text" class="form-control border px-3" id="customer_name" name="customer_name" placeholder="Enter Customer Name" required>
+                  </div>
+                  <div class="mb-3">
+                      <label for="customer_phone" class="form-label">Customer Phone Number </label>
+                      <input type="text" class="form-control border px-3 customer_phone" id="customer_phone" name="customer_phone" placeholder="Enter Customer Phone Number" required>
+                      <input type="hidden" class="form-control border px-3 customer_phone" id="phone_id" name="phone_id" placeholder="Enter Customer Phone Number">
+                  </div>
+                  <div class="mb-3">
+                    <label for="feedback" class="form-label">Customer Feedback </label>
+                    <input type="text" class="form-control border px-3" id="feedback" name="customer_feedback" placeholder="Enter Feedback" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="followup" class="form-label">Customer Amount </label>
+                    <input type="text" class="form-control border px-3" id="followup" name="customer_amount" placeholder="Enter Amount" required>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-action="{{ route('exchange.demo_send.formPost') }}">Demo Send</button>
+            <button type="button" class="btn btn-warning" data-action="{{ route('exchange.reject.formPost') }}">Reject</button>
+            <button type="button" class="btn btn-warning" data-action="{{ route('exchange.refer_id.formPost') }}">Refer ID</button>
+            <button type="button" class="btn btn-success" data-action="{{ route('exchange.new_id.formPost') }}">New ID</button>
+            <button type="button" class="btn btn-info" data-action="{{ route('exchange.follow_up.formPost') }}">Follow Up</button>
+            <button type="button" class="btn btn-dark" data-action="{{ route('exchange.complaint.formPost') }}">Complaint</button>
+            <button type="button" class="btn btn-primary" data-action="{{ route('exchange.walk.formPost') }}">Walk</button> 
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                    
+          </div>
+        </div>
+    </div>
+</div>
 
+<script>
+
+document.querySelectorAll('[data-bs-target="#addPhoneNumberModal"]').forEach(button => {
+        button.addEventListener('click', function () {
+            const entryId = button.getAttribute('data-id');
+
+            document.getElementById('phone_id').value = entryId;
+            console.log(entryId);
+        });
     });
-</script>
-<script>
-    $(document).ready(function() {
-        const displayedNumbers = new Set(); // Use a Set to track displayed numbers
 
-        // Decrypt phone numbers on page load
-        $('.encrypted-phone-number').each(function() {
-            const encryptedNumber = $(this).text().trim();
-            const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
-            const decryptedNumber = CryptoJS.AES.decrypt(encryptedNumber, secretKey).toString(CryptoJS.enc.Utf8);
 
-            // Check if the number has already been displayed
-            if (!displayedNumbers.has(decryptedNumber)) {
-                $(this).text(decryptedNumber); // Update the text with the decrypted number
-                displayedNumbers.add(decryptedNumber); // Add it to the displayed numbers
-            } else {
-                $(this).closest('tr').remove(); // Remove the row if the number is a duplicate
-            }
-        });
+    document.querySelectorAll('.modal-footer button[data-action]').forEach(button => {
+        button.addEventListener('click', () => {
+            const form = document.getElementById('addPhoneForm');
+            const formData = new FormData();
 
-        // Handle form submission via AJAX
-        $('#form').on('submit', function (e) {
-            e.preventDefault(); // Prevent the form from submitting normally
+            formData.append('customer_name', encryptData(form.customer_name.value));
+            formData.append('customer_phone', encryptData(form.customer_phone.value));
+            formData.append('customer_feedback', encryptData(form.feedback.value));
+            formData.append('customer_amount', encryptData(form.followup.value));
+            formData.append('phone_id', form.phone_id.value);
 
-            // Get the phone number and user_id values from the form fields
-            const phone_number = $('#phone_number').val();
-            const userId = $('#editExchange').val();
 
-            // Encrypt the phone number
-            const encryptedPhone = CryptoJS.AES.encrypt(phone_number, 'MRikam@#@2024!').toString();
 
-            // Create form data with encrypted phone number
-            const formData = {
-                user_id: userId,
-                phone_number: encryptedPhone,
-                _token: '{{ csrf_token() }}'
-            };
+            const actionRoute = button.getAttribute('data-action');
 
-            // Send data via AJAX
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                if (response.success) {
-        $('#success').show().text(response.message);
-        $('#DataTable').DataTable().ajax.reload();
-        $('#myModal').modal('hide');
-        $('#form')[0].reset();
-        setTimeout(function() { // Set a timeout function to hide the alert after 2 seconds
-            $('#success').fadeOut('slow');
-        }, 2000); // 2000 milliseconds = 2 seconds
-    } else {
-        $('#error').show().text(response.message);
-        setTimeout(function() { // Hide error message after 2 seconds
-            $('#error').fadeOut('slow');
-        }, 2000);
-    }
-},
-error: function() {
-    $('#error').show().text('An error occurred.');
-    setTimeout(function() { // Hide error message after 2 seconds
-        $('#error').fadeOut('slow');
-    }, 2000);
-}
+            fetch(actionRoute, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                form.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
+        });
     });
 </script>
+
 @endsection

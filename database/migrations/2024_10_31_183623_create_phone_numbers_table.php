@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

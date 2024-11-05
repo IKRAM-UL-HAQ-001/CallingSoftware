@@ -22,6 +22,7 @@ class AssignNumberController extends Controller
         $userId = session('user_id');
         $PhoneNumbers =PhoneNumber::where('exchange_id',$exchangeId)
         ->where('user_id',$userId)
+        ->where('status', '!=', 'deactive')
         ->get();
         return view('exchange.assign_number.list',compact('PhoneNumbers'));
     }

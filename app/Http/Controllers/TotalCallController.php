@@ -21,8 +21,8 @@ class TotalCallController extends Controller
         return view('assiatant.total_call.list',compact('TotalCalls'));
     }
     public function exchangeIndex()
-    {   $exchageId = 1;
-        $TotalCalls = TotalCall::where('exchange_id', $exchageId);
+    {   $exchangeId =  $exchangeId = session('exchange_id');
+        $TotalCalls = TotalCall::where('exchange_id', $exchangeId);
         return view('assistant.total_call.list',compact('TotalCalls'));
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NoOfCall;
+use App\Models\PhoneNumber;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -22,11 +23,17 @@ class NoOfCallController extends Controller
         $NoOfCalls = NoOfCall::whereDate('created_at', Carbon::today())->get();
         return view('assistant.no_of_call.list', compact('NoOfCalls'));
     }
+
     public function exchangeIndex()
     {
-        $exchageId = 1;
-        $NoOfCalls = NoOFCall::where('exchange_id', $exchageId)->whereDate('created_at', Carbon::today())->get();
-        return view('assistant.no_of_call.list', compact('NoOfCalls'));
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $NoOfCalls = PhoneNumber::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)
+        ->where('status','deactive')
+        ->whereDate('created_at', Carbon::today())
+        ->get();
+        return view('exchange.no_of_call.list', compact('NoOfCalls'));
     }
 
     /**

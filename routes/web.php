@@ -18,6 +18,7 @@ use App\Http\Controllers\TotalCallController;
 use App\Http\Controllers\NoOfCallController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TotalAmountController;
+use App\Http\Controllers\NewIdController;
 
 
 
@@ -76,15 +77,32 @@ Route::group(['middleware' => ['assistant']], function () {
 Route::group(['middleware' => ['exchange']], function () {
     Route::get('/userDashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
     Route::get('/userNumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
-    Route::get('/userDemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
     Route::get('/userAssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
     Route::get('/userCustomer', [CustomerController::class, 'exchangeIndex'])->name('exchange.customer.list');
+ 
+    Route::get('/userDemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
+    Route::post('/userDemoSend/post', [DemoSendController::class, 'store'])->name('exchange.demo_send.formPost');
+    
     Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
+    Route::post('/userComplaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
+    
     Route::get('/userFollowup', [FollowUpController::class, 'exchangeIndex'])->name('exchange.follow_up.list');
+    Route::post('/userFollowup/post', [FollowUpController::class, 'store'])->name('exchange.follow_up.formPost');
+    
     Route::get('/userReject', [RejectController::class, 'exchangeIndex'])->name('exchange.reject.list');
+    Route::post('/userReject/post', [RejectController::class, 'store'])->name('exchange.reject.formPost');
+
     Route::get('/userReferId', [ReferIdController::class, 'exchangeIndex'])->name('exchange.refer_id.list');
+    Route::post('/userReferId/post', [ReferIdController::class, 'store'])->name('exchange.refer_id.formPost');
+
     Route::get('/userWalk', [WalkController::class, 'exchangeIndex'])->name('exchange.walk.list');
-    Route::get('/userTotalCall', [TotalCallController::class, 'exchangeIndex'])->name('exchange.total_call.list');
+    Route::post('/userWalk/post', [WalkController::class, 'store'])->name('exchange.walk.formPost');
+
+    Route::get('/userNewId', [NewIdController::class, 'exchangeIndex'])->name('exchange.new_id.list');
+    Route::post('/userNewId/post', [NewIdController::class, 'store'])->name('exchange.new_id.formPost');
+
+    Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
+    Route::post('/userComplaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
 });
 
 Route::group(['middleware' => [ 'customercare']], function () {

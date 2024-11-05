@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('rejects', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('feedback')->nullable();
+            $table->string('amount')->nullable();
+
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('exchange_id')->nullable();
