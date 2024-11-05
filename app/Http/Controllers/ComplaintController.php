@@ -13,7 +13,7 @@ class ComplaintController extends Controller
     public function index()
     {
         $Complaints = Complaint::all();
-        return view('admin.compalint.list',compact('Complaints'));
+        return view('admin.complaint.list',compact('Complaints'));
     }
 
     public function assistantIndex()

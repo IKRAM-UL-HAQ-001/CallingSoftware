@@ -11,98 +11,53 @@ use Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $Exchanges = Exchange::all();
-        $Users = User::whereNotIn('role', ['admin', 'assistant'])->get();
+        $Users = User::whereNotIn('role', '!=', 'admin')
+            ->with('exchange')->get();
         return view('admin.user.list',compact('Exchanges','Users'));
     }
 
     public function assistantIndex()
     {
-        
-        $Users = User::all();
-        return view('admin.user.list',compact('Users'));
+        $Users = User::whereNotIn('role', ['admin', 'assistant'])
+            ->with('exchange')
+            ->get();
+        return view('assistant.user.list',compact('Users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-{
-
-    // Define validation rules
-    $validator = Validator::make($request->all(), [
-        'user_name' => 'required',
-        'password' => 'required',
-        'exchange_id' => 'nullable',
-    ]);
-
-    // Check if validation fails
-    if ($validator->fails()) {
-        return response()->json(['error' => $validator->errors()->first()], 422);
-    }
-
-    try {
-        // Get encrypted inputs
-        $encryptedUserName = $request->input('user_name');
-        $encryptedPassword = $request->input('password');
-        $encryptedExchangeId = $request->input('exchange_id');
-        
-        // Store the data using Eloquent ORM
-        $user = new User();
-        $user->name = $encryptedUserName;
-        $user->password = $encryptedPassword;
-        $user->exchange_id = $encryptedExchangeId;
-        $user->role = 'exchange';
-        $user->save();
-
-        return redirect()->back();
-    } catch (\Exception $e) {
-        return redirect()->back();
-    }
-}
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'user_name' => 'required',
+            'password' => 'required',
+            'exchange_id' => 'nullable',
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
+        try {
+            // Get encrypted inputs
+            $encryptedUserName = $request->input('user_name');
+            $encryptedPassword = $request->input('password');
+            $encryptedExchangeId = $request->input('exchange_id');
+            
+            // Store the data using Eloquent ORM
+            $user = new User();
+            $user->name = $encryptedUserName;
+            $user->password = $encryptedPassword;
+            $user->exchange_id = $encryptedExchangeId;
+            $user->role = 'exchange';
+            $user->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back();
+        }
     }
 }

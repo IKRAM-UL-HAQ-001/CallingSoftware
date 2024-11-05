@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomerCare;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerCareController extends Controller
 {
@@ -12,13 +14,13 @@ class CustomerCareController extends Controller
      */
     public function index()
     {
-        $CustomerCares = CutomerCare::all();
-        return view('admin.customer_care.list',compact('CustomerCare'));
+        $CustomerCares = User::where('role','customercare')->get();
+        return view('admin.customer_care.list',compact('CustomerCares'));
     }
     public function assistantIndex()
     {
-        $CustomerCares = CutomerCare::all();
-        return view('assistant.customer_care.list',compact('CustomerCare'));
+        $CustomerCares = CustomerCare::all();
+        return view('assistant.customer_care.list',compact('CustomerCares'));
     }
 
     /**
@@ -34,7 +36,32 @@ class CustomerCareController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_name' => 'required',
+            'password' => 'required',
+        ]);
+    
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
+    
+        try {
+            // Get encrypted inputs
+            $encryptedUserName = $request->input('user_name');
+            $encryptedPassword = $request->input('password');
+            
+            // Store the data using Eloquent ORM
+            $user = new User();
+            $user->name = $encryptedUserName;
+            $user->password = $encryptedPassword;
+            $user->role = 'customercare';
+            $user->save();
+    
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back();
+        }
     }
 
     /**

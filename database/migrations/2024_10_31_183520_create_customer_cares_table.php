@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('customer_cares', function (Blueprint $table) {
             $table->id();
-            
+            $table->string('name')->nullable();
+            $table->string('password')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\PhoneNumberController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerCareController;
 use App\Http\Controllers\AssignNumberController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ComplaintController;
@@ -38,6 +39,8 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
     Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
+    Route::get('/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.list');
+    Route::post('/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
     Route::get('/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
     Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
@@ -58,7 +61,7 @@ Route::group(['middleware' => ['assistant']], function () {
     Route::get('/assistant', [DashboardController::class, 'assistantIndex'])->name('assistant.dashboard');
     Route::get('/assistantExchange', [ExchangeController::class, 'assistantIndex'])->name('assistant.exchange.list');
     Route::get('/assistantPhoneNumber', [PhoneNumberController::class, 'assistantIndex'])->name('assistant.phone_number.list');
-    Route::get('/assistantNumberOfCall', [PhoneNumberController::class, 'assistantNoOfCallIndex'])->name('assistant.no_of_call.list');
+    Route::get('/assistantNumberOfCall', [NoOfCallController::class, 'assistantIndex'])->name('assistant.no_of_call.list');
     Route::get('/assistantUser', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
     Route::get('/assistantDemoSend', [DemoSendController::class, 'assistantIndex'])->name('assistant.demo_send.list');
     Route::get('/assistantAssignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');

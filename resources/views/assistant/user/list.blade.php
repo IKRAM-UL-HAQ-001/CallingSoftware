@@ -31,7 +31,7 @@
                                 @foreach ($Users as $user)
                                 <tr>
                                     <td style="width: 45%;" class="encrypted-data">{{ $user->name }}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{ $user->exchange->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $user->exchange->name ?? 'No Exchange'}}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>

@@ -23,6 +23,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Exchange::class);
     }
+    
     public function phone(){
         return $this->hasMany(PhoneNumber::class);
     }

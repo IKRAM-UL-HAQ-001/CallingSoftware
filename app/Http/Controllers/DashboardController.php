@@ -12,11 +12,13 @@ use App\Models\NoOfCall;
 use App\Models\Exchange;
 use App\Models\Customer;
 use App\Models\DemoSend;
+use App\Models\Complaint;
 use App\Models\FollowUp;
 use App\Models\ReferId;
 use App\Models\Reject;
 use App\Models\TotalCall;
 use App\Models\Walk;
+use App\Models\TotalAmount;
 
 class DashboardController extends Controller
 {
@@ -36,10 +38,11 @@ class DashboardController extends Controller
         $TotalCustomerDaily = Customer::whereDate('created_at', $today)->count();
         $TotalRejectDaily = Reject::whereDate('created_at', $today)->count();
         $TotalWalkDaily = Walk::whereDate('created_at', $today)->count();
+        $TotalComplaintDaily = Complaint::whereDate('created_at', $today)->count();
         $TotalReferIdDaily = ReferId::whereDate('created_at', $today)->count();
         $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)->count();
-        $TotalCallsDaily = TotalCall::whereDate('created_at', $today)->count();
         $TotalFollowUpDaily = FollowUp::whereDate('created_at', $today)->count();
+        $TotalAmountDaily = TotalAmount::whereDate('created_at', $today)->count();
         
         
         
@@ -47,14 +50,14 @@ class DashboardController extends Controller
         // Monthly metrics
         $TotalPhoneNumberMonthly = PhoneNumber::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalNoOfCallMonthly = NoOfCall::whereBetween('created_at', [$startOfMonth, $today])->count();
-
         $TotalCustomerMonthly = Customer::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalDemoSendMonthly = DemoSend::whereBetween('created_at', [$startOfMonth, $today])->count();
+        $TotalComplaintMonthly = Complaint::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalFollowUpMonthly = FollowUp::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalReferIdMonthly = ReferId::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalRejectMonthly = Reject::whereBetween('created_at', [$startOfMonth, $today])->count();
-        $TotalCallsMonthly = TotalCall::whereBetween('created_at', [$startOfMonth, $today])->count();
         $TotalWalkMonthly = Walk::whereBetween('created_at', [$startOfMonth, $today])->count();
+        $TotalAmountMonthly = TotalAmount::whereBetween('created_at', [$startOfMonth, $today])->count();
 
         // Prepare dashboard data
         $dailyData = [
@@ -64,11 +67,12 @@ class DashboardController extends Controller
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
             ['label' => "Customers ", 'value' => $TotalCustomerDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Reject Daily ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "Walk-ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Walk ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Complain ", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-email-83"],
             ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
-            ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],
-            ['label' => "Total Calls ", 'value' => $TotalCallsDaily, 'icon' => "ni ni-mobile-button"],
+            ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],  
             ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "Amount ", 'value' => $TotalAmountDaily, 'icon' => "ni ni-chat-round"],
         ];
 
         $monthlyData = [
@@ -76,14 +80,15 @@ class DashboardController extends Controller
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
-
             ['label' => "Customers  ", 'value' => $TotalCustomerMonthly, 'icon' => "ni ni-calendar-grid-58"],
+            ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
+            ['label' => "Walk  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
+            ['label' => "Complaint  ", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-bell-55"],
+            ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
             ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
-            ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
-            ['label' => "Rejections  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
-            ['label' => "Total Calls  ", 'value' => $TotalCallsMonthly, 'icon' => "ni ni-support-16"],
-            ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"]
+            ['label' => "Amount ", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-support-16"],
+        
         ];
 
         return view('admin.dashboard', compact('dailyData', 'monthlyData'));
@@ -220,9 +225,6 @@ class DashboardController extends Controller
 
         return view('user.dashboard', compact('dailyData', 'monthlyData'));
     }
-
-    
-
 
     public function customerCareIndex()
     {
