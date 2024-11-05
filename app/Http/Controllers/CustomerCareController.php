@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomerCare;
 use App\Models\User;
+use App\Models\Exchange;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,8 +15,9 @@ class CustomerCareController extends Controller
      */
     public function index()
     {
+        $Exchanges = Exchange::all();
         $CustomerCares = User::where('role','customercare')->get();
-        return view('admin.customer_care.list',compact('CustomerCares'));
+        return view('admin.customer_care.list',compact('CustomerCares','Exchanges'));
     }
     public function assistantIndex()
     {
@@ -23,25 +25,19 @@ class CustomerCareController extends Controller
         return view('assistant.customer_care.list',compact('CustomerCares'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'user_name' => 'required',
             'password' => 'required',
+            'exchange' => 'required',
         ]);
-    
-        // Check if validation fails
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 422);
         }
@@ -50,11 +46,13 @@ class CustomerCareController extends Controller
             // Get encrypted inputs
             $encryptedUserName = $request->input('user_name');
             $encryptedPassword = $request->input('password');
+            $encryptedExchange = $request->input('exchange');
             
             // Store the data using Eloquent ORM
             $user = new User();
             $user->name = $encryptedUserName;
             $user->password = $encryptedPassword;
+            $user->exchange_id = $encryptedExchange;
             $user->role = 'customercare';
             $user->save();
     

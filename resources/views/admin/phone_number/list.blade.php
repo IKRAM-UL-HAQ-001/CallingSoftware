@@ -14,9 +14,15 @@
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
                 <div class="card-body px-0 pb-2 px-3 col-12">
                     @if(session('success'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-success" id="success-alert">
                         {{ session('success') }}
                     </div>
+                    <script>
+                        // Hide the success alert after 2 seconds (2000 milliseconds)
+                        setTimeout(function() {
+                            document.getElementById("success-alert").style.display = "none";
+                        }, 2000);
+                    </script>
                     @endif
                     <div class="table-responsive p-0">
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
@@ -96,11 +102,11 @@
                 <form id="uploadForm" method="post" action="{{route('admin.phone_number.filePost')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
-                        <label for="editExchange" class="form-label">Users</label>
-                        <select class="form-select px-3" id="editExchange" required>
+                        <label for="user_id" class="form-label">Users</label>
+                        <select class="form-select px-3" id="user_id" name="user_id" required> 
                             <option value="" disabled selected>Select User</option>
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                <option class="encrypted-data" value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -117,66 +123,61 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#DataTable').DataTable({
-            pagingType: "full_numbers"
-            , order: [
-                [0, 'desc']
-            ]
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
+$(document).ready(function() {
+    $('#form').on('submit', function(e) {
+        e.preventDefault();
+        const encryptedNumber = encryptData($('#phone_number').val());
+        $('#phone_number').val(encryptedNumber);
+        this.submit();
+    });
+
+
+
+    document.getElementById("uploadForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const fileInput = document.getElementById("file");
+        const file = fileInput.files[0];
+        if (!file) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            // Assuming phone numbers are in the first column of the first sheet
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+            // Encrypt each phone number and prepare data for submission
+            const encryptedNumbers = [];
+            for (let i = 1; i < rows.length; i++) { // Skip header row
+                const phoneNumber = rows[i][0];
+                if (phoneNumber) {
+                    const encryptedPhone = encryptData(phoneNumber.toString().trim());
+                    encryptedNumbers.push(encryptedPhone);
                 }
             }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
-        });
 
-        const displayedNumbers = new Set(); // Use a Set to track displayed numbers
-        const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
-    const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
+            // Create a hidden input to hold the encrypted data array as JSON
+            const encryptedInput = document.createElement("input");
+            encryptedInput.type = "hidden";
+            encryptedInput.name = "encrypted_file_data";
+            encryptedInput.value = JSON.stringify(encryptedNumbers);
 
-    function encryptData(data) {
-        return CryptoJS.AES.encrypt(data, secretKey, { iv: iv }).toString();
-    }
+            fileInput.remove(); // Remove the original file input to avoid sending the unencrypted file
 
-    function decryptData(encryptedData) {
-        const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
-        return decrypted.toString(CryptoJS.enc.Utf8);
-    }
+            document.getElementById("uploadForm").appendChild(encryptedInput);
+            document.getElementById("uploadForm").submit();
+        };
 
-    $('.encrypted-data').each(function() {
-        const encryptedData = $(this).text().trim();
-        console.log("Encrypted Data from Database:", encryptedData); // Debugging
-
-            const decryptedData = decryptData(encryptedData);
-            if (decryptedData) {
-                $(this).text(decryptedData);
-            } else {
-                console.warn("Decryption returned empty text, check the key or data format.");
-            }
+        reader.readAsArrayBuffer(file); // Read file as array buffer
     });
-
-        $('#form').on('submit', function(e) {
-                e.preventDefault();
-
-                $('#phone_number').val(encryptData($('#phone_number').val()));
-                
-                $this->submit();
-
-            })
-
-
-    });
-
+});
 </script>
 @endsection

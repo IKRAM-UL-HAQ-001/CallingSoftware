@@ -59,7 +59,7 @@
                         <select class="form-control form-control-lg" id="exchange" name="exchange">
                           <option value="" disabled selected>Select Your Exchange</option>
                           @foreach($exchangeRecords as $exchange)
-                            <option value="{{ $exchange->id ?? 'N/A' }}">{{ $exchange->name ?? 'N/A' }}</option>
+                            <option value="{{ $exchange->id ?? 'N/A' }}" class="encrypted-data">{{ $exchange->name ?? 'N/A' }} </option>
                           @endforeach
                         </select>
                       </div>
@@ -97,6 +97,22 @@
             
             this.submit();
         });
+        function decryptData(encryptedData) {
+        const decrypted = CryptoJS.AES.decrypt(encryptedData, secretKey, { iv: iv });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    $('.encrypted-data').each(function() {
+        const encryptedData = $(this).text().trim();
+        console.log("Encrypted Data from Database:", encryptedData); // Debugging
+
+            const decryptedData = decryptData(encryptedData);
+            if (decryptedData) {
+                $(this).text(decryptedData);
+            } else {
+                console.warn("Decryption returned empty text, check the key or data format.");
+            }
+    });
 
     });
 

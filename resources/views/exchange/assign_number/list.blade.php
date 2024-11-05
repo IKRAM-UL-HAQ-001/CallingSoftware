@@ -27,8 +27,8 @@
                             <tbody id="DataTableBody">
                                 @foreach ($PhoneNumbers as $phoneNumber)
                                 <tr>
-                                    <td style="width: 45%;" class="encrypted-phone-number">{{ $phoneNumber->phone_number }}</td>
-                                    <td style="width: 45%;">{{ $phoneNumber->user->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->name }}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-primary btn-sm" onclick="FormId(this)">Form</button>
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>

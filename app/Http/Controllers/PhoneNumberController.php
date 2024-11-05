@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class PhoneNumberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = User::where('role', '!=', 'admin')->where('role', '!=', 'assistant')->get();
@@ -40,41 +37,54 @@ class PhoneNumberController extends Controller
      */
     public function fileStore(Request $request)
     {
+
         $request->validate([
-            'file' => 'required|file|mimes:xlsx,xls,csv|max:2048',
+            'encrypted_file_data' => 'required|json', 
+            'user_id' => 'required',
         ]);
-
-        $data = Excel::toArray([], $request->file('file'));
-
+    
+        // Decode the JSON array of encrypted phone numbers
+        $encryptedNumbers = json_decode($request->input('encrypted_file_data'), true);
+        
+        if (empty($encryptedNumbers)) {
+            return back()->with('error', 'No valid phone numbers received.');
+        }
+    
         $phoneNumbers = [];
         $duplicateNumbers = [];
+        $exchange_id = User::where('id', $request->user_id)->value('exchange_id');
 
-        foreach (array_slice($data[0], 1) as $row) { // Assuming data is in the first sheet
-            $phoneNumber = $row[0];
-
-            $validator = Validator::make(['phone_number' => $phoneNumber], [
-                'phone_number' => 'required', // Adjust validation as per your needs
+        foreach ($encryptedNumbers as $encryptedPhone) {
+            // Decrypt each phone number
+            $decryptedPhoneNumber = $encryptedPhone; // Implement decryptData as shown below
+    
+            // Validate the decrypted phone number
+            $validator = Validator::make(['phone_number' => $decryptedPhoneNumber], [
+                'phone_number' => 'required', // Adjust validation as needed
             ]);
-
+    
             if ($validator->passes()) {
                 // Check if phone number already exists in the database
-                if (!PhoneNumber::where('phone_number', $phoneNumber)->exists()) {
+                if (!PhoneNumber::where('phone_number', $decryptedPhoneNumber)->exists()) {
                     $phoneNumbers[] = [
-                        'phone_number' => $phoneNumber,
-                        'user_id' => 1, // Set a default user_id or NULL
+                        'phone_number' => $decryptedPhoneNumber,
+                        'user_id' => $request->user_id, 
+                        'exchange_id' => $exchange_id, 
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];
                 } else {
                     // Add to duplicate list if it already exists
-                    $duplicateNumbers[] = $phoneNumber;
+                    $duplicateNumbers[] = $decryptedPhoneNumber;
                 }
             }
         }
-
+    
         // Insert all new phone numbers
-        PhoneNumber::insert($phoneNumbers);
-
+        if (!empty($phoneNumbers)) {
+            PhoneNumber::insert($phoneNumbers);
+        }
+    
         // Flash message for duplicates if any
         if (count($duplicateNumbers) > 0) {
             $duplicateCount = count($duplicateNumbers);
@@ -83,7 +93,7 @@ class PhoneNumberController extends Controller
         } else {
             session()->flash('success', 'All phone numbers were added successfully.');
         }
-
+    
         return redirect()->route('admin.phone_number.list');
     }
     public function formStore(Request $request)
@@ -104,7 +114,7 @@ class PhoneNumberController extends Controller
             // Decrypt user_id and phone
             $encryptedUserId = $request->input('user_id');
             $encryptedPhone = $request->input('phone_number');
-    
+            $exchange_id = User::where('id', $encryptedUserId)->value('exchange_id');
             // Check if the phone number already exists
             $existingPhoneNumber = PhoneNumber::where('phone_number', $encryptedPhone)->first();
             if ($existingPhoneNumber) {
@@ -115,6 +125,7 @@ class PhoneNumberController extends Controller
             $phoneNumber = new PhoneNumber();
             $phoneNumber->user_id = $encryptedUserId;
             $phoneNumber->phone_number = $encryptedPhone;
+            $phoneNumber->exchange_id = $exchange_id;
             $phoneNumber->save();
     
             return redirect()->back();

@@ -16,9 +16,31 @@
 
 <!-- Style for search bar -->
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-
 <script>
+
+$(document).ready(function() {
+    if (!$.fn.DataTable.isDataTable('#DataTable')) {
+        $('#DataTable').DataTable({
+            pagingType: "full_numbers",
+            order: [[0, 'desc']],
+            language: {
+                paginate: {
+                    first: '«',
+                    last: '»',
+                    next: '›',
+                    previous: '‹'
+                }
+            },
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 10
+        });
+    }
+    });
+
+
     const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
     const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
 
@@ -42,5 +64,6 @@
                 console.warn("Decryption returned empty text, check the key or data format.");
             }
     });
+    
 </script>
 </footer>

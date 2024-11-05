@@ -30,7 +30,7 @@
                                 @foreach ($Users as $user)
                                 <tr>
                                     <td style="width: 45%;" class="encrypted-data">{{ $user->name }}</td>
-                                    <td style="width: 45%;" class="encrypted-data ">{{ $user->exchange->name 'No Exchange'}}</td>
+                                    <td style="width: 45%;" class="encrypted-data ">{{ $user->exchange->name ??'No Exchange'}}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
@@ -86,29 +86,8 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-
 <script>
      $(document).ready(function() {
-        $('#DataTable').DataTable({
-            pagingType: "full_numbers"
-            , order: [
-                [0, 'asc']
-            ]
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
-            }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
-        });
-
         $('#form').on('submit', function(e) {
             e.preventDefault();
             const userName = encryptData($('#user_name').val());

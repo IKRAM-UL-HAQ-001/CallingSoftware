@@ -65,74 +65,15 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        // DataTable initialization
-        $('#DataTable').DataTable({
-            pagingType: "full_numbers"
-            , order: [
-                [0, 'asc']
-            ]
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
-            }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
-        });
 
 
-        $('#form').on('submit', function(e) {
-            e.preventDefault();
+    $('#form').on('submit', function(e) {
+        e.preventDefault();
 
-            const exchangeName = $('#exchange_name').val();
-            const encryptedExchangeName = encryptData(exchangeName); // Use encryptData function
-            console.log("Encrypted Name:", encryptedExchangeName); // Debugging
-
-            const formData = {
-                exchange_name: encryptedExchangeName,
-                _token: '{{ csrf_token() }}'
-            };
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        $('#success').show().text(response.message);
-                        $('#myModal').modal('hide');
-                        $('#form')[0].reset();
-                        window.location.reload();
-                        setTimeout(function() {
-                            $('#success').fadeOut('slow');
-                        }, 2000);
-                    } else {
-                        $('#error').show().text(response.message);
-                        setTimeout(function() {
-                            $('#error').fadeOut('slow');
-                        }, 2000);
-                    }
-                },
-                error: function() {
-                    $('#error').show().text('An error occurred.');
-                    setTimeout(function() {
-                        $('#error').fadeOut('slow');
-                    }, 2000);
-                }
-            });
-        });
-
-
-
+        $('#exchange_name').val( encryptData($('#exchange_name').val())); // Use encryptData function
+        this.submit();
     });
 
 </script>

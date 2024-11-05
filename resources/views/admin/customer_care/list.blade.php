@@ -59,6 +59,15 @@
                 <form id="form" method="post" action="{{ route('admin.customer_care.formPost') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
+                        <label for="exchange" class="form-label">Exchange</label>
+                        <select class="form-select px-3" id="exchange" name="exchange">
+                            <option value="" disabled selected>Select Exchange</option>
+                            @foreach($Exchanges as $exchange)
+                                <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="user_name" class="form-label">User Name</label>
                         <input type="text" class="form-control border px-3" id="user_name" name="user_name" placeholder="Enter Username" required>
                     </div>
@@ -76,43 +85,16 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-
 <script>
-     $(document).ready(function() {
-        $('#DataTable').DataTable({
-            pagingType: "full_numbers"
-            , order: [
-                [0, 'asc']
-            ]
-            , language: {
-                paginate: {
-                    first: '«'
-                    , last: '»'
-                    , next: '›'
-                    , previous: '‹'
-                }
-            }
-            , lengthMenu: [5, 10, 25, 50]
-            , pageLength: 10
-        });
-
-        $('#form').on('submit', function(e) {
-            e.preventDefault();
-
-            const userName = encryptData($('#user_name').val());
-            const password = encryptData($('#password').val());
-
-
-            $('#user_name').val(userName);
-            $('#password').val(password);
-
-            this.submit();
-        });
-    });
-
+    $(document).ready(function() {
+       $('#form').on('submit', function(e) {
+           e.preventDefault();
+           const userName = encryptData($('#user_name').val());
+           const password = encryptData($('#password').val());
+           $('#user_name').val(userName);
+           $('#password').val(password);
+           this.submit();
+       });
+   });
 </script>
-
 @endsection

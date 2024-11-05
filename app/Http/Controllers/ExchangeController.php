@@ -44,9 +44,9 @@ class ExchangeController extends Controller
                 $exchange->name = $encryptedExchangeName;
                 $exchange->save();
         
-                return response()->json(['success' => 'Exchange added successfully!']);
+                return redirect()->back();
             } catch (\Exception $e) {
-                return response()->json(['error' => 'Failed to add New Exchange.', 'exception' => $e->getMessage()], 500);
+                return redirect()->back();
             }
         }
     }

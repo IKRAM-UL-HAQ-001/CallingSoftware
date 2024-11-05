@@ -51,7 +51,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/walk', [WalkController::class, 'index'])->name('admin.walk.list');
     Route::get('/totalCall', [TotalCallController::class, 'index'])->name('admin.total_call.list');
     Route::get('/totalAmount', [TotalAmountController::class, 'index'])->name('admin.amount.list');
-
     Route::post('/admin/phoneNumber/filePost', [PhoneNumberController::class, 'fileStore'])->name('admin.phone_number.filePost');
     Route::post('/admin/phoneNumber/formPost', [PhoneNumberController::class, 'formStore'])->name('admin.phone_number.formPost');
 

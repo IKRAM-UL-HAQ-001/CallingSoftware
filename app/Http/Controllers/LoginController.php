@@ -75,11 +75,13 @@ class LoginController extends Controller
             if ($user->role === "exchange") {
                 // Make sure to check if the user has an exchange related to them
                 $sessionData['exchange'] = $user->exchange->name ?? null;
+                $sessionData['exchange_id'] = $user->exchange_id ?? null;
+                $sessionData['user_id'] = $user->id ?? null;
             }
-
+            
             // Store session data
             $request->session()->put($sessionData);
-
+            
             // Redirect based on user role
             switch ($user->role) {
                 case 'admin':

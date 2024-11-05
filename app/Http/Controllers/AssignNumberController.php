@@ -18,8 +18,11 @@ class AssignNumberController extends Controller
 
     public function exchangeIndex()
     {
-        $exchangeId = "1";
-        $PhoneNumbers =PhoneNumber::where('exchange_id',$exchangeId)->get();
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $PhoneNumbers =PhoneNumber::where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->get();
         return view('exchange.assign_number.list',compact('PhoneNumbers'));
     }
 

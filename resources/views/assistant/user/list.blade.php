@@ -74,7 +74,6 @@
     $(document).ready(function() {
         const secretKey = 'MRikam@#@2024!'; // The same key used for encryption
 
-        // Decrypt data on page load
         $('.encrypted-data').each(function() {
             const encryptedData = $(this).text().trim();
             const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
@@ -82,20 +81,16 @@
         });
 
 
-        // Handle form submission via AJAX
         $('#form').on('submit', function(e) {
             e.preventDefault(); // Prevent the form from submitting normally
 
-            // Get the phone number and user_id values from the form fields
             const user_name = $('#user_name').val();
             const password = $('#password').val();
             const exchange_id = $('#editExchange').val(); // Corrected to the right ID
 
-            // Encrypt the user_name and password
             const encrypteduser_name = CryptoJS.AES.encrypt(user_name, 'MRikam@#@2024!').toString();
             const encryptedpassword = CryptoJS.AES.encrypt(password, 'MRikam@#@2024!').toString();
 ;
-            // Create form data with encrypted user_name
             const formData = {
                 user_name: encrypteduser_name,
                 password: encryptedpassword,
