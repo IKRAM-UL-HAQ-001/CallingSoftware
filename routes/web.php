@@ -87,20 +87,12 @@ Route::group(['middleware' => ['exchange']], function () {
 
 Route::group(['middleware' => [ 'customercare']], function () {
     Route::get('/customer-cares', [DashboardController::class, 'customerCareIndex'])->name('customer_care.dashboard');
-    Route::get('/exchanges', [ExchangeController::class, 'customerCareIndex'])->name('customer_care.exchange.list');
-    Route::get('/phoneNumbers', [PhoneNumberController::class, 'customerCareIndex'])->name('customer_care.phone_number.list');
-    Route::get('/numberOfCalls', [PhoneNumberController::class, 'customerCareINoOfCallIndex'])->name('customer_care.no_of_call.list');
-    Route::get('/users', [UserController::class, 'customerCareIndex'])->name('customer_care.user.list');
-    Route::get('/assignNumebrs', [DemoSendController::class, 'customerCareIndex'])->name('customer_care.demo_Send.list');
-    Route::get('/assignNumebrs', [AssignNumberController::class, 'customerCareIndex'])->name('customer_care.assign_number.list');
-    Route::get('/customers', [CustomerController::class, 'customerCareIndex'])->name('customer_care.customer.list');
     Route::get('/complaints', [ComplaintController::class, 'customerCareIndex'])->name('customer_care.complaint.list');
     Route::get('/followups', [FollowUpController::class, 'customerCareIndex'])->name('customer_care.follow_up.list');
     Route::get('/rejects', [RejectController::class, 'customerCareIndex'])->name('customer_care.reject.list');
-    Route::get('/referIds', [ReferIdController::class, 'customerCareIndex'])->name('customer_care.refer_id.list');
     Route::get('/walks', [WalkController::class, 'customerCareIndex'])->name('customer_care.walk.list');
-    Route::get('/total-calls', [TotalCallController::class, 'customerCareIndex'])->name('customer_care.total_call.list');
 });
+
 
 
 

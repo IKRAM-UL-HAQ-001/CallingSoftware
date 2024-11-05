@@ -317,7 +317,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           </li>
         @endif
 
-        @if(session('user_role') === "cutomercare")
+        @if(session('user_role') == "customercare")
         <li class="nav-item">
           <a class="nav-link  {{ request()->routeIs('customer_care.dashboard') ? 'active' : '' }}" href="{{route('customer_care.dashboard')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -328,34 +328,26 @@ $userRole = session('user_role'); // Retrieve the user role from the session
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.assign_number.list') ? 'active' : '' }}" href="{{route('exchange.assign_number.list')}}">
+          <a class="nav-link {{ request()->routeIs('customer_care.complaint.list') ? 'active' : '' }}" href="{{ route('customer_care.complaint.list') }}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Assign Numbers</span>
+            <span class="nav-link-text ms-1">Complaint</span>
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('customer_care.follow_up.list') ? 'active' : '' }}" href="{{ route('customer_care.follow_up.list') }}">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Follow Up</span>
           </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.no_of_call.list') ? 'active' : '' }}" href="{{route('exchange.no_of_call.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">No of Call</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.customer.list') ? 'active' : '' }}" href="{{route('exchange.customer.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Customer</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.reject.list') ? 'active' : '' }}" href="{{route('exchange.reject.list')}}">
+          <a class="nav-link {{ request()->routeIs('customer_care.reject.list') ? 'active' : '' }}" href="{{route('customer_care.reject.list')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
@@ -364,7 +356,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.walk.list') ? 'active' : '' }}" href="{{route('exchange.walk.list')}}">
+          <a class="nav-link {{ request()->routeIs('customer_care.walk.list') ? 'active' : '' }}" href="{{route('customer_care.walk.list')}}">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
             </div>
@@ -372,32 +364,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.refer_id.list') ? 'active' : '' }}" href="{{route('exchange.refer_id.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Refer ID</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.demo_send.list') ? 'active' : '' }}" href="{{route('exchange.demo_send.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Demo Send</span>
-          </a>
-        </li>
-      
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('exchange.total_call.list') ? 'active' : '' }}" href="{{ route('exchange.total_call.list') }}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Total Call</span>
-          </a>
-        </li>
+        
       @endif
       </ul>
     </div>

@@ -26,6 +26,10 @@ class ComplaintController extends Controller
         $Complaints = Complaint::where('exchange_id', $exchageId);
         return view('assistant.compalint.list',compact('Complaints'));
     }
+    public function customercareIndex()
+    {    $Complaints = Complaint::all();
+        return view('customer_care.complaint.list',compact('Complaints'));
+    }
     /**
      * Show the form for creating a new resource.
      */

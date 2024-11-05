@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl mt-5" style="margin-top:10px !important " id="navbarBlur" data-scroll="false">
-<div class="container-fluid py-1 px-3">
+<div class="container-fluid py-1 px-3 d-flex flex-row">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-12 me-5">
             @if(session()->has('user_role'))
@@ -19,7 +19,12 @@
                     @break
                     @case('exchange')
                         <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);" style="font-size:18px">{{ session()->has('exchange') ?? 'No Exchange' }} Exchange Dashboard</a>
+                            <a class="text-white" href="javascript:void(0);" style="font-size:18px"> Exchange Dashboard</a>
+                        </li>
+                        @break
+                    @case('customercare')
+                        <li class="breadcrumb-item text-sm">
+                            <a class="text-white" href="javascript:void(0);" style="font-size:18px"> Customer Care Dashboard</a>
                         </li>
                         @break
                 @endswitch
@@ -27,7 +32,7 @@
         </ol>
     </nav>
     <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
-        <ul class="navbar-nav align-items-center "> 
+        <ul class="navbar-nav d-flex align-items-end justify-content-end"> 
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
                 @if(session()->has('user_role'))
                     @if(session('user_role')=== "admin")
@@ -121,34 +126,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
-<script>
- $('.encrypted-data').each(function() {
-            const encryptedData = $(this).text().trim();
 
-            if (encryptedData) { // Check if data is non-empty
-                try {
-                    const decryptedData = CryptoJS.AES.decrypt(encryptedData, CryptoJS.enc.Utf8.parse(secretKey), { iv: fixedIV }).toString(CryptoJS.enc.Utf8);
-                    if (decryptedData) {
-                        $(this).text(decryptedData); // Display decrypted data
-                    } else {
-                        console.warn("Decryption failed. Empty result. Check key or data format.");
-                    }
-                } catch (error) {
-                    console.error("Error decrypting data:", error);
-                }
-            } else {
-                console.warn("No data to decrypt.");
-            }
-        });
-    // });
-// $(document).ready(function() {
-//         const secretKey = 'MRikam@#@2024!'; // Consider moving this to server-side
-//         $('.encrypted-data').each(function() {
-//             const encryptedData = $(this).text().trim();
-//             const decryptedData = CryptoJS.AES.decrypt(encryptedData, secretKey).toString(CryptoJS.enc.Utf8);
-//             $(this).text(decryptedData);
-//         });
-//     });
+<script>
+
 
 
 function submitPasswordUpdate() {
