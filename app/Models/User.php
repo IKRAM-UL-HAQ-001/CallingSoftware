@@ -28,7 +28,7 @@ class User extends Authenticatable
         return $this->hasMany(PhoneNumber::class);
     }
 
-    public function noOfCalls(){
-        return $this->belongsTo(NoOfCall::class);
+    public function phonenumber(){
+        return $this->belongsTo(PhoneNumber::class);
     }
 }

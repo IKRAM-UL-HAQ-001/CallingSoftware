@@ -34,6 +34,52 @@ class DashboardController extends Controller
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
+        $encryptedAmountsDaily = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE DATE(created_at) = CURDATE()
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE DATE(created_at) = CURDATE()
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE DATE(created_at) = CURDATE()
+            UNION ALL
+            SELECT amount FROM new_ids WHERE DATE(created_at) = CURDATE()
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE DATE(created_at) = CURDATE() 
+            UNION ALL
+            SELECT amount FROM rejects WHERE DATE(created_at) = CURDATE() 
+            UNION ALL
+            SELECT amount FROM walks WHERE DATE(created_at) = CURDATE() 
+        ) as combined"))
+        ->pluck('amount');
+
+        $encryptedAmountsMonthly = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM new_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM rejects WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+            UNION ALL
+            SELECT amount FROM walks WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear 
+        ) as combined"))
+        ->pluck('amount');
+    
+        $TotalAmountDaily = 0;
+    
+        $TotalAmountMonthly = 0;
+        // Decrypt and sum the amounts
+        foreach ($encryptedAmountsDaily as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $TotalAmountDaily += (float)$decryptedAmount; // Sum the decrypted amount
+        }
+        foreach ($encryptedAmountsMonthly as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $TotalAmountMonthly += (float)$decryptedAmount; // Sum the decrypted amount
+        }
         // Daily metrics
         $TotalExchange = Exchange::all()->count();
         $TotalPhoneNumberDaily = PhoneNumber::whereDate('created_at', $today)->count();
@@ -46,7 +92,6 @@ class DashboardController extends Controller
         $TotalReferIdDaily = ReferId::whereDate('created_at', $today)->count();
         $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)->count();
         $TotalFollowUpDaily = FollowUp::whereDate('created_at', $today)->count();
-        $TotalAmountDaily = TotalAmount::whereDate('created_at', $today)->count();
         
         // Monthly metrics
         $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)->count();
@@ -58,8 +103,7 @@ class DashboardController extends Controller
         $TotalReferIdMonthly = ReferId::whereMonth('created_at', $currentMonth)->count();
         $TotalRejectMonthly = Reject::whereMonth('created_at', $currentMonth)->count();
         $TotalWalkMonthly = Walk::whereMonth('created_at', $currentMonth)->count();
-        $TotalAmountMonthly = TotalAmount::whereMonth('created_at', $currentMonth)->count();
-
+        
         // Prepare dashboard data
         $dailyData = [
             ['label' => "Exchanges", 'value' => $TotalExchange, 'icon' => "ni ni-single-02"],
@@ -258,17 +302,17 @@ class DashboardController extends Controller
         ) as combined"))
         ->pluck('amount');
     
-        $totalAmountDaily = 0;
+        $TotalAmountDaily = 0;
     
-        $totalAmountMonthly = 0;
+        $TotalAmountMonthly = 0;
         // Decrypt and sum the amounts
         foreach ($encryptedAmountsDaily as $encryptedAmount) {
             $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
-            $totalAmountDaily += (float)$decryptedAmount; // Sum the decrypted amount
+            $TotalAmountDaily += (float)$decryptedAmount; // Sum the decrypted amount
         }
         foreach ($encryptedAmountsMonthly as $encryptedAmount) {
             $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
-            $totalAmountMonthly += (float)$decryptedAmount; // Sum the decrypted amount
+            $TotalAmountMonthly += (float)$decryptedAmount; // Sum the decrypted amount
         }
         // Monthly metrics
         $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)
@@ -336,7 +380,7 @@ class DashboardController extends Controller
             ['label' => "Walk-Ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Customer", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "Amount", 'value' => $totalAmountDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $TotalAmountDaily, 'icon' => "ni ni-user-run"],
         ];
 
         $monthlyData = [
@@ -349,7 +393,7 @@ class DashboardController extends Controller
             ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
             ['label' => "Customer ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-user-run"],
-            ['label' => "Amount", 'value' => $totalAmountMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-user-run"],
         ];
 
         return view('exchange.dashboard', compact('dailyData', 'monthlyData'));
