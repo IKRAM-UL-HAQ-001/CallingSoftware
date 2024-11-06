@@ -47,6 +47,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
     Route::get('/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
     Route::get('/reject', [RejectController::class, 'index'])->name('admin.reject.list');
+    Route::get('/NewId', [NewIdController::class, 'index'])->name('admin.new_id.list');
     Route::get('/referId', [ReferIdController::class, 'index'])->name('admin.refer_id.list');
     Route::get('/walk', [WalkController::class, 'index'])->name('admin.walk.list');
     Route::get('/totalCall', [TotalCallController::class, 'index'])->name('admin.total_call.list');
