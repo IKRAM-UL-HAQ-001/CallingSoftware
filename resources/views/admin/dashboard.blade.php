@@ -15,7 +15,7 @@
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3" style="background:#5e72e4">
+                <div class="card-body p-3" style="background:#5e72e4;border-radius:10px">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -40,9 +40,9 @@
     <h3 class="text-uppercase text-center mt-5 mb-2">Monthly Metrics</h3>
     <div class="row mt-5">
         @foreach ($monthlyData as $data)
-        <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 my-4 ">
             <div class="card">
-                <div class="card-body p-3" style="background:#5e72e4">
+                <div class="card-body p-3" style="background:#5e72e4;border-radius:10px">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
