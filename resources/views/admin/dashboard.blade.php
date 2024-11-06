@@ -15,7 +15,7 @@
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3"style="background-color: #344767" >
+                <div class="card-body p-3 bg-gradient-primary" >
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape shadow-primary text-center rounded-circle">
-                                <i class="{{ $data['icon'] }} text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="{{ $data['icon'] }} text-lg " aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
