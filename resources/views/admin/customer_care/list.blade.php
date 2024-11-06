@@ -31,6 +31,7 @@
                                     <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->name }}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->created_at }}</td>
                                     <td style="width: 10%; text-align: center;">
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dashboardModal" onclick="loadDashboard({{ $CustomerCare->id }})">Dashboard</button>
                                         <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
                                     </td>
@@ -63,7 +64,7 @@
                         <select class="form-select px-3" id="exchange" name="exchange">
                             <option value="" disabled selected>Select Exchange</option>
                             @foreach($Exchanges as $exchange)
-                                <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
+                            <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -85,16 +86,113 @@
     </div>
 </div>
 
+<!-- Add New User Modal -->
+<div class="modal fade" id="dashboardModal" tabindex="-1" aria-labelledby="dashboardModalLabel" aria-hidden="true" style="z-index:99999;">
+    <div class="modal-dialog" style="max-width: 90%; z-index:99999;">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title" id="dashboardModalLabel" style="color:white">Customer Care dashboard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     $(document).ready(function() {
-       $('#form').on('submit', function(e) {
-           e.preventDefault();
-           const userName = encryptData($('#user_name').val());
-           const password = encryptData($('#password').val());
-           $('#user_name').val(userName);
-           $('#password').val(password);
-           this.submit();
-       });
-   });
+        // Encrypt form data before submitting
+        $('#form').on('submit', function(e) {
+            e.preventDefault();
+            const userName = encryptData($('#user_name').val());
+            const password = encryptData($('#password').val());
+            $('#user_name').val(userName);
+            $('#password').val(password);
+            this.submit();
+        });
+    });
+
+    // Function to load the dashboard with ID
+    function loadDashboard(id) {
+        let formData = new FormData();
+        formData.append('id', id);
+
+        $.ajax({
+            url: "{{ route('admin.customer_care.dashboard') }}", // Correct URL using named route
+            type: 'GET'
+            , headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            , success: function(response) {
+                let dailyMetricsHtml = '<h3 class="text-uppercase text-center mt-2 mb-2">Daily Metrics</h3><div class="row">';
+                response.dailyData.forEach(function(item) {
+                    dailyMetricsHtml += `
+            <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
+                <div class="card">
+                    <div class="card-body p-3" style="background:#5e72e4 !important;border-radius:10px">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
+                                    <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape text-primary shadow-primary text-center rounded-circle" style="background-color: white;">
+                                    <i class="${item.icon} text-lg opacity-10" style="color:#5e72e4;" aria-hidden="true"></i>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+                });
+                dailyMetricsHtml += '</div>';
+
+                let monthlyMetricsHtml = '<h3 class="text-uppercase text-center mt-5 mb-2">Monthly Metrics</h3><div class="row">';
+                response.monthlyData.forEach(function(item) {
+                    monthlyMetricsHtml += `
+            <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
+                <div class="card">
+                    <div class="card-body p-3" style="background:#5e72e4 !important;border-radius:10px">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
+                                    <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+    <div class="icon icon-shape shadow-primary text-center rounded-circle" style="background-color: white;">
+        <i class="${item.icon} text-primary text-lg opacity-10" aria-hidden="true"></i>
+    </div>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+                });
+                monthlyMetricsHtml += '</div>';
+
+                // Insert the generated HTML into the modal body
+                $('#dashboardModal .modal-body').html(dailyMetricsHtml + monthlyMetricsHtml);
+                // Show the modal
+                $('#dashboardModal').modal('show');
+            },
+
+            error: function() {
+                alert('Failed to load the dashboard. Please try again.');
+            }
+        });
+    }
+
 </script>
+
+
+
 @endsection

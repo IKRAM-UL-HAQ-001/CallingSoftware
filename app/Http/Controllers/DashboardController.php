@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Models\PhoneNumber;
 use App\Models\NoOfCall;
+use App\Models\User;
 use App\Models\Exchange;
 use App\Models\Customer;
 use App\Models\DemoSend;

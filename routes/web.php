@@ -42,6 +42,7 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
     Route::get('/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.list');
     Route::post('/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');
+    Route::get('/customerCareDashboard', [CustomerCareController::class, 'customerCareIndex'])->name('admin.customer_care.dashboard');
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
     Route::get('/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
     Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
