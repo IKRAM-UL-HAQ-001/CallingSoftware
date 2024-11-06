@@ -11,21 +11,22 @@
 
     <!-- Daily Metrics Section -->
     <h3 class="text-uppercase text-center mt-5 mb-2">Daily Metrics</h3>
-    <div class="row mt-5 ">
+    <div class="row mt-5">
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="background:#5e72e4">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: white">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color: white">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                <i class="{{ $data['icon'] }} text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape text-center rounded-circle" style="background-color: white">
+                                <!-- Changed icon color to dark -->
+                                <i class="{{ $data['icon'] }} text-lg text-dark" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -41,17 +42,18 @@
         @foreach ($monthlyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="background:#5e72e4">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: white">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color: white">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                <i class="{{ $data['icon'] }} text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape text-center rounded-circle" style="background-color: white">
+                                <!-- Changed icon color to dark -->
+                                <i class="{{ $data['icon'] }} text-lg text-dark opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

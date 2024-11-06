@@ -80,7 +80,7 @@ class DashboardController extends Controller
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
-            ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
+            ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-single-02"],
             ['label' => "Walk  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
             ['label' => "Complaint  ", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
