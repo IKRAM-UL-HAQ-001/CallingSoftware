@@ -5,7 +5,7 @@
     <!-- Introductory banner -->
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded text-center d-flex justify-content-center align-items-center" style="height:200px;">
-            <h1 class="display-4 display-md-3 display-lg-2">Calling Management System</h1>        
+            <h1 class="display-4 display-md-3 display-lg-2">Call Center Software</h1>        
         </div>
     </div>
 
