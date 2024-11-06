@@ -34,34 +34,34 @@
             <ul class="navbar-nav d-flex align-items-center justify-content-end">
                 <li class="nav-item dropdown pe2 d-flex align-items-center">
                     @if(session()->has('user_role'))
-                    @if(session('user_role') === "admin")
-                    <a href="javascript:void(0);" class="d-inline btn btn-danger py-1 mt-3" style="margin-right: 12px; font-size:10px !important;" onclick="confirmLogout()">
-                        Logout ALL
-                    </a>
-                    <a href="javascript:void(0);" class="d-inline btn btn-danger py-1 mt-3" style="margin-right: 12px; font-size:10px !important;" onclick="confirmDownload()">
-                        Download DATABASE
-                    </a>
-                    @endif
+                        @if(session('user_role') === "admin")
+                        <a href="javascript:void(0);" class="d-inline btn btn-danger py-3 mt-3" style="margin-right: 12px; font-size:16px !important;" onclick="confirmLogout()">
+                            Logout ALL
+                        </a>
+                        <a href="javascript:void(0);" class="d-inline btn btn-danger py-3 mt-3" style="margin-right: 12px; font-size:16px !important;" onclick="confirmDownload()">
+                            Download DATABASE
+                        </a>
+                        @endif
                     @endif
                     <a href="javascript:void(0);" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="d-sm-inline encrypted-data" style="color:white">{{ session('name') }}</span>
                         <i class="fa fa-user cursor-pointer d-none d-sm-inline" style="color:white; margin-left: 8px;"></i> </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         @if(session()->has('user_role'))
-                        @if(session('user_role') === "admin")
-                        <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
-                                <div class="d-flex align-items-center py-2">
-                                    <i class="fas fa-lock me-2"></i>
-                                    <div>
-                                        <h6 class="text-sm font-weight-normal mb-0">
-                                            <span class="font-weight-bold">Update Password</span>
-                                        </h6>
+                            @if(session('user_role') === "admin")
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
+                                    <div class="d-flex align-items-center py-2">
+                                        <i class="fas fa-lock me-2"></i>
+                                        <div>
+                                            <h6 class="text-sm font-weight-normal mb-0">
+                                                <span class="font-weight-bold">Update Password</span>
+                                            </h6>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </li>
-                        @endif
+                                </a>
+                            </li>
+                            @endif
                         @endif
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="{{ route('login.logout') }}">
@@ -86,21 +86,6 @@
                         </div>
                     </a>
                 </li>
-                <script>
-                    document.getElementById('iconNavbarSidenav').addEventListener('click', function() {
-                        var sidebar = document.getElementById('sidenav-main');
-                        sidebar.classList.toggle('show-sidebar');
-                    });
-                    document.addEventListener('click', function(event) {
-                        var sidebar = document.getElementById('sidenav-main');
-                        var toggleButton = document.getElementById('iconNavbarSidenav');
-                        if (sidebar.classList.contains('show-sidebar') && !sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
-                            sidebar.classList.remove('show-sidebar');
-                        }
-
-                    });
-
-                </script>
 
             </ul>
         </div>
@@ -136,9 +121,9 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
 
@@ -174,5 +159,17 @@
             window.location.href = "{{ route('logout.all') }}";
         }
     }
+    document.getElementById('iconNavbarSidenav').addEventListener('click', function() {
+        var sidebar = document.getElementById('sidenav-main');
+        sidebar.classList.toggle('show-sidebar');
+    });
+    document.addEventListener('click', function(event) {
+        var sidebar = document.getElementById('sidenav-main');
+        var toggleButton = document.getElementById('iconNavbarSidenav');
+        if (sidebar.classList.contains('show-sidebar') && !sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+            sidebar.classList.remove('show-sidebar');
+        }
+
+    });
 
 </script>

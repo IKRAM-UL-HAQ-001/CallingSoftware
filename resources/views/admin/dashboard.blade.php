@@ -15,17 +15,17 @@
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3"style="background-color: #344767" >
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:white">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color:white">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                                <i class="{{ $data['icon'] }} text-lg opacity-10" aria-hidden="true"></i>
+                            <div class="icon icon-shape shadow-primary text-center rounded-circle" >
+                                <i class="{{ $data['icon'] }} text-lg " aria-hidden="true" ></i>
                             </div>
                         </div>
                     </div>
@@ -41,16 +41,16 @@
         @foreach ($monthlyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
             <div class="card">
-                <div class="card-body p-3">
+                <div class="card-body p-3" style="background-color: #344767">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:white">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color:white">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                            <div class="icon icon-shape shadow-primary text-center rounded-circle">
                                 <i class="{{ $data['icon'] }} text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>

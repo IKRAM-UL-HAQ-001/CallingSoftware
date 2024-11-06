@@ -61,24 +61,6 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.customer_care.list') ? 'active' : '' }}" href="{{route('admin.customer_care.list')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Customer Care</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.customer.list') ? 'active' : '' }}" href="{{route('admin.customer.list')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Customer</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.reject.list') ? 'active' : '' }}" href="{{route('admin.reject.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
