@@ -125,7 +125,7 @@
         }
 
         .nav-link.active {
-            background-color: #344767 !important;
+            background-color: #5e72e4 !important;
             /* Dark background color */
             color: #ffffff !important;
             /* White text color */
