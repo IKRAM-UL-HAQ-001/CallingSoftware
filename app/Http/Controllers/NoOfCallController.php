@@ -14,13 +14,17 @@ class NoOfCallController extends Controller
      */
     public function index()
     {
-        $NoOfCalls = NoOfCall::whereDate('created_at', Carbon::today())->get();
+        $NoOfCalls = PhoneNumber::whereDate('created_at', Carbon::today())
+        ->where('status','deactive')
+        ->get();
         return view('admin.no_of_call.list', compact('NoOfCalls'));
     }
 
     public function assistantIndex()
     {
-        $NoOfCalls = NoOfCall::whereDate('created_at', Carbon::today())->get();
+        $NoOfCalls = PhoneNumber::whereDate('created_at', Carbon::today())
+        ->where('status','!=','deactive')
+        ->get();
         return view('assistant.no_of_call.list', compact('NoOfCalls'));
     }
 

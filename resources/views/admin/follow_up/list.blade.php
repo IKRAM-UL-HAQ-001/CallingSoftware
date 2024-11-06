@@ -12,14 +12,22 @@
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Id</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Name</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Phone</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Feedback</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Amount</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Date and Time</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="DataTableBody">
                                 @foreach ($FollowUps as $FollowUp)
                                 <tr data-user-id="a" data-exchange-id="a">
-                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->id}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->name}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->phone}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->feedback}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->amount}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->created_at}}</td>
                                     <td style="width: 10%; text-align: center;">
                                         <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
