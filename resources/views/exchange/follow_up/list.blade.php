@@ -12,14 +12,20 @@
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Name</th>
                                     <th class="text-uppercase text-secondary font-weight-bolder text-dark">Phone Number</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Feedback</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Amount</th>
                                     <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Date and Time</th>
                                 </tr>
                             </thead>
                             <tbody id="DataTableBody">
                                 @foreach ($FollowUps as $FollowUp)
                                 <tr data-user-id="a" data-exchange-id="a">
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->name}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$FollowUp->phone}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->feedback}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$FollowUp->amount}}</td>
                                     <td style="width: 45%;" >{{$FollowUp->created_at}}</td>
                                 </tr>
                                 @endforeach

@@ -265,7 +265,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('exchange.customer.list') ? 'active' : '' }}" href="{{route('exchange.customer.list')}}">
+            <a class="nav-link {{ request()->routeIs('exchange.new_id.list') ? 'active' : '' }}" href="{{route('exchange.new_id.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
               </div>
@@ -317,58 +317,65 @@ $userRole = session('user_role'); // Retrieve the user role from the session
               <span class="nav-link-text ms-1">Complaints</span>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('exchange.follow_up.list') ? 'active' : '' }}" href="{{ route('exchange.follow_up.list') }}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Follow Up</span>
+            </a>
+          </li>
         
         @endif
 
         @if(session('user_role') == "customercare")
-        <li class="nav-item">
-          <a class="nav-link  {{ request()->routeIs('customer_care.dashboard') ? 'active' : '' }}" href="{{route('customer_care.dashboard')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link  {{ request()->routeIs('customer_care.dashboard') ? 'active' : '' }}" href="{{route('customer_care.dashboard')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Dashboard</span>
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('customer_care.complaint.list') ? 'active' : '' }}" href="{{ route('customer_care.complaint.list') }}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Complaint</span>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('customer_care.complaint.list') ? 'active' : '' }}" href="{{ route('customer_care.complaint.list') }}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Complaint</span>
+            </a>
+          </li>
 
 
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('customer_care.follow_up.list') ? 'active' : '' }}" href="{{ route('customer_care.follow_up.list') }}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Follow Up</span>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('customer_care.follow_up.list') ? 'active' : '' }}" href="{{ route('customer_care.follow_up.list') }}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Follow Up</span>
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('customer_care.reject.list') ? 'active' : '' }}" href="{{route('customer_care.reject.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Reject</span>
-          </a>
-        </li>
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('customer_care.reject.list') ? 'active' : '' }}" href="{{route('customer_care.reject.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Reject</span>
+            </a>
+          </li>
 
-        <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('customer_care.walk.list') ? 'active' : '' }}" href="{{route('customer_care.walk.list')}}">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Walk</span>
-          </a>
-        </li>
-
-        
-      @endif
+          <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('customer_care.walk.list') ? 'active' : '' }}" href="{{route('customer_care.walk.list')}}">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Walk</span>
+            </a>
+          </li>
+        @endif
       </ul>
     </div>
   </aside>

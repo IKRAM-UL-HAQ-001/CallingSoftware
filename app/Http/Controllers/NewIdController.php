@@ -12,13 +12,13 @@ class NewIdController extends Controller
     public function index()
     {
         $NewIds =  NewId::all();
-        return view('admin.walk.list',compact('NewIds'));
+        return view('admin.new_id.list',compact('NewIds'));
     }
     
     public function assistantIndex()
     {
         $NewIds =  NewId::all();
-        return view('assistant.walk.list',compact('NewIds'));
+        return view('assistant.new_id.list',compact('NewIds'));
     }
     public function exchangeIndex()
     {   
@@ -26,7 +26,7 @@ class NewIdController extends Controller
         $userId = session('user_id');
         $NewIds = NewId::where('exchange_id', $exchangeId)
         ->where('user_id', $userId)->get();
-        return view('exchange.walk.list',compact('NewIds'));
+        return view('exchange.new_id.list',compact('NewIds'));
     }
 
     public function store(Request $request)

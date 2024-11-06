@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Auth;
 use App\Models\User;
 use App\Models\PhoneNumber;
 use App\Models\NoOfCall;
@@ -20,6 +18,10 @@ use App\Models\TotalCall;
 use App\Models\TotalAmount;
 use App\Models\Walk;
 use App\Models\NewId;
+use Carbon\Carbon;
+use Auth;
+use DB;
+use Illuminate\Support\Facades\Crypt;
 
 class DashboardController extends Controller
 {
@@ -150,6 +152,21 @@ class DashboardController extends Controller
     }
 
 
+    function decryptData($encryptedData) {
+        // Set the same key and IV used in CryptoJS
+        $key = 'MRikam@#@2024!XY'; // Ensure this matches the key used in CryptoJS (16 bytes for AES-128)
+        $iv = hex2bin('00000000000000000000000000000000'); // Convert hex IV to binary
+    
+        // Decode the base64 encoded data from CryptoJS
+        $encryptedData = base64_decode($encryptedData);
+    
+        // Decrypt using OpenSSL with AES-128-CBC and PKCS7 padding
+        $decryptedData = openssl_decrypt($encryptedData, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+    
+        return $decryptedData; // Return decrypted data as a string
+    }
+
+
     public function exchangeIndex()
     {
         $today = Carbon::today();
@@ -171,11 +188,6 @@ class DashboardController extends Controller
         ->count();
         
         $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)
-        ->where('exchange_id',$exchangeId)
-        ->where('user_id',$userId)
-        ->count();
-
-        $TotalPhoneNumberDaily = PhoneNumber::whereDate('created_at', $today)
         ->where('exchange_id',$exchangeId)
         ->where('user_id',$userId)
         ->count();
@@ -211,6 +223,53 @@ class DashboardController extends Controller
         ->where('user_id',$userId)
         ->count();
 
+
+        $encryptedAmountsDaily = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM new_ids WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM rejects WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM walks WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+        ) as combined"))
+        ->pluck('amount');
+
+        $encryptedAmountsMonthly = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM new_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM rejects WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM walks WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+        ) as combined"))
+        ->pluck('amount');
+    
+        $totalAmountDaily = 0;
+    
+        $totalAmountMonthly = 0;
+        // Decrypt and sum the amounts
+        foreach ($encryptedAmountsDaily as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $totalAmountDaily += (float)$decryptedAmount; // Sum the decrypted amount
+        }
+        foreach ($encryptedAmountsMonthly as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $totalAmountMonthly += (float)$decryptedAmount; // Sum the decrypted amount
+        }
         // Monthly metrics
         $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)
         ->whereYear('created_at', $currentYear)
@@ -266,7 +325,7 @@ class DashboardController extends Controller
         ->where('exchange_id',$exchangeId)
         ->where('user_id',$userId)
         ->count();
-        // Prepare dashboard data
+
         $dailyData = [
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
@@ -275,8 +334,9 @@ class DashboardController extends Controller
             ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Reject ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Walk-Ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "New Ids ", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Customer", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $totalAmountDaily, 'icon' => "ni ni-user-run"],
         ];
 
         $monthlyData = [
@@ -287,8 +347,9 @@ class DashboardController extends Controller
             ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
             ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
             ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
-            ['label' => "New Ids ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "Customer ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $totalAmountMonthly, 'icon' => "ni ni-user-run"],
         ];
 
         return view('exchange.dashboard', compact('dailyData', 'monthlyData'));

@@ -44,7 +44,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
     Route::get('/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
-    Route::get('/customer', [CustomerController::class, 'index'])->name('admin.customer.list');
     Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
     Route::get('/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
     Route::get('/reject', [RejectController::class, 'index'])->name('admin.reject.list');
@@ -65,7 +64,6 @@ Route::group(['middleware' => ['assistant']], function () {
     Route::get('/assistantUser', [UserController::class, 'assistantIndex'])->name('assistant.user.list');
     Route::get('/assistantDemoSend', [DemoSendController::class, 'assistantIndex'])->name('assistant.demo_send.list');
     Route::get('/assistantAssignNumebr', [AssignNumberController::class, 'assistantIndex'])->name('assistant.assign_number.list');
-    Route::get('/assistantCustomer', [CustomerController::class, 'assistantIndex'])->name('assistant.customer.list');
     Route::get('/assistantComplaint', [ComplaintController::class, 'assistantIndex'])->name('assistant.complaint.list');
     Route::get('/assistantFollowup', [FollowUpController::class, 'assistantIndex'])->name('assistant.follow_up.list');
     Route::get('/assistantReject', [RejectController::class, 'assistantIndex'])->name('assistant.reject.list');
@@ -78,7 +76,6 @@ Route::group(['middleware' => ['exchange']], function () {
     Route::get('/userDashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
     Route::get('/userNumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
     Route::get('/userAssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
-    Route::get('/userCustomer', [CustomerController::class, 'exchangeIndex'])->name('exchange.customer.list');
  
     Route::get('/userDemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
     Route::post('/userDemoSend/post', [DemoSendController::class, 'store'])->name('exchange.demo_send.formPost');
@@ -98,8 +95,8 @@ Route::group(['middleware' => ['exchange']], function () {
     Route::get('/userWalk', [WalkController::class, 'exchangeIndex'])->name('exchange.walk.list');
     Route::post('/userWalk/post', [WalkController::class, 'store'])->name('exchange.walk.formPost');
 
-    Route::get('/userNewId', [NewIdController::class, 'exchangeIndex'])->name('exchange.new_id.list');
-    Route::post('/userNewId/post', [NewIdController::class, 'store'])->name('exchange.new_id.formPost');
+    Route::get('/userCustomer', [NewIdController::class, 'exchangeIndex'])->name('exchange.new_id.list');
+    Route::post('/userCustomer/post', [NewIdController::class, 'store'])->name('exchange.new_id.formPost');
 
     Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
     Route::post('/userComplaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');

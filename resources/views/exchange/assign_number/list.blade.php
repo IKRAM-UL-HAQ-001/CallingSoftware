@@ -46,7 +46,6 @@
     </div>
 </div>
 
-<!-- Add Phone Number Modal -->
 <div class="modal fade" id="addPhoneNumberModal" tabindex="-1" aria-labelledby="addPhoneNumberModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -80,7 +79,7 @@
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.demo_send.formPost') }}">Demo Send</button>
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.reject.formPost') }}">Reject</button>
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.refer_id.formPost') }}">Refer ID</button>
-            <button type="button" class="btn btn-success" data-action="{{ route('exchange.new_id.formPost') }}">New ID</button>
+            <button type="button" class="btn btn-success" data-action="{{ route('exchange.new_id.formPost') }}">Customer</button>
             <button type="button" class="btn btn-info" data-action="{{ route('exchange.follow_up.formPost') }}">Follow Up</button>
             <button type="button" class="btn btn-dark" data-action="{{ route('exchange.complaint.formPost') }}">Complaint</button>
             <button type="button" class="btn btn-primary" data-action="{{ route('exchange.walk.formPost') }}">Walk</button> 
@@ -92,12 +91,11 @@
 
 <script>
 
-document.querySelectorAll('[data-bs-target="#addPhoneNumberModal"]').forEach(button => {
+    document.querySelectorAll('[data-bs-target="#addPhoneNumberModal"]').forEach(button => {
         button.addEventListener('click', function () {
             const entryId = button.getAttribute('data-id');
 
             document.getElementById('phone_id').value = entryId;
-            console.log(entryId);
         });
     });
 
@@ -126,8 +124,7 @@ document.querySelectorAll('[data-bs-target="#addPhoneNumberModal"]').forEach(but
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                form.reset();
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
