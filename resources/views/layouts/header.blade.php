@@ -13,32 +13,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
 
-    <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.1.0" rel="stylesheet" />
-    
+    <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.1.0') }}" rel="stylesheet" />
+
+
     <style>
+        @media (max-width: 1200.98px) {
+            #sidenav-main {
+                display: none;
+                transition: left 1s linear;
+            }
+
+            .show-sidebar {
+                display: block !important;
+                position: absolute !important;
+                left: 250px !important;
+
+            }
+        }
+
         .dataTables_filter {
             float: right;
         }
+
         .dataTables_filter label {
             font-weight: bold;
         }
+
         .dataTables_filter input {
             width: 200px;
             border-radius: 5px;
             padding: 5px;
             margin-left: 5px;
         }
-    
+
         .dataTables_paginate {
             display: flex;
             justify-content: center;
             margin-top: 15px;
         }
-        #userTable_paginate{
+
+        #userTable_paginate {
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .dataTables_paginate .paginate_button {
             padding: 5px 10px;
             margin: 0 5px;
@@ -47,9 +66,11 @@
             color: #007bff;
             cursor: pointer;
         }
+
         .dataTables_paginate .paginate_button:hover {
             background-color: #f0f0f0;
         }
+
         .dataTables_paginate .paginate_button.current {
             background-color: #007bff;
             color: white !important;
@@ -57,11 +78,13 @@
             border-radius: 50%;
             padding: 3px 10px;
         }
+
     </style>
     <style>
-        table tbody{
+        table tbody {
             color: white !important;
         }
+
         .bg-gradient-to-white {
             background: linear-gradient(to bottom, #f0f0f0, white);
         }
@@ -100,12 +123,15 @@
         .nav-link-text {
             font-weight: bold;
         }
+
         .nav-link.active {
-        background-color: #344767 !important; /* Dark background color */
-        color: #ffffff !important; /* White text color */
-        font-weight: bold;
-        border-radius: 5px;
-    }
+            background-color: #344767 !important;
+            /* Dark background color */
+            color: #ffffff !important;
+            /* White text color */
+            font-weight: bold;
+            border-radius: 5px;
+        }
 
         .form-control:focus {
             border-color: #80bdff;

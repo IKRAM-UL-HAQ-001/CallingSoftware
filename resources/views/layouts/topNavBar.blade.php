@@ -1,68 +1,67 @@
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl mt-5" id="navbarBlur" data-scroll="false">
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl mt-2" id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3 d-flex flex-row">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-12 me-5">
                 @if(session()->has('user_role'))
-                    @switch(session('user_role'))
-                        @case('admin')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white mb-2" href="javascript:void(0);">Admin</a>
-                        </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                        @break
-                        @case('assistant')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);">Assistant</a>
-                        </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
-                        @break
-                        @case('exchange')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);" style="font-size:18px">Exchange Dashboard</a>
-                        </li>
-                        @break
-                        @case('customercare')
-                        <li class="breadcrumb-item text-sm">
-                            <a class="text-white" href="javascript:void(0);" style="font-size:18px">Customer Care Dashboard</a>
-                        </li>
-                        @break
-                    @endswitch
+                @switch(session('user_role'))
+                @case('admin')
+                <li class="breadcrumb-item text-sm">
+                    <a class="text-white mb-2" href="javascript:void(0);">Admin</a>
+                </li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                @break
+                @case('assistant')
+                <li class="breadcrumb-item text-sm">
+                    <a class="text-white" href="javascript:void(0);">Assistant</a>
+                </li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                @break
+                @case('exchange')
+                <li class="breadcrumb-item text-sm">
+                    <a class="text-white" href="javascript:void(0);" style="font-size:18px">Exchange Dashboard</a>
+                </li>
+                @break
+                @case('customercare')
+                <li class="breadcrumb-item text-sm">
+                    <a class="text-white" href="javascript:void(0);" style="font-size:18px">Customer Care Dashboard</a>
+                </li>
+                @break
+                @endswitch
                 @endif
             </ol>
         </nav>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
-            <ul class="navbar-nav d-flex align-items-end justify-content-end">
-                <li class="nav-item dropdown pe-2 d-flex align-items-center">
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end mt-4" id="navbar">
+            <ul class="navbar-nav d-flex align-items-center justify-content-end">
+                <li class="nav-item dropdown pe2 d-flex align-items-center">
                     @if(session()->has('user_role'))
-                        @if(session('user_role') === "admin")
-                            <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmLogout()">
-                                Logout ALL
-                            </a>
-                            <a href="javascript:void(0);" class="d-inline btn btn-danger mt-3" style="margin-right: 16px;" onclick="confirmDownload()">
-                                Download DATABASE
-                            </a>
-                        @endif
+                    @if(session('user_role') === "admin")
+                    <a href="javascript:void(0);" class="d-inline btn btn-danger py-1 mt-3" style="margin-right: 12px; font-size:10px !important;" onclick="confirmLogout()">
+                        Logout ALL
+                    </a>
+                    <a href="javascript:void(0);" class="d-inline btn btn-danger py-1 mt-3" style="margin-right: 12px; font-size:10px !important;" onclick="confirmDownload()">
+                        Download DATABASE
+                    </a>
+                    @endif
                     @endif
                     <a href="javascript:void(0);" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="d-sm-inline encrypted-data" style="color:white">{{ session('name') }}</span>
-                        <i class="fa fa-user cursor-pointer" style="color:white; margin-left: 8px;"></i>
-                    </a>
+                        <i class="fa fa-user cursor-pointer d-none d-sm-inline" style="color:white; margin-left: 8px;"></i> </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         @if(session()->has('user_role'))
-                            @if(session('user_role') === "admin")
-                                <li class="mb-2">
-                                    <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
-                                        <div class="d-flex align-items-center py-2">
-                                            <i class="fas fa-lock me-2"></i>
-                                            <div>
-                                                <h6 class="text-sm font-weight-normal mb-0">
-                                                    <span class="font-weight-bold">Update Password</span>
-                                                </h6>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            @endif
+                        @if(session('user_role') === "admin")
+                        <li class="mb-2">
+                            <a class="dropdown-item border-radius-md" href="#" data-toggle="modal" data-target="#updatePasswordModal">
+                                <div class="d-flex align-items-center py-2">
+                                    <i class="fas fa-lock me-2"></i>
+                                    <div>
+                                        <h6 class="text-sm font-weight-normal mb-0">
+                                            <span class="font-weight-bold">Update Password</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        @endif
                         @endif
                         <li class="mb-2">
                             <a class="dropdown-item border-radius-md" href="{{ route('login.logout') }}">
@@ -79,14 +78,30 @@
                     </ul>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                      <div class="sidenav-toggler-inner">
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                        <i class="sidenav-toggler-line bg-white"></i>
-                      </div>
+                    <a class="nav-link text-white p-0" id="iconNavbarSidenav" style="cursor: pointer;">
+                        <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line bg-white"></i>
+                            <i class="sidenav-toggler-line bg-white"></i>
+                            <i class="sidenav-toggler-line bg-white"></i>
+                        </div>
                     </a>
                 </li>
+                <script>
+                    document.getElementById('iconNavbarSidenav').addEventListener('click', function() {
+                        var sidebar = document.getElementById('sidenav-main');
+                        sidebar.classList.toggle('show-sidebar');
+                    });
+                    document.addEventListener('click', function(event) {
+                        var sidebar = document.getElementById('sidenav-main');
+                        var toggleButton = document.getElementById('iconNavbarSidenav');
+                        if (sidebar.classList.contains('show-sidebar') && !sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                            sidebar.classList.remove('show-sidebar');
+                        }
+
+                    });
+
+                </script>
+
             </ul>
         </div>
     </div>
@@ -128,35 +143,36 @@
 <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
 
 <script>
-function submitPasswordUpdate() {
-    var formData = {
-        currentPassword: $('#currentPassword').val(),
-        newPassword: $('#newPassword').val(),
-        _token: '{{ csrf_token() }}' // Ensure this token is included
-    };
+    function submitPasswordUpdate() {
+        var formData = {
+            currentPassword: $('#currentPassword').val()
+            , newPassword: $('#newPassword').val()
+            , _token: '{{ csrf_token() }}' // Ensure this token is included
+        };
 
-    $.ajax({
-        url: '{{ route("password.update") }}', // Replace with your route
-        type: 'POST',
-        data: formData,
-        success: function(response) {
-            alert('Password updated successfully!');
-            $('#updatePasswordModal').modal('hide'); 
-            location.reload(); 
-        },
-        error: function(xhr) {
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                alert(xhr.responseJSON.message);
-            } else {
-                alert('An error occurred while updating the password.');
+        $.ajax({
+            url: '{{ route("password.update") }}', // Replace with your route
+            type: 'POST'
+            , data: formData
+            , success: function(response) {
+                alert('Password updated successfully!');
+                $('#updatePasswordModal').modal('hide');
+                location.reload();
             }
-        }
-    });
-}
-
-function confirmLogout() {
-    if (confirm("Are you sure you want to log out of all users?")) {
-        window.location.href = "{{ route('logout.all') }}";
+            , error: function(xhr) {
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    alert(xhr.responseJSON.message);
+                } else {
+                    alert('An error occurred while updating the password.');
+                }
+            }
+        });
     }
-}
+
+    function confirmLogout() {
+        if (confirm("Are you sure you want to log out of all users?")) {
+            window.location.href = "{{ route('logout.all') }}";
+        }
+    }
+
 </script>
