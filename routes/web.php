@@ -36,11 +36,13 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
+    Route::post('/exchangeUsers', [ExchangeController::class, 'exchnageUsers'])->name('admin.exchange.userlist');
     Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
     Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
     Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
     Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
-    Route::get('/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.list');
+    Route::get('/customerCare1', [CustomerCareController::class, 'exchangeIndex'])->name('admin.customercare_exchange.list');    
+    Route::post('/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.list');
     Route::post('/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');
     Route::get('/customerCareDashboard', [CustomerCareController::class, 'customerCareIndex'])->name('admin.customer_care.dashboard');
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');

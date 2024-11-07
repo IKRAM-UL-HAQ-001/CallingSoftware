@@ -29,10 +29,10 @@ class CustomerCareController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $Exchanges = Exchange::all();
-        $CustomerCares = User::where('role', 'customercare')->get();
+        $CustomerCares = User::where('role', 'customercare')->where('exchange_id',$request->id)->get();
         return view('admin.customer_care.list', compact('CustomerCares', 'Exchanges'));
     }
     public function assistantIndex()
@@ -72,7 +72,7 @@ class CustomerCareController extends Controller
             $user->role = 'customercare';
             $user->save();
 
-            return redirect()->back();
+            return redirect()->route('admin.customercare_exchange.list');
         } catch (\Exception $e) {
             return redirect()->back();
         }
@@ -80,6 +80,11 @@ class CustomerCareController extends Controller
 
 
 
+    public function exchangeIndex()
+    {
+        $Exchanges = Exchange::all();
+        return view('admin.customer_care.exchangelist',compact('Exchanges'));
+    }
 
     public function customerCareIndex()
     {

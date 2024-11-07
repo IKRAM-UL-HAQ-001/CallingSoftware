@@ -4,10 +4,7 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Exchanges</h2>
-                <div>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Exchange</button>
-                </div>
+                <h2 class="mb-0">Users List</h2>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
                 <div class="card-body px-0 pb-2 px-3 col-12">
@@ -20,15 +17,11 @@
                                 </tr>
                             </thead>
                             <tbody id="DataTableBody">
-                                @foreach ($Exchanges as $exchange)
-                                <tr data-exchange-id="{{ $exchange->id }}">
-                                    <td style="width: 45%;" class="text-dark encrypted-data">{{ $exchange->name }}</td>
+                                @foreach ($Users as $user)
+                                <tr data-exchange-id="{{ $user->id }}">
+                                    <td style="width: 45%;" class="text-dark encrypted-data">{{ $user->name }}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <form action="{{ route('admin.exchange.userlist') }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            <input type="hidden" value="{{$exchange->id}}" name="id">
-                                            <button type="submit" class="btn btn-danger btn-sm">Exchange user list</button>
-                                        </form>
+                                        
                                         <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
                                     </td>

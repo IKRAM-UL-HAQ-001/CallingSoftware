@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exchange;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,6 +16,12 @@ class ExchangeController extends Controller
     {
         $Exchanges = Exchange::all();
         return view('admin.exchange.list',compact('Exchanges'));
+    }
+    public function exchnageUsers(Request $request)
+    {
+        $Users = User::where('role', 'exchange')->where('exchange_id',$request->id)->get();
+        
+        return view('admin.exchange.userlist',compact('Users'));
     }
 
     public function assistantIndex()
