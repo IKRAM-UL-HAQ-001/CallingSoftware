@@ -1,1 +1,25 @@
-encrypted_file_data: ["r1SHWfSjpuE6t4tS9AzBeg=="]
+// Route::get('/admin/customerCare', [CustomerCareController::class, 'exchangeIndex'])->name('admin.customercare_exchange.list');
+{{ route('admin.customer_care.popUpDashboard') }}
+
+
+
+{{-- <select class="form-select px-3" id="exchange" name="exchange">
+                            <option value="" disabled selected>Select Exchange</option>
+                            @foreach($Exchanges as $exchange)
+                            <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
+                            @endforeach
+                        </select> --}}
+
+                        message: "CSRF token mismatch.", exception: "Symfony\Component\HttpKernel\Exception\HttpException",…}
+exception
+: 
+"Symfony\\Component\\HttpKernel\\Exception\\HttpException"
+file
+: 
+"C:\\xampp\\htdocs\\CallingProject\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php"
+line
+: 
+492
+message
+: 
+"CSRF token mismatch."

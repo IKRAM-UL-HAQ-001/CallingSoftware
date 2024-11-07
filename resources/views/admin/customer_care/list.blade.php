@@ -4,9 +4,9 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Customer Care</h2>
+                <h2 class="mb-0">Exchange Customer Care List</h2>
                 <div>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Customer Care</button>
+                    {{-- <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Customer Care</button> --}}
                 </div>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
@@ -30,10 +30,12 @@
                                 <tr>
                                     <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->name }}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->created_at }}</td>
-                                    <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dashboardModal" onclick="loadDashboard({{ $CustomerCare->id }})">Dashboard</button>
-                                        <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                    {{-- class="d-flex flex-wrap justify-content-center" --}}
+                                    <td style="width: 10%; text-align: center;" >
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dashboardModal" onclick="loadDashboard({{ $CustomerCare->id }},{{ $CustomerCare->exchange_id }})" style="background:#acc301;">Dashboard</button>
+                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Daily</button>
+                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Weekly</button>
+                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Monthly</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -46,7 +48,6 @@
     </div>
 </div>
 
-<!-- Add New User Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -61,12 +62,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="exchange" class="form-label">Exchange</label>
-                        <select class="form-select px-3" id="exchange" name="exchange">
-                            <option value="" disabled selected>Select Exchange</option>
-                            @foreach($Exchanges as $exchange)
-                            <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
-                            @endforeach
-                        </select>
+                        
                     </div>
                     <div class="mb-3">
                         <label for="user_name" class="form-label">User Name</label>
@@ -115,83 +111,93 @@
     });
 
     // Function to load the dashboard with ID
-    function loadDashboard(id) {
-        let formData = new FormData();
-        formData.append('id', id);
+    function loadDashboard(id, exchangeId) {
+    let formData = new FormData();
+    formData.append('id', id);
+    formData.append('exchange_id', exchangeId);
 
-        $.ajax({
-            url: "{{ route('admin.customer_care.dashboard') }}", // Correct URL using named route
-            type: 'GET'
-            , headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-            , success: function(response) {
-                let dailyMetricsHtml = '<h3 class="text-uppercase text-center mt-2 mb-2">Daily Metrics</h3><div class="row">';
+    $.ajax({
+        url: "{{ route('admin.customer_care.popUpDashboard') }}",
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log(response); // Log response to inspect data format
+
+            // Check if dailyData and monthlyData exist in the response
+            if (response.dailyData && response.monthlyData) {
+                let dailyMetricsHtml = '<h3 class="text-uppercase text-center mt-2 mb-2" style=" font-weight:bold">Daily Metrics</h3><div class="row">';
                 response.dailyData.forEach(function(item) {
                     dailyMetricsHtml += `
-            <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
-                <div class="card">
-                    <div class="card-body p-3" style="background:#5e72e4 !important;border-radius:10px">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
-                                    <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                        <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
+                            <div class="card">
+                                <div class="card-body p-3" style="background:#acc301;border-radius:10px; font-weight:bold;">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
+                                                <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape text-primary shadow-primary text-center rounded-circle" style="background-color: white;">
+                                                <i class="${item.icon} text-lg opacity-10" style="color:#5e72e4;" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape text-primary shadow-primary text-center rounded-circle" style="background-color: white;">
-                                    <i class="${item.icon} text-lg opacity-10" style="color:#5e72e4;" aria-hidden="true"></i>
-                                </div>
                         </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+                    `;
                 });
                 dailyMetricsHtml += '</div>';
 
-                let monthlyMetricsHtml = '<h3 class="text-uppercase text-center mt-5 mb-2">Monthly Metrics</h3><div class="row">';
+                let monthlyMetricsHtml = '<h3 class="text-uppercase text-center mt-5 mb-2" style="font-weight:bold">Monthly Metrics</h3><div class="row">';
                 response.monthlyData.forEach(function(item) {
                     monthlyMetricsHtml += `
-            <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
-                <div class="card">
-                    <div class="card-body p-3" style="background:#5e72e4 !important;border-radius:10px">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
-                                    <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                        <div class="col-xl-3 col-sm-6 mb-xl-0 my-4">
+                            <div class="card">
+                                <div class="card-body p-3" style="background:#acc301 !important;border-radius:10px; font-weight:bold;">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-sm mb-0 text-uppercase font-weight-bold text-white">${item.label}</p>
+                                                <h5 class="font-weight-bolder text-white">${item.value}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape shadow-primary text-center rounded-circle" style="background-color: white;">
+                                                <i class="${item.icon} text-primary text-lg opacity-10" aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-4 text-end">
-    <div class="icon icon-shape shadow-primary text-center rounded-circle" style="background-color: white;">
-        <i class="${item.icon} text-primary text-lg opacity-10" aria-hidden="true"></i>
-    </div>
-</div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        `;
+                    `;
                 });
                 monthlyMetricsHtml += '</div>';
 
-                // Insert the generated HTML into the modal body
+                // Insert generated HTML into the modal body
                 $('#dashboardModal .modal-body').html(dailyMetricsHtml + monthlyMetricsHtml);
-                // Show the modal
-                $('#dashboardModal').modal('show');
-            },
-
-            error: function() {
-                alert('Failed to load the dashboard. Please try again.');
+            } else {
+                $('#dashboardModal .modal-body').html('<p>No data available</p>');
             }
-        });
-    }
+
+            // Show the modal
+            $('#dashboardModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText); // Log detailed error information
+            alert('Failed to load the dashboard. Please try again.');
+        }
+    });
+}
 
 </script>
-
-
 
 @endsection

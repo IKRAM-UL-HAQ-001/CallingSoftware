@@ -124,7 +124,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           </li>
 
           <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('admin.customercare_exchange.list') ? 'active' : '' }}" href="{{ route('admin.customercare_exchange.list') }}">
+            <a class="nav-link {{ request()->routeIs('admin.customer_care.exchangelist') ? 'active' : '' }}" href="{{ route('admin.customer_care.exchangelist') }}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-credit-card text-white text-sm opacity-10"></i>
               </div>

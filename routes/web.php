@@ -32,19 +32,25 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 
 Route::group(['middleware' => ['admin']], function () {
-    Route::post('/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
-    Route::get('/post', [LoginController::class, 'logoutAll'])->name('logout.all');
-    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
-    Route::post('/exchangeUsers', [ExchangeController::class, 'exchnageUsers'])->name('admin.exchange.userlist');
-    Route::post('/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
-    Route::get('/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
-    Route::get('/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
-    Route::get('/user', [UserController::class, 'index'])->name('admin.user.list');
-    Route::get('/customerCare1', [CustomerCareController::class, 'exchangeIndex'])->name('admin.customercare_exchange.list');    
-    Route::post('/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.list');
-    Route::post('/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');
-    Route::get('/customerCareDashboard', [CustomerCareController::class, 'customerCareIndex'])->name('admin.customer_care.dashboard');
+    Route::post('/admin/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
+    Route::get('/admin/post', [LoginController::class, 'logoutAll'])->name('logout.all');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    Route::get('/admin/exchange', [ExchangeController::class, 'index'])->name('admin.exchange.list');
+    Route::post('/admin/exchangeUsers', [ExchangeController::class, 'exchnageUsers'])->name('admin.exchange.userlist');
+    Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
+    Route::post('/admin/exchange/popStore', [ExchangeController::class, 'popDashboard'])->name('admin.exchange.popUpDashboard');
+
+    
+    Route::get('/admin/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
+    Route::get('/admin/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
+    Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');    
+    
+    Route::get('/admin/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.exchangelist');
+    Route::post('/admin/customerCare/store', [CustomerCareController::class, 'userlist'])->name('admin.customer_care.list');
+    Route::post('/admin/customerCare/popStore', [CustomerCareController::class, 'popDashboard'])->name('admin.customer_care.popUpDashboard');
+   
+    Route::post('/admin/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');    
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
     Route::get('/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
     Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
