@@ -54,7 +54,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.user.list') ? 'active' : '' }}" href="{{route('admin.user.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                <i class="ni ni-credit-card text-sm opacity-10" style="color:#acc301"></i>
               </div>
               <span class="nav-link-text ms-1">User</span>
             </a>
@@ -63,7 +63,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.reject.list') ? 'active' : '' }}" href="{{route('admin.reject.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                <i class="ni ni-credit-card  text-sm opacity-10" style="color:#acc301"></i>
               </div>
               <span class="nav-link-text ms-1">Reject</span>
             </a>
@@ -72,7 +72,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.walk.list') ? 'active' : '' }}" href="{{route('admin.walk.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                <i class="ni ni-credit-card  text-sm opacity-10" style="color:#acc301"></i>
               </div>
               <span class="nav-link-text ms-1">Walk</span>
             </a>
