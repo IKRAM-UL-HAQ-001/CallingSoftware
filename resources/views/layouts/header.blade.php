@@ -125,6 +125,7 @@
         .nav-link-text {
             font-weight: bold;
             color: #ffffff;
+            
         }
         .sidenav{
            background-color:#2a2a2a;
@@ -137,6 +138,9 @@
             /* White text color */
             font-weight: bold;
             border-radius: 5px;
+        }
+        .nav-link:hover {
+            background-color: #acc301 !important;
         }
 
         .form-control:focus {

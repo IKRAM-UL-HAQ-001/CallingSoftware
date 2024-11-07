@@ -6,7 +6,6 @@
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
                 <h2 class="mb-0">Exchange Customer Care List</h2>
                 <div>
-                    {{-- <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Customer Care</button> --}}
                 </div>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
@@ -43,40 +42,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
-                <h5 class="modal-title" id="myModalLabel" style="color:white">Add New Customer Care</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-success text-white" id='success' style="display:none;"></div>
-                <div class="alert alert-danger text-white" id='error' style="display:none;"></div>
-                <form id="form" method="post" action="{{ route('admin.customer_care.formPost') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="exchange" class="form-label">Exchange</label>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label for="user_name" class="form-label">User Name</label>
-                        <input type="text" class="form-control border px-3" id="user_name" name="user_name" placeholder="Enter Username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control border px-3" id="password" name="password" placeholder="Enter Password" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save User</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

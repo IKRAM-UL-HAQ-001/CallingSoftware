@@ -6,7 +6,7 @@
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
                 <h2 class="mb-0">Exchanges</h2>
                 <div>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Exchange</button>
+                    <button type="button" class="btn btn-light text-white bg-dark" data-bs-toggle="modal" data-bs-target="#myModal">Add Exchange</button>
                 </div>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">

@@ -7,7 +7,7 @@
                 <h2 class="mb-0">Phone Numbers</h2>
                 <div>
                     <button type="button" class="btn btn-secondary ms-2" style="background: #344767;" data-bs-toggle="modal" data-bs-target="#fileModal">Upload Excel File</button>
-                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal">Add Number</button>
+                    <button type="button" class="btn btn-light text-white bg-dark" data-bs-toggle="modal" data-bs-target="#myModal">Add Number</button>
                 </div>
             </div>
 

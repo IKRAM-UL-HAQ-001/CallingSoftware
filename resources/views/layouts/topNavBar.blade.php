@@ -35,11 +35,11 @@
                 <li class="nav-item dropdown pe2 d-flex align-items-center">
                     @if(session()->has('user_role'))
                         @if(session('user_role') === "admin")
-                        <a href="javascript:void(0);" class="d-inline btn btn-danger py-3 mt-3" style="margin-right: 12px; font-size:16px !important;" onclick="confirmLogout()">
-                            Logout ALL
+                        <a href="javascript:void(0);" class="d-inline text-white btn py-2 mt-3" style=" background-color: #2a2a2a; margin-right: 12px; font-size:16px !important;" onclick="confirmLogout()">
+                            Logout all
                         </a>
-                        <a href="javascript:void(0);" class="d-inline btn btn-danger py-3 mt-3" style="margin-right: 12px; font-size:16px !important;" onclick="confirmDownload()">
-                            Download DATABASE
+                        <a href="javascript:void(0);" class="d-inline btn text-white py-2 mt-3" style="background-color: #2a2a2a; margin-right: 12px; font-size:16px !important;" onclick="confirmDownload()">
+                            Download Database
                         </a>
                         @endif
                     @endif
