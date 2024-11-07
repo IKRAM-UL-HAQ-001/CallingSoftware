@@ -127,7 +127,7 @@
         .nav-link.active {
             background-color: #acc301 !important;
             /* Dark background color */
-            color: #ffffff !important;
+            color: #black !important;
             /* White text color */
             font-weight: bold;
             border-radius: 5px;
