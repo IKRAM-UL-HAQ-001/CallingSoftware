@@ -27,6 +27,17 @@ class AssignNumberController extends Controller
         return view('exchange.assign_number.list',compact('PhoneNumbers'));
     }
 
+    public function customercareIndex()
+    {
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $PhoneNumbers =PhoneNumber::where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->where('status', '!=', 'deactive')
+        ->get();
+        return view('customer_care.assign_number.list',compact('PhoneNumbers'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

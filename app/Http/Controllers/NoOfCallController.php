@@ -40,6 +40,17 @@ class NoOfCallController extends Controller
         return view('exchange.no_of_call.list', compact('NoOfCalls'));
     }
 
+    public function customercareIndex()
+    {
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $NoOfCalls = PhoneNumber::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)
+        ->where('status','deactive')
+        ->whereDate('created_at', Carbon::today())
+        ->get();
+        return view('customer_care.no_of_call.list', compact('NoOfCalls'));
+    }
     /**
      * Show the form for creating a new resource.
      */

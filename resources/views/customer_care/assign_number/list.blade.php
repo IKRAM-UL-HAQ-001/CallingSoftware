@@ -4,33 +4,37 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Walks</h2>
-                <div>
-                    <button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#addPhoneNumberModal" 
-                    data-id="">Form</button>
-                </div>
+                <h2 class="mb-0">Assign Phone Numbers</h2>
             </div>
+
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
                 <div class="card-body px-0 pb-2 px-3 col-12">
+                    @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <div class="table-responsive p-0">
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Name</th>
                                     <th class="text-uppercase text-secondary font-weight-bolder text-dark">Phone Number</th>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Feedback</th>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Amount</th>
-                                    <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Date and Time</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark ps-2">User Name</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark ps-2">Date and Time</th>
+                                    <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Action</th>
                                 </tr>
                             </thead>
+
                             <tbody id="DataTableBody">
-                                @foreach ($Walks as $walk)
-                                <tr data-user-id="a" data-exchange-id="a">
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->name}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->phone}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->feedback}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->amount}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$walk->created_at}}</td>
+                                @foreach ($PhoneNumbers as $phoneNumber)
+                                <tr>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->name }}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->created_at }}</td>
+                                    <td style="width: 10%; text-align: center;">
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addPhoneNumberModal" 
+                                        data-id="{{ $phoneNumber->id }}">Form</button>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -41,6 +45,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="addPhoneNumberModal" tabindex="-1" aria-labelledby="addPhoneNumberModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -74,7 +79,7 @@
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.demo_send.formPost') }}">Demo Send</button>
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.reject.formPost') }}">Reject</button>
             <button type="button" class="btn btn-warning" data-action="{{ route('exchange.refer_id.formPost') }}">Refer ID</button>
-            <button type="button" class="btn btn-success" data-action="{{ route('exchange.new_id.formPost') }}">New ID</button>
+            <button type="button" class="btn btn-success" data-action="{{ route('exchange.new_id.formPost') }}">Customer</button>
             <button type="button" class="btn btn-info" data-action="{{ route('exchange.follow_up.formPost') }}">Follow Up</button>
             <button type="button" class="btn btn-dark" data-action="{{ route('exchange.complaint.formPost') }}">Complaint</button>
             <button type="button" class="btn btn-primary" data-action="{{ route('exchange.walk.formPost') }}">Walk</button> 
@@ -83,6 +88,7 @@
         </div>
     </div>
 </div>
+
 <script>
 
     document.querySelectorAll('[data-bs-target="#addPhoneNumberModal"]').forEach(button => {
@@ -118,8 +124,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                form.reset();
+                window.location.reload();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -127,4 +132,5 @@
         });
     });
 </script>
+
 @endsection

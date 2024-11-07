@@ -92,6 +92,7 @@ class DashboardController extends Controller
         $TotalReferIdDaily = ReferId::whereDate('created_at', $today)->count();
         $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)->count();
         $TotalFollowUpDaily = FollowUp::whereDate('created_at', $today)->count();
+        $TotalNewIdDaily = NewId::whereDate('created_at', $today)->count();
         
         // Monthly metrics
         $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)->count();
@@ -103,6 +104,7 @@ class DashboardController extends Controller
         $TotalReferIdMonthly = ReferId::whereMonth('created_at', $currentMonth)->count();
         $TotalRejectMonthly = Reject::whereMonth('created_at', $currentMonth)->count();
         $TotalWalkMonthly = Walk::whereMonth('created_at', $currentMonth)->count();
+        $TotalNewIdMonthly = NewId::whereDate('created_at', $currentMonth)->count();
         
         // Prepare dashboard data
         $dailyData = [
@@ -116,6 +118,7 @@ class DashboardController extends Controller
             ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],  
             ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "New Id", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Amount ", 'value' => $TotalAmountDaily, 'icon' => "ni ni-chat-round"],
         ];
 
@@ -130,6 +133,7 @@ class DashboardController extends Controller
             ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
             ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
+            ['label' => "New Id", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
             ['label' => "Amount ", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-support-16"],
         ];
 
@@ -398,53 +402,193 @@ class DashboardController extends Controller
 
         return view('exchange.dashboard', compact('dailyData', 'monthlyData'));
     }
-
-    public function customerCareIndex()
+    public function customercareIndex()
     {
         $today = Carbon::today();
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
 
-        $TotalPhoneNumberDaily = PhoneNumber::whereDate('created_at', $today)->count();
-        $TotalNoOfCallDaily = NoOfCall::whereDate('created_at', $today)->count();
-        $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)->count();
-        $TotalPhoneNumberDaily = PhoneNumber::whereDate('created_at', $today)->count();
-        $TotalFollowUpDaily = FollowUp::whereDate('created_at', $today)->count();
-        $TotalReferIdDaily = ReferId::whereDate('created_at', $today)->count();
-        $TotalRejectDaily = Reject::whereDate('created_at', $today)->count();
-        $TotalWalkDaily = Walk::whereDate('created_at', $today)->count();
+        $exchangeId =session('exchange_id');
+        $userId =session('user_id');
+        $TotalPhoneNumberDaily = PhoneNumber::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalNoOfCallDaily = PhoneNumber::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('status','deactive')
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalDemoSendDaily = DemoSend::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalFollowUpDaily = FollowUp::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalReferIdDaily = ReferId::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalRejectDaily = Reject::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
 
+        $TotalWalkDaily = Walk::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
+        $TotalNewIdDaily = NewId::whereDate('created_at', $today)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
+        $TotalComplaintDaily = Complaint::whereMonth('created_at', $today)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
+
+        $encryptedAmountsDaily = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM new_ids WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM rejects WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM walks WHERE DATE(created_at) = CURDATE() AND exchange_id = $exchangeId AND user_id = $userId
+        ) as combined"))
+        ->pluck('amount');
+
+        $encryptedAmountsMonthly = DB::table(DB::raw("(
+            SELECT amount FROM complaints WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM demo_sends WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM follow_ups WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM new_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM refer_ids WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM rejects WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+            UNION ALL
+            SELECT amount FROM walks WHERE MONTH(created_at) = $currentMonth AND YEAR(created_at) = $currentYear AND exchange_id = $exchangeId AND user_id = $userId
+        ) as combined"))
+        ->pluck('amount');
+    
+        $TotalAmountDaily = 0;
+    
+        $TotalAmountMonthly = 0;
+        // Decrypt and sum the amounts
+        foreach ($encryptedAmountsDaily as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $TotalAmountDaily += (float)$decryptedAmount; // Sum the decrypted amount
+        }
+        foreach ($encryptedAmountsMonthly as $encryptedAmount) {
+            $decryptedAmount = $this->decryptData($encryptedAmount); // Decrypt each amount
+            $TotalAmountMonthly += (float)$decryptedAmount; // Sum the decrypted amount
+        }
         // Monthly metrics
-        $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)->count();
-        $TotalNoOfCallMonthly = NoOfCall::whereMonth('created_at', $currentMonth)->count();
-        $TotalDemoSendMonthly = DemoSend::whereMonth('created_at', $currentMonth)->count();
-        $TotalFollowUpMonthly = FollowUp::whereMonth('created_at', $currentMonth)->count();
-        $TotalReferIdMonthly = ReferId::whereMonth('created_at', $currentMonth)->count();
-        $TotalRejectMonthly = Reject::whereMonth('created_at', $currentMonth)->count();
-        $TotalWalkMonthly = Walk::whereMonth('created_at', $currentMonth)->count();
+        $TotalPhoneNumberMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalNoOfCallMonthly = PhoneNumber::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('status','deactive')
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalDemoSendMonthly = DemoSend::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalFollowUpMonthly = FollowUp::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
 
-        // Prepare dashboard data
+        $TotalReferIdMonthly = ReferId::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalRejectMonthly = Reject::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+        
+        $TotalWalkMonthly = Walk::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
+        $TotalNewIdMonthly = NewId::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
+        $TotalComplaintMonthly = Complaint::whereMonth('created_at', $currentMonth)
+        ->whereYear('created_at', $currentYear)
+        ->where('exchange_id',$exchangeId)
+        ->where('user_id',$userId)
+        ->count();
+
         $dailyData = [
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "Reject Daily ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "Walk-ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],
             ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
+            ['label' => "Reject ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
+            ['label' => "Walk-Ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "New Id", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Complaint", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $TotalAmountDaily, 'icon' => "ni ni-user-run"],
         ];
 
         $monthlyData = [
-            ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
+            ['label' => "Phone Number", 'value' => $TotalPhoneNumberMonthly, 'icon' => "ni ni-single-02"],
+            ['label' => "No Of Call", 'value' => $TotalNoOfCallMonthly, 'icon' => "ni ni-single-02"],
             ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
             ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
-            ['label' => "Rejections  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
-            ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"]
+            ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
+            ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
+            ['label' => "New Id ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "Complaint", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "Amount", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-user-run"],
         ];
-        return view('customer_care.dashboard',compact('dailyData', 'monthlyData'));
+
+        return view('customer_care.dashboard', compact('dailyData', 'monthlyData'));
     }
+
 
     /**
      * Show the form for creating a new resource.

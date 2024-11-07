@@ -32,6 +32,15 @@ class RejectController extends Controller
         return view('exchange.reject.list',compact('Rejects'));
     }
 
+    public function customercareIndex()
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $Rejects = Reject::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
+        return view('customer_care.reject.list',compact('Rejects'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

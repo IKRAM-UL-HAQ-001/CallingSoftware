@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-11 mb-xl-0 mx-auto my-5 border w-full bg-white rounded d-flex flex-column">
             <div class="d-flex justify-content-between align-items-center p-3 border-bottom mb-5">
-                <h2 class="mb-0">Customer</h2>
+                <h2 class="mb-0">No Of Calls</h2>
             </div>
             <div class="flex-grow-1 d-flex flex-column justify-content-center align-items-center col-12">
                 <div class="card-body px-0 pb-2 px-3 col-12">
@@ -12,21 +12,15 @@
                         <table id="DataTable" class="table align-items-center mb-0 table-striped table-hover px-2">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Name</th>
                                     <th class="text-uppercase text-secondary font-weight-bolder text-dark">Phone Number</th>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Feedback</th>
-                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Amount</th>
-                                    <th class="text-center text-uppercase text-secondary font-weight-bolder text-dark">Date and Time</th>
+                                    <th class="text-uppercase text-secondary font-weight-bolder text-dark">Date and Time</th>
                                 </tr>
                             </thead>
                             <tbody id="DataTableBody">
-                                @foreach ($NewIds as $NewId)
+                                @foreach ($NoOfCalls as $NoOfCall)
                                 <tr data-user-id="a" data-exchange-id="a">
-                                    <td style="width: 45%;" class="encrypted-data">{{$NewId->name}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$NewId->phone}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$NewId->feedback}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$NewId->amount}}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{$NewId->created_at}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$NoOfCall->phone_number}}</td>
+                                    <td style="width: 45%;" class="">{{$NoOfCall->created_at->format('d-m-Y H:i') }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

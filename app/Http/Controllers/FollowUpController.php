@@ -32,6 +32,15 @@ class FollowUpController extends Controller
         return view('exchange.follow_up.list',compact('FollowUps'));
     }
 
+    public function customercareIndex()
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $FollowUps = FollowUp::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
+        return view('customer_care.follow_up.list',compact('FollowUps'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

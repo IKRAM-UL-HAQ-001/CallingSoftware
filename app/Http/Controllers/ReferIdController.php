@@ -32,6 +32,14 @@ class ReferIdController extends Controller
         return view('exchange.refer_id.list',compact('ReferIds'));
     }
 
+    public function customercareIndex()
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $ReferIds = ReferId::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
+        return view('customer_care.refer_id.list',compact('ReferIds'));
+    }
     /**
      * Show the form for creating a new resource.
      */

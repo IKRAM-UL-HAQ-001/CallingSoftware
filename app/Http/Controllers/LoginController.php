@@ -72,7 +72,7 @@ class LoginController extends Controller
             ];
 
             // Add exchange to session data if the user is an exchange
-            if ($user->role === "exchange") {
+            if ($user->role === "exchange" || $user->role === "customercare") {
                 // Make sure to check if the user has an exchange related to them
                 $sessionData['exchange'] = $user->exchange->name ?? null;
                 $sessionData['exchange_id'] = $user->exchange_id ?? null;

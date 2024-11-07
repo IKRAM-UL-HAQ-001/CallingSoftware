@@ -31,6 +31,14 @@ class WalkController extends Controller
         ->where('user_id', $userId)->get();
         return view('exchange.walk.list',compact('Walks'));
     }
+    public function customercareIndex()
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $Walks = Walk::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
+        return view('customer_care.walk.list',compact('Walks'));
+    }
 
     /**
      * Show the form for creating a new resource.

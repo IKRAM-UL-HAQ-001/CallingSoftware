@@ -75,41 +75,61 @@ Route::group(['middleware' => ['assistant']], function () {
 });
 
 Route::group(['middleware' => ['exchange']], function () {
-    Route::get('/userDashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
-    Route::get('/userNumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
-    Route::get('/userAssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
+    Route::get('/user/Dashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
+    Route::get('/user/NumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
+    Route::get('/user/AssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
  
-    Route::get('/userDemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
-    Route::post('/userDemoSend/post', [DemoSendController::class, 'store'])->name('exchange.demo_send.formPost');
+    Route::get('/user/DemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
+    Route::post('/user/DemoSend/post', [DemoSendController::class, 'store'])->name('exchange.demo_send.formPost');
     
-    Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
-    Route::post('/userComplaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
+    Route::get('/user/Complaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
+    Route::post('/user/Complaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
     
-    Route::get('/userFollowup', [FollowUpController::class, 'exchangeIndex'])->name('exchange.follow_up.list');
-    Route::post('/userFollowup/post', [FollowUpController::class, 'store'])->name('exchange.follow_up.formPost');
+    Route::get('/user/Followup', [FollowUpController::class, 'exchangeIndex'])->name('exchange.follow_up.list');
+    Route::post('/user/Followup/post', [FollowUpController::class, 'store'])->name('exchange.follow_up.formPost');
     
-    Route::get('/userReject', [RejectController::class, 'exchangeIndex'])->name('exchange.reject.list');
-    Route::post('/userReject/post', [RejectController::class, 'store'])->name('exchange.reject.formPost');
+    Route::get('/user/Reject', [RejectController::class, 'exchangeIndex'])->name('exchange.reject.list');
+    Route::post('/user/Reject/post', [RejectController::class, 'store'])->name('exchange.reject.formPost');
 
-    Route::get('/userReferId', [ReferIdController::class, 'exchangeIndex'])->name('exchange.refer_id.list');
-    Route::post('/userReferId/post', [ReferIdController::class, 'store'])->name('exchange.refer_id.formPost');
+    Route::get('/user/ReferId', [ReferIdController::class, 'exchangeIndex'])->name('exchange.refer_id.list');
+    Route::post('/user/ReferId/post', [ReferIdController::class, 'store'])->name('exchange.refer_id.formPost');
 
-    Route::get('/userWalk', [WalkController::class, 'exchangeIndex'])->name('exchange.walk.list');
-    Route::post('/userWalk/post', [WalkController::class, 'store'])->name('exchange.walk.formPost');
+    Route::get('/user/Walk', [WalkController::class, 'exchangeIndex'])->name('exchange.walk.list');
+    Route::post('/user/Walk/post', [WalkController::class, 'store'])->name('exchange.walk.formPost');
 
-    Route::get('/userCustomer', [NewIdController::class, 'exchangeIndex'])->name('exchange.new_id.list');
-    Route::post('/userCustomer/post', [NewIdController::class, 'store'])->name('exchange.new_id.formPost');
+    Route::get('/user/Customer', [NewIdController::class, 'exchangeIndex'])->name('exchange.new_id.list');
+    Route::post('/user/Customer/post', [NewIdController::class, 'store'])->name('exchange.new_id.formPost');
 
-    Route::get('/userComplaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
-    Route::post('/userComplaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
+    Route::get('/user/Complaint', [ComplaintController::class, 'exchangeIndex'])->name('exchange.complaint.list');
+    Route::post('/user/Complaint/post', [ComplaintController::class, 'store'])->name('exchange.complaint.formPost');
 });
 
 Route::group(['middleware' => [ 'customercare']], function () {
-    Route::get('/customer-cares', [DashboardController::class, 'customerCareIndex'])->name('customer_care.dashboard');
-    Route::get('/complaints', [ComplaintController::class, 'customerCareIndex'])->name('customer_care.complaint.list');
-    Route::get('/followups', [FollowUpController::class, 'customerCareIndex'])->name('customer_care.follow_up.list');
-    Route::get('/rejects', [RejectController::class, 'customerCareIndex'])->name('customer_care.reject.list');
-    Route::get('/walks', [WalkController::class, 'customerCareIndex'])->name('customer_care.walk.list');
+    Route::get('/customercare/Dashboard', [DashboardController::class, 'customercareIndex'])->name('customer_care.dashboard');
+    Route::get('/customercare/NumberOfCall', [NoOfCallController::class, 'customercareIndex'])->name('customer_care.no_of_call.list');
+    Route::get('/customercare/AssignNumebr', [AssignNumberController::class, 'customercareIndex'])->name('customer_care.assign_number.list');
+ 
+    Route::get('/customercare/DemoSend', [DemoSendController::class, 'customercareIndex'])->name('customer_care.demo_send.list');
+    Route::post('/customercare/DemoSend/post', [DemoSendController::class, 'store'])->name('customer_care.demo_send.formPost');
+    
+    Route::get('/customercare/Complaint', [ComplaintController::class, 'customercareIndex'])->name('customer_care.complaint.list');
+    Route::post('/customercare/Complaint/post', [ComplaintController::class, 'store'])->name('customer_care.complaint.formPost');
+    
+    Route::get('/customercare/Followup', [FollowUpController::class, 'customercareIndex'])->name('customer_care.follow_up.list');
+    Route::post('/customercare/Followup/post', [FollowUpController::class, 'store'])->name('customer_care.follow_up.formPost');
+    
+    Route::get('/customercare/Reject', [RejectController::class, 'customercareIndex'])->name('customer_care.reject.list');
+    Route::post('/customercare/Reject/post', [RejectController::class, 'store'])->name('customer_care.reject.formPost');
+
+    Route::get('/customercare/ReferId', [ReferIdController::class, 'customercareIndex'])->name('customer_care.refer_id.list');
+    Route::post('/customercare/ReferId/post', [ReferIdController::class, 'store'])->name('customercare.refer_id.formPost');
+
+    Route::get('/customercare/Walk', [WalkController::class, 'customercareIndex'])->name('customer_care.walk.list');
+    Route::post('/customercare/Walk/post', [WalkController::class, 'store'])->name('customercare.walk.formPost');
+
+    Route::get('/customercare/NewId', [NewIdController::class, 'customercareIndex'])->name('customer_care.new_id.list');
+    Route::post('/customercare/NewId/post', [NewIdController::class, 'store'])->name('customercare.new_id.formPost');
+
 });
 
 

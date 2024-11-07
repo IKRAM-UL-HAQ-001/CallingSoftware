@@ -34,7 +34,11 @@ class ComplaintController extends Controller
     }
 
     public function customercareIndex()
-    {    $Complaints = Complaint::all();
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $Complaints = Complaint::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
         return view('customer_care.complaint.list',compact('Complaints'));
     }
     /**

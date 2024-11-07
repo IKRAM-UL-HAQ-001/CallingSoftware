@@ -28,6 +28,14 @@ class NewIdController extends Controller
         ->where('user_id', $userId)->get();
         return view('exchange.new_id.list',compact('NewIds'));
     }
+    public function customercareIndex()
+    {   
+        $exchangeId = session('exchange_id');
+        $userId = session('user_id');
+        $NewIds = NewId::where('exchange_id', $exchangeId)
+        ->where('user_id', $userId)->get();
+        return view('customer_care.new_id.list',compact('NewIds'));
+    }
 
     public function store(Request $request)
     {
