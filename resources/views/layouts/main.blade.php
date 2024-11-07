@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 @include("layouts.header")
-<body class="g-sidenav-show   bg-gray" style="background: lightgray;">
-    
+<body class="g-sidenav-show">
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0;">
+        <div style="
+            width: 100%; 
+            height: 100%; 
+            background-image: url('../assets/img/pxfuel.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            opacity: 0.6;">
+        </div>
+    </div>   
     {{-- style="background:#5e72e4;" --}}
     <div class="min-height-300 position-absolute w-100" style="background:#acc301;"></div>
     @include("layouts.sideNavBar")
