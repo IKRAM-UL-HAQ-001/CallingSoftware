@@ -17,8 +17,8 @@ $userRole = session('user_role'); // Retrieve the user role from the session
         @if(session('user_role') === "admin")
           <li class="nav-item">
             <a class="nav-link  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{route('admin.dashboard')}}">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center" >
+                <i class="ni ni-tv-2 text-white text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Dashboard</span>
             </a>
@@ -27,7 +27,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.exchange.list') ? 'active' : '' }}" href="{{route('admin.exchange.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+                <i class="ni ni-calendar-grid-58 text-white text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Exchange</span>
             </a>
@@ -36,7 +36,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.phone_number.list') ? 'active' : '' }}" href="{{route('admin.phone_number.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                <i class="ni ni-credit-card text-white text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Phone Numbers</span>
             </a>
@@ -45,7 +45,7 @@ $userRole = session('user_role'); // Retrieve the user role from the session
           <li class="nav-item">
             <a class="nav-link {{ request()->routeIs('admin.no_of_call.list') ? 'active' : '' }}" href="{{route('admin.no_of_call.list')}}">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-credit-card text-dark text-sm opacity-10"></i>
+                <i class="ni ni-credit-card text-white text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">No of Call</span>
             </a>
