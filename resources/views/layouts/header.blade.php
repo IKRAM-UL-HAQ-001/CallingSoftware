@@ -123,6 +123,10 @@
 
         .nav-link-text {
             font-weight: bold;
+            color: #ffffff;
+        }
+        .sidenav{
+           background-color:#2a2a2a;
         }
 
         .nav-link.active {
