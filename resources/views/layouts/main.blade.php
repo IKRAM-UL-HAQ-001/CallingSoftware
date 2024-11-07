@@ -9,7 +9,7 @@
             background-image: url('../assets/img/pxfuel.jpg'); 
             background-size: cover; 
             background-position: center; 
-            opacity: 0.6;">
+            opacity: 0.7;">
         </div>
     </div>   
     {{-- style="background:#5e72e4;" --}}
