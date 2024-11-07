@@ -21,6 +21,7 @@
             #sidenav-main {
                 display: none;
                 transition: left 1s linear;
+                background-color: black;
             }
 
             .show-sidebar {
@@ -127,7 +128,7 @@
         .nav-link.active {
             background-color: #acc301 !important;
             /* Dark background color */
-            color: #black !important;
+            color: #ffffff !important;
             /* White text color */
             font-weight: bold;
             border-radius: 5px;
