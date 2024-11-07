@@ -19,8 +19,8 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: white">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder" style="color: white">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: black">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color: black">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -46,8 +46,8 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: white">{{ $data['label'] }}</p>
-                                <h5 class="font-weight-bolder" style="color: white">{{ $data['value'] }}</h5>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color: black">{{ $data['label'] }}</p>
+                                <h5 class="font-weight-bolder" style="color: black">{{ $data['value'] }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
