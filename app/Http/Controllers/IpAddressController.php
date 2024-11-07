@@ -4,62 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\IpAddress;
 use Illuminate\Http\Request;
+use App\Models\Otp;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class IpAddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function showOtpForm()
     {
-        //
+        return view('otp_form');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function verifyAndLogIp(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'otp' => 'required|numeric',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $otp = $request->input('otp');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(IpAddress $ipAddress)
-    {
-        //
-    }
+        $otpRecord = Otp::where('otp', $otp)
+            ->where('otp_exp', '>', Carbon::now()) 
+            ->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(IpAddress $ipAddress)
-    {
-        //
-    }
+        if ($otpRecord) {
+            $response = Http::get('https://api.ipify.org');
+            $publicIp = (string) $response->body();  
+            $ip = new IpAddress();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, IpAddress $ipAddress)
-    {
-        //
-    }
+            $ip->ipAddress = $publicIp;
+            $ip->save();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(IpAddress $ipAddress)
-    {
-        //
+            return redirect()->route('auth.login')->with('success', 'OTP verified and IP address logged.');
+        } else {
+            return back()->withErrors(['otp' => 'Invalid or expired OTP, please try again.']);
+        }
     }
 }

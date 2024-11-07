@@ -19,7 +19,7 @@ use App\Http\Controllers\NoOfCallController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TotalAmountController;
 use App\Http\Controllers\NewIdController;
-
+use App\Http\Controllers\IpAddressController;
 
 
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
@@ -146,3 +146,6 @@ Route::group(['middleware' => [ 'customercare']], function () {
 
 
 
+Route::get('/enter-otp', [IpAddressController::class, 'showOtpForm'])->name('otp.form');
+
+Route::post('/verify-otp', [IpAddressController::class, 'verifyAndLogIp'])->name('otp.verify');

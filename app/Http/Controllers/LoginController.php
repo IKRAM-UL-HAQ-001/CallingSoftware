@@ -5,9 +5,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exchange;
 use App\Models\User;
+use App\Models\IpAddress;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use DB;
+
+
+
+
+
 class LoginController extends Controller
 {
 
@@ -19,12 +26,22 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        $publicIp = Http::get('https://api.ipify.org')->body();
+    
+        $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
+
+        if (!$existingIp) {
+            return back()->withErrors(['error' => 'Your IP Address is not registered.']);
+        }
+
+
         $request->validate([
             'name' => 'required|string|max:255',
             'password' => 'required',
             'role' => 'nullable',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
+
 
         $name = $request->name;
         $password = $request->password;
@@ -35,6 +52,8 @@ class LoginController extends Controller
         {
             return back()->withErrors(['error' => 'You are not Authorized by Admin.']);
         }
+
+
 
         if ($user && $request->password === $user->password) { 
          // Set session data based on user role

@@ -4,23 +4,55 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpMail;
+use App\Models\Otp;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
+
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
-    protected function schedule(Schedule $schedule): void
+
+
+
+    protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $generateUniqueOtp = function () {
+                do {
+                    $otp = rand(100000, 999999);
+                } while (\App\Models\Otp::where('otp', $otp)->exists());
+
+                return $otp;
+            };
+
+            $emails = ['fawdmuhammad14@gmail.com'];
+
+            foreach ($emails as $email) {
+                $otp = $generateUniqueOtp();
+                $expiration = \Illuminate\Support\Carbon::now()->addHour();
+
+                \App\Models\Otp::create([
+                    'otp' => $otp,
+                    'otp_exp' => $expiration,
+                ]);
+
+                \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\OtpMail($otp));
+            }
+        })->dailyAt('08:00');  
+
+
+        $schedule->call(function () {
+            \App\Models\IpAddress::truncate(); 
+        })->dailyAt('22:00');
     }
 
-    /**
-     * Register the commands for the application.
-     */
+
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
