@@ -4,13 +4,14 @@
 <div class="container-fluid py-4">
     <!-- Introductory banner -->
     <div class="row">
-        <div class="col-11 mb-xl-0 mx-auto my-5 border w-full rounded text-center d-flex justify-content-center align-items-center" style="height:200px; height: 200px; background: url('{{ asset('assets/img/bg.png') }}') no-repeat center center; background-size: cover;">
-            <h1 class="display-4 display-md-3 display-lg-2" style="color: #acc301; font-weight:bold">Call Center Software</h1>        
+        {{-- <div class="col-11 mb-xl-0 mx-auto my-5 border w-full rounded text-center d-flex justify-content-center align-items-center" style="height:200px; height: 200px; background: url('{{ asset('assets/img/bg.png') }}') no-repeat center center; background-size: cover;"> --}}
+        <div class="col-8 mb-xl-0 mx-auto my-5 border w-full rounded text-center d-flex justify-content-center align-items-center" style="height:200px; height: 200px;background-color:black">
+            <h1 class="display-4 display-md-3 display-lg-2" style="color: #acc301; font-weight:bold;">Call Center Software</h1>
         </div>
     </div>
 
     <!-- Daily Metrics Section -->
-    <h3 class="text-uppercase text-center mt-5 mb-2">Daily Metrics</h3>
+    <h3 class="text-uppercase text-center mt-5 mb-2" style="color: #acc301;font-weight:bold;">Daily Metrics</h3>
     <div class="row mt-5">
         @foreach ($dailyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4">
@@ -37,7 +38,7 @@
     </div>
 
     <!-- Monthly Metrics Section -->
-    <h3 class="text-uppercase text-center mt-5 mb-2">Monthly Metrics</h3>
+    <h3 class="text-uppercase text-center mt-5 mb-2" style="color: #acc301;font-weight:bold;">Monthly Metrics</h3>
     <div class="row mt-5">
         @foreach ($monthlyData as $data)
         <div class="col-xl-4 col-sm-6 mb-xl-0 my-4 ">
