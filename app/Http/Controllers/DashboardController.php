@@ -378,7 +378,7 @@ class DashboardController extends Controller
             ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Reject ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Walk-Ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "Customer", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "New Id", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Amount", 'value' => $TotalAmountDaily, 'icon' => "ni ni-user-run"],
         ];
@@ -391,7 +391,7 @@ class DashboardController extends Controller
             ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
             ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
             ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
-            ['label' => "Customer ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
+            ['label' => "New Id ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
             ['label' => "Complaint", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-user-run"],
             ['label' => "Amount", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-user-run"],
         ];
