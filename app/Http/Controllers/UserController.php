@@ -60,4 +60,14 @@ class UserController extends Controller
             return redirect()->back();
         }
     }
+
+    public function userStatus(Request $request)
+    {
+        $user = User::find($request->userId);
+
+        $user->status = $request->status;
+        $user->save();
+
+        return redirect()->back();
+    }
 }

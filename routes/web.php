@@ -32,6 +32,7 @@ Route::get('/auth/logout', [LoginController::class, 'logout'])->name('login.logo
 
 
 Route::group(['middleware' => ['admin']], function () {
+    
     Route::post('/admin/passwordUpdate', [LoginController::class, 'update'])->name('password.update');
     Route::get('/admin/post', [LoginController::class, 'logoutAll'])->name('logout.all');
     Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -44,8 +45,10 @@ Route::group(['middleware' => ['admin']], function () {
     
     Route::get('/admin/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
     Route::get('/admin/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
-    Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');    
     
+    Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');    
+    Route::post('/admin/user/status', [UserController::class, 'userStatus'])->name('admin.user.status');
+
     Route::get('/admin/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.exchangelist');
     Route::post('/admin/customerCare/store', [CustomerCareController::class, 'userlist'])->name('admin.customer_care.list');
     Route::post('/admin/customerCare/popStore', [CustomerCareController::class, 'popDashboard'])->name('admin.customer_care.popUpDashboard');

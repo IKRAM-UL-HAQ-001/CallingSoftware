@@ -31,57 +31,26 @@ class LoginController extends Controller
 
         $user = User::where('name', $name)->first();
 
-        if ($user && $request->password === $user->password) { 
-    //         if ($user->role=="admin") {
-    //             $sessionData = [
-    //                 'user_role' => $user->role,
-    //                 'name' => $user->name
-    //             ];
-    //             $request->session()->put($sessionData);
-    //                 return redirect()->route('admin.dashboard');
-    //         }elseif ($user->role=="assistant") {
-    //             $sessionData = [
-    //                 'user_role' => $user->role,
-    //                 'name' => $user->name
-    //             ];
-    //             $request->session()->put($sessionData);
-    //             return redirect()->route('assistant.dashboard');
-    //         }elseif ($user->role=="exchange"){
-    //             $sessionData = [
-    //                 'user_role' => $user->role,
-    //                 'name' => $user->name,
-    //                 'exchange' => $user->exchnage->name
-    //             ];
-    //             $request->session()->put($sessionData);
-    //             return redirect()->route('user.dashboard');
-    //         }
-    //     }
+        if($user->status == 'deactive')
+        {
+            return back()->withErrors(['error' => 'You are not Authorized by Admin.']);
+        }
 
-    //     return back()
-    //         ->withErrors([
-    //             'name' => 'The provided credentials do not match our records.',
-    //         ])
-    //         ->withInput($request->only('name'))
-    //         ->header('X-Frame-Options', 'DENY') // Prevents framing
-    //         ->header('Content-Security-Policy', "frame-ancestors 'self'"); // Allows framing only from the same origin
-    // }
+        if ($user && $request->password === $user->password) { 
          // Set session data based on user role
             $sessionData = [
                 'user_role' => $user->role,
                 'name' => $user->name,
             ];
-
             // Add exchange to session data if the user is an exchange
             if ($user->role === "exchange" || $user->role === "customercare") {
                 // Make sure to check if the user has an exchange related to them
                 $sessionData['exchange'] = $user->exchange->name ?? null;
                 $sessionData['exchange_id'] = $user->exchange_id ?? null;
                 $sessionData['user_id'] = $user->id ?? null;
-            }
-            
+            }            
             // Store session data
             $request->session()->put($sessionData);
-            
             // Redirect based on user role
             switch ($user->role) {
                 case 'admin':

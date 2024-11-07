@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('password')->nullable();
             $table->string('role')->nullable();
+            $table->string('ipAddress_status')->nullable();
+            $table->string('status');
             $table->unsignedBigInteger('exchange_id')->nullable();
             $table->foreign('exchange_id')->references('id')->on('exchanges')->onDelete('cascade');
-            $table->string('ipAddress_status')->nullable();
+
             $table->timestamps();
         });
     }
