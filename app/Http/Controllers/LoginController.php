@@ -27,7 +27,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $publicIp = Http::get('https://api.ipify.org')->body();
-    
+        dd($publicIp);
         $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
         
         if (!$existingIp ) {
