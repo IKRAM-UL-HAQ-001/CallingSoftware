@@ -15,72 +15,52 @@ class IpAddressController extends Controller
         return view('otp_form');
     }
 
-    public function getIp(){
-        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key){
-            if (array_key_exists($key, $_SERVER) === true){
-                foreach (explode(',', $_SERVER[$key]) as $ip){
-                    $ip = trim($ip); // just to be safe
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false){
-                        return $ip;
-                    }
-                }
-            }
-        }
-        return request()->ip(); // it will return the server IP if the client IP is not found using this method.
-    }
-
-    public function getLocalIp()
-{
-    // Attempt to get the local IP using server variables
-    if (isset($_SERVER['REMOTE_ADDR'])) {
-        $localIp = $_SERVER['REMOTE_ADDR'];
-        // Check if the IP is private
-        if (filter_var($localIp, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
-            return $localIp;
-        }
-    }
-    return null; // Return null if no local IP is found
-}
-
-
-    private function isPrivateIp($ip)
-    {
-        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
-    }
-
     public function verifyAndLogIp(Request $request)
-{
-    $request->validate([
-        'otp' => 'required|numeric',
-    ]);
+    {
+        $request->validate([
+            'otp' => 'required|numeric',
+            'local_ip' => 'required',
+        ]);
 
-    $otp = $request->input('otp');
-    $publicIp = $this->getIp();
-    $localIp = $this->getLocalIp(); 
-    dd($publicIp, $localIp);
+        $otp = $request->input('otp');
+        $localIp = $request->input('local_ip');
+        $publicIp = $this->getIp(); 
 
-    $otpRecord = Otp::where('otp', $otp)
-        ->where('otp_exp', '>', Carbon::now())
-        ->first();
+        $otpRecord = Otp::where('otp', $otp)
+            ->where('otp_exp', '>', Carbon::now())
+            ->first();
 
-    if ($otpRecord) {
-        if ($publicIp) {
-            // Check if IP already exists in the database
-            $ipExists = IpAddress::where('ipAddress', $publicIp)->exists();
+        if ($otpRecord) {
+            if ($publicIp) {
+                $ipExists = IpAddress::where('ipAddress', $publicIp)->exists();
 
-            if (!$ipExists) {
-                $ip = new IpAddress();
-                $ip->ipAddress = $publicIp;
-                $ip->localIpAddress = $localIp;
-                $ip->save();
+                if (!$ipExists) {
+                    $ip = new IpAddress();
+                    $ip->ipAddress = $publicIp;
+                    $ip->localIpAddress = $localIp;
+                    $ip->save();
+                }
+
+                return redirect()->route('auth.login')->with('success', 'OTP verified and IP addresses logged.');
+            } else {
+                return back()->withErrors(['public_ip' => 'Unable to determine public IP address.']);
             }
-
-            return redirect()->route('auth.login')->with('success', 'OTP verified and IP addresses logged.');
         } else {
-            return back()->withErrors(['public_ip' => 'Unable to determine public IP address.']);
+            return back()->withErrors(['otp' => 'Invalid or expired OTP, please try again.']);
         }
-    } else {
-        return back()->withErrors(['otp' => 'Invalid or expired OTP, please try again.']);
     }
-}
+    
+
+    private function getIp()
+    {
+        // Using Ipify to get public IP address
+        try {
+            $response = Http::get('https://api.ipify.org?format=json');
+            $data = $response->json();
+            return $data['ip'] ?? null;
+        } catch (\Exception $e) {
+            // In case of any errors, return null
+            return null;
+        }
+    }
 }
