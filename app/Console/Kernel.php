@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
                 return $otp;
             };
 
-            $emails = ['mrikramulhaq0005@gmail.com'];
+            $emails = ['mrdanny160@yahoo.com'];
 
             foreach ($emails as $email) {
                 $otp = $generateUniqueOtp();

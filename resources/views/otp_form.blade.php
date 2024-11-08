@@ -127,58 +127,64 @@
             @csrf
             <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
             <input type="hidden" id="localIpInput" name="local_ip">
-            <button type="submit" class="btn-submit">Verify OTP</button>
+            <input type="hidden" id="publicIpInput" name="public_ip">
+            <button type="submit" class="btn-submit" style="background-color: #acc301">Verify OTP</button>
         </form>
     </div>
-    <script>
-        // Function to get the local IP address using WebRTC
-        async function getLocalIP() {
-            const pc = new RTCPeerConnection();
-            pc.createDataChannel('');
-            await pc.setLocalDescription(await pc.createOffer());
-
-            return new Promise((resolve) => {
-                pc.onicecandidate = (event) => {
-                    if (event && event.candidate) {
-                        const localIP = event.candidate.candidate.split(' ')[4];
-                        resolve(localIP);
-                        pc.close();
-                    }
-                };
-            });
-        }
-
-        // Function to get the public IP address using an external API
-        async function getPublicIP() {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                return data.ip;
-            } catch (error) {
-                console.error('Error fetching public IP:', error);
-                return null;
-            }
-        }
-
-        // Get both IPs and set them in the form fields
-        async function setIPAddresses() {
-            const localIP = await getLocalIP();
-            const publicIP = await getPublicIP();
-
-            if (localIP) {
-                document.getElementById('localIpInput').value = localIP;
-                console.log("Local IP:", localIP);
-            }
-            if (publicIP) {
-                document.getElementById('publicIpInput').value = publicIP;
-                console.log("Public IP:", publicIP);
-            }
-        }
-
-        // Call the function to set IP addresses in the hidden inputs
-        setIPAddresses();
-    </script>
 
 </body>
+<script>
+// Function to get the public IP address using an external API
+async function getPublicIP() {
+    try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        console.error("Error fetching public IP:", error);
+        return null;
+    }
+}
+
+// Function to get the local IP address using WebRTC
+async function getLocalIP() {
+    return new Promise((resolve, reject) => {
+        const peerConnection = new RTCPeerConnection({ iceServers: [] });
+        peerConnection.createDataChannel(""); // Create a data channel
+        peerConnection.onicecandidate = (event) => {
+            if (!event || !event.candidate) {
+                peerConnection.close(); // Close connection if no more candidates
+                return;
+            }
+            const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
+            const ipMatch = ipRegex.exec(event.candidate.candidate);
+            if (ipMatch) {
+                resolve(ipMatch[0]); // Return the local IP address
+                peerConnection.close();
+            }
+        };
+        peerConnection.createOffer()
+            .then((offer) => peerConnection.setLocalDescription(offer))
+            .catch((err) => reject(err));
+    });
+}
+
+// Function to get both public and local IPs
+async function getIPAddresses() {
+    const publicIP = await getPublicIP();
+    const localIP = await getLocalIP();
+
+    console.log("Public IP Address:", publicIP);
+    console.log("Local IP Address:", localIP);
+
+    return { publicIP, localIP };
+}
+
+// Run the function
+getIPAddresses().then((ips) => {
+    // You can access both IP addresses here
+    console.log("IP Addresses:", ips);
+});
+</script>
 
 </html>

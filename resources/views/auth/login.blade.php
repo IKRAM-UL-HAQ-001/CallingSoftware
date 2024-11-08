@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CallignSoftware</title>
+    <title>Frank Calling Management</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -34,7 +34,7 @@
                         <div class="col-xl-6 centercol-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto " style="background: #acc301; border-radius: 10px; " >
                             <div class="card card-plain" >
                                 <div class="card-header pb-0 text-start" style="background-color: transparent; color:white">
-                                    <h4 class="font-weight-bolder text-white display-4" style="color: ; text-align:center;">Frank Calling Software</h4>
+                                    <h4 class="font-weight-bolder text-white display-4" style="color: ; text-align:center;">Frank Calling Management</h4>
                                     {{-- <p class="mb-0 display-6" style=" font-size:18px;"">Enter your User Name and password to sign in</p> --}}
                                 </div>
                                 <div class="card-body">
