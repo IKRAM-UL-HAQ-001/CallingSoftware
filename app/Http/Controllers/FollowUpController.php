@@ -124,8 +124,22 @@ class FollowUpController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FollowUp $followUp)
+    public function destroy(Request $request)
     {
-        //
+        $followUp = FollowUp::find($request->id);
+        if ($followUp) {
+            $followUp->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

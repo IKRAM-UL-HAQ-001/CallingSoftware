@@ -21,7 +21,7 @@
                                 <tr data-user-id="a" data-exchange-id="a">
                                     <td style="width: 45%;" class="encrypted-data">{{$totalAmount->id}}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
+                                        <button class="btn btn-danger btn-sm" >Delete</button>
                                         <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
                                     </td>
                                 </tr>

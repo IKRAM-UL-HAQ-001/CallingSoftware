@@ -70,4 +70,22 @@ class UserController extends Controller
 
         return redirect()->back();
     }
+    public function destroy(Request $request)
+    {
+        $user = User::find($request->id);
+        if ($user) {
+            $user->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
+    }
 }

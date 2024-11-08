@@ -22,15 +22,19 @@
                             <tbody id="DataTableBody">
                                 @foreach ($Exchanges as $exchange)
                                 <tr data-exchange-id="{{ $exchange->id }}">
-                                    <td style="width: 45%;" class="text-dark encrypted-data">{{ $exchange->name }}</td>
-                                    <td style="width: 10%; text-align: center;">
+                                    <td style="width:50%;" class="text-dark encrypted-data">{{ $exchange->name }}</td>
+                                    <td style=";" class="d-flex flex-row">
                                         <form action="{{ route('admin.exchange.userlist') }}" method="POST" style="display:inline;">
                                             @csrf
                                             <input type="hidden" value="{{$exchange->id}}" name="id">
-                                            <button type="submit" class="btn btn-danger btn-sm">Exchange user list</button>
+                                            <button type="submit" class="btn btn-danger btn-sm mx-2">Exchange user list</button>
                                         </form>
-                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <form method="POST" action="{{route('admin.exchange.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$exchange->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm mx-2">Delete</button>
+                                        </form>
+                                        <button class="btn btn-warning btn-sm mx-2" onclick="EditId(this)">Edit</button>
                                     </td>
                                 </tr>
                                 @endforeach

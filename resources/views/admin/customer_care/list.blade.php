@@ -27,14 +27,17 @@
                             <tbody id="DataTableBody">
                                 @foreach ($CustomerCares as $CustomerCare)
                                 <tr>
-                                    <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->name }}</td>
-                                    <td style="width: 45%;" class="encrypted-data">{{ $CustomerCare->created_at }}</td>
+                                    <td style="width: 25%;" class="encrypted-data">{{ $CustomerCare->name }}</td>
+                                    <td style="width: 25%;" class="encrypted-data">{{ $CustomerCare->created_at }}</td>
                                     {{-- class="d-flex flex-wrap justify-content-center" --}}
-                                    <td style="width: 10%; text-align: center;" >
-                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dashboardModal" onclick="loadDashboard({{ $CustomerCare->id }},{{ $CustomerCare->exchange_id }})" style="background:#acc301;">Dashboard</button>
-                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Daily</button>
-                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Weekly</button>
-                                        <button class="btn btn-danger btn-sm text-white bg-dark" >Excel Monthly</button>
+                                    <td style="width:50%; text-align: center;" class="d-flex flex-row">
+                                        <button class="btn btn-danger btn-sm mx-2" data-bs-toggle="modal" data-bs-target="#dashboardModal" onclick="loadDashboard({{ $CustomerCare->id }},{{ $CustomerCare->exchange_id }})" style="background:#acc301;">Dashboard</button>
+                                        <form method="POST" action="{{route('admin.customer_care.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$CustomerCare->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm mx-2">Delete</button>
+                                        </form>
+                                        <button class="btn btn-danger btn-sm text-white bg-dark mx-2" >Excel</button>
                                     </td>
                                 </tr>
                                 @endforeach

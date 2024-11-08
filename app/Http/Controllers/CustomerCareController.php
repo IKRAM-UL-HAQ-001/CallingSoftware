@@ -81,6 +81,7 @@ class CustomerCareController extends Controller
             $user->password = $encryptedPassword;
             $user->exchange_id = $encryptedExchange;
             $user->role = 'customercare';
+            $user->status = 'active';
             $user->save();
 
             return redirect()->route('admin.customercare_exchange.list');
@@ -264,9 +265,9 @@ class CustomerCareController extends Controller
         $dailyData = [
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],
+            ['label' => "Demo Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],
             ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
-            ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
+            ['label' => "Refer Ids ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Reject ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Walk-Ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
             ['label' => "New Id", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
@@ -277,9 +278,9 @@ class CustomerCareController extends Controller
         $monthlyData = [
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberMonthly, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallMonthly, 'icon' => "ni ni-single-02"],
-            ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
+            ['label' => "Demo Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
-            ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
+            ['label' => "Refer Ids  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
             ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
             ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
             ['label' => "New Id ", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
@@ -318,8 +319,22 @@ class CustomerCareController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CustomerCare $customerCare)
+    public function destroy(Request $request)
     {
-        //
+        $customercare = User::find($request->id);
+        if ($customercare) {
+            $customercare->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

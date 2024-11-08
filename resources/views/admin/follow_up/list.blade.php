@@ -29,8 +29,11 @@
                                     <td style="width: 45%;" class="encrypted-data">{{$FollowUp->amount}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$FollowUp->created_at}}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <form method="POST" action="{{route('admin.follow_up.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$FollowUp->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

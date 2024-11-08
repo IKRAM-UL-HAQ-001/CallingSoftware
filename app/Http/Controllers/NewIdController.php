@@ -109,8 +109,22 @@ class NewIdController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(NewId $newId)
+    public function destroy(Request $request)
     {
-        //
+        $newId = NewId::find($request->id);
+        if ($newId) {
+            $newId->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

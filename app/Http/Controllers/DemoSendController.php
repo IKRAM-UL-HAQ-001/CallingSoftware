@@ -75,8 +75,8 @@ class DemoSendController extends Controller
             $demoSend->exchange_id = $exchangeId;
             $demoSend->user_id = $userId;
             $demoSend->save();
-            
             $record = PhoneNumber::where('id', $PhoneId)
+            
             ->where('user_id', $userId)
             ->where('exchange_id', $exchangeId)
             ->first();
@@ -117,8 +117,22 @@ class DemoSendController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DemoSend $demoSend)
+    public function destroy(Request $request)
     {
-        //
+        $demoSend = DemoSend::find($request->id);
+        if ($demoSend) {
+            $demoSend->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

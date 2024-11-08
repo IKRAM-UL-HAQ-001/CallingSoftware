@@ -94,8 +94,22 @@ class NoOfCallController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(NoOFCall $noOFCall)
+    public function destroy(Request $request)
     {
-        //
+        $noOfCall = NoOfCall::find($request->id);
+        if ($noOfCall) {
+            $noOfCall->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

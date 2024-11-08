@@ -40,8 +40,11 @@
                                     <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->phone_number }}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{ $phoneNumber->user->name }}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="deleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <form method="POST" action="{{route('admin.phone_number.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$phoneNumber->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

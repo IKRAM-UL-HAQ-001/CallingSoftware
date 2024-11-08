@@ -41,27 +41,47 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('/admin/exchangeUsers', [ExchangeController::class, 'exchnageUsers'])->name('admin.exchange.userlist');
     Route::post('/admin/exchange/post', [ExchangeController::class, 'store'])->name('admin.exchange.formPost');
     Route::post('/admin/exchange/popStore', [ExchangeController::class, 'popDashboard'])->name('admin.exchange.popUpDashboard');
-
+    Route::post('/admin/exchange/delete', [ExchangeController::class, 'destroy'])->name('admin.exchange.delete');
     
     Route::get('/admin/phoneNumber', [PhoneNumberController::class, 'index'])->name('admin.phone_number.list');
+    Route::post('/admin/phoneNumber/delete', [PhoneNumberController::class, 'destroy'])->name('admin.phone_number.delete');
+
     Route::get('/admin/numberOfCall', [NoOfCallController::class, 'index'])->name('admin.no_of_call.list');
-    
+    Route::post('/admin/numberOfCall/delete', [NoOfCallController::class, 'destroy'])->name('admin.no_of_call.delete');
+
     Route::get('/admin/user', [UserController::class, 'index'])->name('admin.user.list');    
     Route::post('/admin/user/status', [UserController::class, 'userStatus'])->name('admin.user.status');
+    Route::post('/admin/user/delete', [UserController::class, 'destroy'])->name('admin.user.delete');
 
     Route::get('/admin/customerCare', [CustomerCareController::class, 'index'])->name('admin.customer_care.exchangelist');
     Route::post('/admin/customerCare/store', [CustomerCareController::class, 'userlist'])->name('admin.customer_care.list');
     Route::post('/admin/customerCare/popStore', [CustomerCareController::class, 'popDashboard'])->name('admin.customer_care.popUpDashboard');
+    Route::post('/admin/customerCare/delete', [CustomerCareController::class, 'destroy'])->name('admin.customer_care.delete');
    
     Route::post('/admin/customerCare/post', [CustomerCareController::class, 'store'])->name('admin.customer_care.formPost');    
     Route::post('/user/post', [UserController::class, 'store'])->name('admin.user.formPost');
-    Route::get('/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
-    Route::get('/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
-    Route::get('/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
-    Route::get('/reject', [RejectController::class, 'index'])->name('admin.reject.list');
-    Route::get('/NewId', [NewIdController::class, 'index'])->name('admin.new_id.list');
-    Route::get('/referId', [ReferIdController::class, 'index'])->name('admin.refer_id.list');
-    Route::get('/walk', [WalkController::class, 'index'])->name('admin.walk.list');
+
+    Route::get('/admin/demoSend', [DemoSendController::class, 'index'])->name('admin.demo_send.list');
+    Route::post('/admin/demoSend/post', [DemoSendController::class, 'destroy'])->name('admin.demo_send.delete');
+
+    Route::get('/admin/complaint', [ComplaintController::class, 'index'])->name('admin.complaint.list');
+    Route::post('/admin/complaint/post', [ComplaintController::class, 'destroy'])->name('admin.complaint.delete');
+    
+    Route::get('/admin/followup', [FollowUpController::class, 'index'])->name('admin.follow_up.list');
+    Route::post('/admin/followup/post', [FollowUpController::class, 'destroy'])->name('admin.follow_up.delete');
+    
+    Route::get('/admin/reject', [RejectController::class, 'index'])->name('admin.reject.list');
+    Route::post('/admin/reject/post', [RejectController::class, 'destroy'])->name('admin.reject.delete');
+    
+    Route::get('/admin/NewId', [NewIdController::class, 'index'])->name('admin.new_id.list');
+    Route::post('/admin/NewId/post', [NewIdController::class, 'destroy'])->name('admin.New_id.delete');
+
+    Route::get('/admin/referId', [ReferIdController::class, 'index'])->name('admin.refer_id.list');
+    Route::post('/admin/referId/post', [ReferIdController::class, 'destroy'])->name('admin.refer_id.delete');
+
+    Route::get('/admin/walk', [WalkController::class, 'index'])->name('admin.walk.list');
+    Route::post('/admin/walk/post', [WalkController::class, 'destroy'])->name('admin.walk.delete');
+
     Route::get('/totalCall', [TotalCallController::class, 'index'])->name('admin.total_call.list');
     // Route::get('/totalAmount', [TotalAmountController::class, 'index'])->name('admin.amount.list');
     Route::post('/admin/phoneNumber/filePost', [PhoneNumberController::class, 'fileStore'])->name('admin.phone_number.filePost');
@@ -88,7 +108,7 @@ Route::group(['middleware' => ['assistant']], function () {
 Route::group(['middleware' => ['exchange']], function () {
     Route::get('/user/Dashboard', [DashboardController::class, 'exchangeIndex'])->name('exchange.dashboard');
     Route::get('/user/NumberOfCall', [NoOfCallController::class, 'exchangeIndex'])->name('exchange.no_of_call.list');
-    Route::get('/user/AssignNumebr', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
+    Route::get('/user/AssignNumber', [AssignNumberController::class, 'exchangeIndex'])->name('exchange.assign_number.list');
  
     Route::get('/user/DemoSend', [DemoSendController::class, 'exchangeIndex'])->name('exchange.demo_send.list');
     Route::post('/user/DemoSend/post', [DemoSendController::class, 'store'])->name('exchange.demo_send.formPost');

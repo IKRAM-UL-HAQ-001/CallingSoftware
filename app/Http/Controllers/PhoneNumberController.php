@@ -167,8 +167,22 @@ class PhoneNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PhoneNumber $phoneNumber)
+    public function destroy(Request $request)
     {
-        //
+        $phoneNumber = PhoneNumber::find($request->id);
+        if ($phoneNumber) {
+            $phoneNumber->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }

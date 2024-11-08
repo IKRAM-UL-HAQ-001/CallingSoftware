@@ -29,8 +29,11 @@
                                     <td style="width: 45%;" class="encrypted-data">{{$reject->amount}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$reject->created_at}}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <form method="POST" action="{{route('admin.reject.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$reject->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -29,8 +29,11 @@
                                     <td style="width: 45%;" class="encrypted-data">{{$DemoSend->amount}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$DemoSend->created_at}}</td>
                                     <td style="width: 10%; text-align: center;">
-                                        <button class="btn btn-danger btn-sm" onclick="DeleteId(this)">Delete</button>
-                                        <button class="btn btn-warning btn-sm" onclick="EditId(this)">Edit</button>
+                                        <form method="POST" action="{{route('admin.demo_send.delete')}}">
+                                            @csrf 
+                                            <input type="hidden" id="deleteIdInput" name="id" value="{{$DemoSend->id}}">
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

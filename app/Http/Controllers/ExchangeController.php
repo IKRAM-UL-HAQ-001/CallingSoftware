@@ -305,8 +305,22 @@ class ExchangeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Exchange $exchange)
+    public function destroy (Request $request)
     {
-        //
+        $exchange = Exchange::find($request->id);
+        if ($exchange) {
+            $exchange->delete();
+            return redirect()->back()
+            ->withHeaders([
+                'X-Frame-Options' => 'DENY', // Prevents framing
+                'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+            ]);
+        }
+
+        return redirect()->back()
+        ->withHeaders([
+            'X-Frame-Options' => 'DENY', // Prevents framing
+            'Content-Security-Policy' => "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+        ]);
     }
 }
