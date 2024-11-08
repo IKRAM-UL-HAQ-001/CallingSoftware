@@ -23,11 +23,26 @@ class LoginController extends Controller
         $exchangeRecords = Exchange::all();
         return view('auth.login', compact('exchangeRecords'));
     }
+    public function getIp()
+    {
+        $ip = request()->header('X-Forwarded-For') ?? request()->ip();
+    
+        // If the header contains multiple IPs (e.g., from a proxy chain), take the first one
+        if (strpos($ip, ',') !== false) {
+            $ip = trim(explode(',', $ip)[0]);
+        }
+    
+        // Validate the extracted IP
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+            return $ip;
+        }
+    
+        return 'IP not found';
+    }
 
     public function login(Request $request)
     {
         $publicIp = Http::get('https://api.ipify.org')->body();
-        dd($publicIp);
         $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
         
         if (!$existingIp ) {
