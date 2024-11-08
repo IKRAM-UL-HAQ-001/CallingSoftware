@@ -50,17 +50,21 @@ class IpAddressController extends Controller
         }
     }
     
-
-    private function getIp()
+    public function getIp()
     {
-        // Using Ipify to get public IP address
-        try {
-            $response = Http::get('https://api.ipify.org?format=json');
-            $data = $response->json();
-            return $data['ip'] ?? null;
-        } catch (\Exception $e) {
-            // In case of any errors, return null
-            return null;
+        $ip = request()->header('X-Forwarded-For') ?? request()->ip();
+    
+        // If the header contains multiple IPs (e.g., from a proxy chain), take the first one
+        if (strpos($ip, ',') !== false) {
+            $ip = trim(explode(',', $ip)[0]);
         }
+    
+        // Validate the extracted IP
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+            return $ip;
+        }
+    
+        return 'IP not found';
     }
+    
 }
