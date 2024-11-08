@@ -26,16 +26,16 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        dd($request);
         $publicIp = Http::get('https://api.ipify.org')->body();
     
         $existingIp = IpAddress::where('ipAddress', $publicIp)
             ->where('localIpAddress', $request->local_ip)
             ->exists();
-
+        
         if (!$existingIp ) {
             return back()->withErrors(['error' => 'Your IP Address is not registered.']);
         }
-
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -43,7 +43,6 @@ class LoginController extends Controller
             'role' => 'nullable',
             'exchange' => 'nullable|required_if:role,exchange',
         ]);
-
 
         $name = $request->name;
         $password = $request->password;
