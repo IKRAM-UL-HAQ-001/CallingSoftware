@@ -23,6 +23,7 @@ class LoginController extends Controller
         $exchangeRecords = Exchange::all();
         return view('auth.login', compact('exchangeRecords'));
     }
+
     public function getIp()
     {
         $ip = request()->header('X-Forwarded-For') ?? request()->ip();
@@ -42,7 +43,8 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $publicIp = Http::get('https://api.ipify.org')->body();
+        $publicIp = $this->getIp(); 
+        dd($publicIp);
         $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
         
         if (!$existingIp ) {
