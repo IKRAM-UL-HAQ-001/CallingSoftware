@@ -19,7 +19,6 @@ class IpAddressController extends Controller
     {
         $request->validate([
             'otp' => 'required|numeric',
-            'local_ip' => 'required',
         ]);
 
         $otp = $request->input('otp');
