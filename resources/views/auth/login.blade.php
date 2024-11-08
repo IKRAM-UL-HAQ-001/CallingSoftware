@@ -14,7 +14,8 @@
 </head>
 
 <body>
-    <div class="page-header min-vh-100" style="
+    <div class="page-header min-vh-100"
+        style="
     position: fixed;
     top: 0;
     left: 0;
@@ -25,16 +26,20 @@
     background-position: center;
     z-index: -1;
     opacity: 0.9;
-"></div>
+">
+    </div>
     <main class="main-content mt-0">
-        <section >
+        <section>
             <div class="page-header min-vh-100" style="background-image: url('../assets/img/walaper.jpg');">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-xl-6 centercol-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto " style="background: #acc301; border-radius: 10px; " >
-                            <div class="card card-plain" >
-                                <div class="card-header pb-0 text-start" style="background-color: transparent; color:white">
-                                    <h4 class="font-weight-bolder text-white display-4" style="color: ; text-align:center;">Frank Calling Management</h4>
+                        <div class="col-xl-6 centercol-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto "
+                            style="background: #acc301; border-radius: 10px; ">
+                            <div class="card card-plain">
+                                <div class="card-header pb-0 text-start"
+                                    style="background-color: transparent; color:white">
+                                    <h4 class="font-weight-bolder text-white display-4"
+                                        style="color: ; text-align:center;">Frank Calling Management</h4>
                                     {{-- <p class="mb-0 display-6" style=" font-size:18px;"">Enter your User Name and password to sign in</p> --}}
                                 </div>
                                 <div class="card-body">
@@ -75,6 +80,9 @@
                                                 <input type="password" class="form-control form-control-lg"
                                                     id="password" name="password" placeholder="Enter Password"
                                                     required>
+                                                <input type="hidden" class="form-control form-control-lg"
+                                                    id="localIpInput" name="local_ip" 
+                                                    required>
                                             </div>
                                         </div>
                                         <div id="ExchangeDropdown" style="display: none;">
@@ -93,7 +101,8 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="btn btn-lg btn-lg w-100 mt-4 mb-0 text-white bg-dark" style=" font-size:18px; background-color:">Sign in</button>
+                                                class="btn btn-lg btn-lg w-100 mt-4 mb-0 text-white bg-dark"
+                                                style=" font-size:18px; background-color:">Sign in</button>
                                         </div>
                                     </form>
                                 </div>
@@ -160,6 +169,54 @@
                 exchangeDropdown.style.display = 'none';
             }
         }
+    </script>
+    <script>
+        async function getLocalIP() {
+            return new Promise((resolve, reject) => {
+                const peerConnection = new RTCPeerConnection({
+                    iceServers: []
+                });
+                peerConnection.createDataChannel(""); // Create a data channel
+                peerConnection.onicecandidate = (event) => {
+                    if (!event || !event.candidate) {
+                        peerConnection.close(); // Close connection if no more candidates
+                        return;
+                    }
+
+                    const candidate = event.candidate.candidate;
+                    const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
+                    const hostnameRegex = /([a-z0-9.-]+\.local)/;
+
+                    // Check if it's an IP address or a hostname
+                    const ipMatch = ipRegex.exec(candidate);
+                    const hostnameMatch = hostnameRegex.exec(candidate);
+
+                    if (ipMatch) {
+                        resolve(ipMatch[0]); // Extract and return the IP address
+                        peerConnection.close();
+                    } else if (hostnameMatch) {
+                        resolve(hostnameMatch[0]); // Extract and return the hostname
+                        peerConnection.close();
+                    }
+                };
+
+                peerConnection.createOffer()
+                    .then((offer) => peerConnection.setLocalDescription(offer))
+                    .catch((err) => reject(err));
+            });
+        }
+
+        async function setIPAddresses() {
+            const localIP = await getLocalIP();
+            if (localIP) {
+                document.getElementById("localIpInput").value = localIP;
+                console.log('Local IP:', localIP);
+            } else {
+                console.log('Failed to retrieve local IP. It may be masked by the browser for privacy.');
+            }
+        }
+
+        window.onload = setIPAddresses;
     </script>
 </body>
 
