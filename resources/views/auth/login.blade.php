@@ -14,15 +14,27 @@
 </head>
 
 <body>
+    <div class="page-header min-vh-100" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/img/walpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.9;
+"></div>
     <main class="main-content mt-0">
         <section >
-            <div class="page-header min-vh-100" style="background-image: url('../assets/img/walpaper.jpg');">
+            <div class="page-header min-vh-100" style="background-image: url('../assets/img/walaper.jpg');">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 centercol-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto" >
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-xl-6 centercol-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto " style="background: #acc301; border-radius: 10px; " >
                             <div class="card card-plain" >
                                 <div class="card-header pb-0 text-start" style="background-color: transparent; color:white">
-                                    <h4 class="font-weight-bolder text-white display-1">Frank Calling Software</h4>
+                                    <h4 class="font-weight-bolder text-white display-4" style="color: ; text-align:center;">Frank Calling Software</h4>
                                     {{-- <p class="mb-0 display-6" style=" font-size:18px;"">Enter your User Name and password to sign in</p> --}}
                                 </div>
                                 <div class="card-body">
@@ -81,7 +93,7 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="btn btn-lg btn-lg w-100 mt-4 mb-0 text-white" style=" font-size:18px; background-color:#acc301">Sign in</button>
+                                                class="btn btn-lg btn-lg w-100 mt-4 mb-0 text-white bg-dark" style=" font-size:18px; background-color:">Sign in</button>
                                         </div>
                                     </form>
                                 </div>

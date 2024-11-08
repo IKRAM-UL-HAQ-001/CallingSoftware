@@ -15,29 +15,55 @@ class IpAddressController extends Controller
         return view('otp_form');
     }
 
-    public function verifyAndLogIp(Request $request)
+
+    private function isPrivateIp($ip)
     {
-        $request->validate([
-            'otp' => 'required|numeric',
-        ]);
-
-        $otp = $request->input('otp');
-
-        $otpRecord = Otp::where('otp', $otp)
-            ->where('otp_exp', '>', Carbon::now()) 
-            ->first();
-
-        if ($otpRecord) {
-            $response = Http::get('https://api.ipify.org');
-            $publicIp = (string) $response->body();  
-            $ip = new IpAddress();
-
-            $ip->ipAddress = $publicIp;
-            $ip->save();
-
-            return redirect()->route('auth.login')->with('success', 'OTP verified and IP address logged.');
-        } else {
-            return back()->withErrors(['otp' => 'Invalid or expired OTP, please try again.']);
-        }
+        return filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
     }
+
+    public function verifyAndLogIp(Request $request)
+{
+    $request->validate([
+        'otp' => 'required|numeric',
+        'local_ip' => 'required|ip',
+    ]);
+
+    $otp = $request->input('otp');
+    $localIp = (string) $request->input('local_ip');
+
+    $otpRecord = Otp::where('otp', $otp)
+        ->where('otp_exp', '>', Carbon::now())
+        ->first();
+
+    if ($otpRecord) {
+        $response = Http::get('https://api.ipify.org');
+
+        if ($response->successful()) {
+            $publicIp = (string) $response->body();  
+
+            $isPrivateIp = $this->isPrivateIp($localIp);
+
+            dd($publicIp, $isPrivateIp);
+
+            if ($isPrivateIp) {
+                $ipExists = IpAddress::where('ipAddress', $publicIp)->exists();
+
+                if (!$ipExists) {
+                    $ip = new IpAddress();
+                    $ip->ipAddress = $publicIp;
+                    $ip->localIpAddress = $localIp;
+                    $ip->save();
+                }
+
+                return redirect()->route('auth.login')->with('success', 'OTP verified and IP addresses logged.');
+            } else {
+                return back()->withErrors(['local_ip' => 'Invalid local IP address detected.']);
+            }
+        } else {
+            return back()->withErrors(['ip' => 'Unable to fetch public IP address, please try again later.']);
+        }
+    } else {
+        return back()->withErrors(['otp' => 'Invalid or expired OTP, please try again.']);
+    }
+}
 }

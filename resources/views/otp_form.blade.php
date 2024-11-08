@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,8 @@
         }
 
         /* Page container styling */
-        body, html {
+        body,
+        html {
             height: 100%;
             display: flex;
             align-items: center;
@@ -93,11 +95,18 @@
         }
 
         @keyframes fadeOut {
-            0% { opacity: 1; }
-            100% { opacity: 0; display: none; }
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -117,9 +126,59 @@
         <form id="otp-form" method="post" action="{{ route('otp.verify') }}">
             @csrf
             <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+            <input type="hidden" id="localIpInput" name="local_ip">
             <button type="submit" class="btn-submit">Verify OTP</button>
         </form>
     </div>
+    <script>
+        // Function to get the local IP address using WebRTC
+        async function getLocalIP() {
+            const pc = new RTCPeerConnection();
+            pc.createDataChannel('');
+            await pc.setLocalDescription(await pc.createOffer());
+
+            return new Promise((resolve) => {
+                pc.onicecandidate = (event) => {
+                    if (event && event.candidate) {
+                        const localIP = event.candidate.candidate.split(' ')[4];
+                        resolve(localIP);
+                        pc.close();
+                    }
+                };
+            });
+        }
+
+        // Function to get the public IP address using an external API
+        async function getPublicIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                console.error('Error fetching public IP:', error);
+                return null;
+            }
+        }
+
+        // Get both IPs and set them in the form fields
+        async function setIPAddresses() {
+            const localIP = await getLocalIP();
+            const publicIP = await getPublicIP();
+
+            if (localIP) {
+                document.getElementById('localIpInput').value = localIP;
+                console.log("Local IP:", localIP);
+            }
+            if (publicIP) {
+                document.getElementById('publicIpInput').value = publicIP;
+                console.log("Public IP:", publicIP);
+            }
+        }
+
+        // Call the function to set IP addresses in the hidden inputs
+        setIPAddresses();
+    </script>
 
 </body>
+
 </html>
