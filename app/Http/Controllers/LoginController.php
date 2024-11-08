@@ -44,8 +44,8 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $publicIp = $this->getIp(); 
-        dd($publicIp);
-        $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
+
+        $existingIp = IpAddress::where('ipAddress', $publicIp)->get();
         
         if (!$existingIp ) {
             return back()->withErrors(['error' => 'Your IP Address is not registered.']);
