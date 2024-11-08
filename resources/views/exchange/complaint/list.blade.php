@@ -25,7 +25,7 @@
                                     <td style="width: 45%;" class="encrypted-data">{{$Complaint->name}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$Complaint->phone}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$Complaint->feedback}}</td>
-                                    <td style="width: 45%;" class="encrypted-ata">{{$Complaint->amount}}</td>
+                                    <td style="width: 45%;" class="encrypted-data">{{$Complaint->amount}}</td>
                                     <td style="width: 45%;" class="encrypted-data">{{$Complaint->created_at}}</td>
                                 </tr>
                                 @endforeach
