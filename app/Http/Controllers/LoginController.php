@@ -26,12 +26,9 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        dd($request);
         $publicIp = Http::get('https://api.ipify.org')->body();
     
-        $existingIp = IpAddress::where('ipAddress', $publicIp)
-            ->where('localIpAddress', $request->local_ip)
-            ->exists();
+        $existingIp = IpAddress::where('ipAddress', $publicIp)->exists();
         
         if (!$existingIp ) {
             return back()->withErrors(['error' => 'Your IP Address is not registered.']);

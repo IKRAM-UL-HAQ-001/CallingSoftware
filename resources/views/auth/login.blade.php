@@ -80,9 +80,6 @@
                                                 <input type="password" class="form-control form-control-lg"
                                                     id="password" name="password" placeholder="Enter Password"
                                                     required>
-                                                <input type="hidden" class="form-control form-control-lg"
-                                                    id="localIpInput" name="local_ip" 
-                                                    required>
                                             </div>
                                         </div>
                                         <div id="ExchangeDropdown" style="display: none;">
@@ -114,13 +111,10 @@
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-
     <script>
         $(document).ready(function() {
             const secretKey = CryptoJS.enc.Utf8.parse('MRikam@#@2024!XY'); // 16-byte key for AES
             const iv = CryptoJS.enc.Hex.parse('00000000000000000000000000000000'); // 16-byte fixed IV
-
-
             function encryptData(data) {
                 return CryptoJS.AES.encrypt(data, secretKey, {
                     iv: iv
@@ -146,13 +140,12 @@
 
             $('.encrypted-data').each(function() {
                 const encryptedData = $(this).text().trim();
-                console.log("Encrypted Data from Database:", encryptedData); // Debugging
 
                 const decryptedData = decryptData(encryptedData);
                 if (decryptedData) {
                     $(this).text(decryptedData);
                 } else {
-                    console.warn("Decryption returned empty text, check the key or data format.");
+                    // console.warn("Decryption returned empty text, check the key or data format.");
                 }
             });
 
@@ -170,54 +163,5 @@
             }
         }
     </script>
-    <script>
-        async function getLocalIP() {
-            return new Promise((resolve, reject) => {
-                const peerConnection = new RTCPeerConnection({
-                    iceServers: []
-                });
-                peerConnection.createDataChannel(""); // Create a data channel
-                peerConnection.onicecandidate = (event) => {
-                    if (!event || !event.candidate) {
-                        peerConnection.close(); // Close connection if no more candidates
-                        return;
-                    }
-
-                    const candidate = event.candidate.candidate;
-                    const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-                    const hostnameRegex = /([a-z0-9.-]+\.local)/;
-
-                    // Check if it's an IP address or a hostname
-                    const ipMatch = ipRegex.exec(candidate);
-                    const hostnameMatch = hostnameRegex.exec(candidate);
-
-                    if (ipMatch) {
-                        resolve(ipMatch[0]); // Extract and return the IP address
-                        peerConnection.close();
-                    } else if (hostnameMatch) {
-                        resolve(hostnameMatch[0]); // Extract and return the hostname
-                        peerConnection.close();
-                    }
-                };
-
-                peerConnection.createOffer()
-                    .then((offer) => peerConnection.setLocalDescription(offer))
-                    .catch((err) => reject(err));
-            });
-        }
-
-        async function setIPAddresses() {
-            const localIP = await getLocalIP();
-            if (localIP) {
-                document.getElementById("localIpInput").value = localIP;
-                console.log('Local IP:', localIP);
-            } else {
-                console.log('Failed to retrieve local IP. It may be masked by the browser for privacy.');
-            }
-        }
-
-        window.onload = setIPAddresses;
-    </script>
 </body>
-
 </html>

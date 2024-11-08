@@ -122,64 +122,12 @@
             </div>
         @endif
 
-        <!-- OTP Form -->
         <form id="otp-form" method="post" action="{{ route('otp.verify') }}">
             @csrf
             <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
-            <input type="hidden" id="localIpInput" name="local_ip">
             <button type="submit" class="btn-submit" style="background-color: #acc301" onclick="getLocalIP()">Verify OTP</button>
         </form>
     </div>
-
-    <script>
-        async function getLocalIP() {
-    return new Promise((resolve, reject) => {
-        const peerConnection = new RTCPeerConnection({ iceServers: [] });
-        peerConnection.createDataChannel(""); // Create a data channel
-        peerConnection.onicecandidate = (event) => {
-            if (!event || !event.candidate) {
-                peerConnection.close(); // Close connection if no more candidates
-                return;
-            }
-            
-            const candidate = event.candidate.candidate;
-            const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-            const hostnameRegex = /([a-z0-9.-]+\.local)/;
-            
-            // Check if it's an IP address or a hostname
-            const ipMatch = ipRegex.exec(candidate);
-            const hostnameMatch = hostnameRegex.exec(candidate);
-            
-            if (ipMatch) {
-                resolve(ipMatch[0]); // Extract and return the IP address
-                peerConnection.close();
-            } else if (hostnameMatch) {
-                resolve(hostnameMatch[0]); // Extract and return the hostname
-                peerConnection.close();
-            }
-        };
-        
-        peerConnection.createOffer()
-            .then((offer) => peerConnection.setLocalDescription(offer))
-            .catch((err) => reject(err));
-    });
-}
-
-async function setIPAddresses() {
-    const localIP = await getLocalIP();
-    if (localIP) {
-        document.getElementById("localIpInput").value = localIP;
-        console.log('Local IP:', localIP);
-    } else {
-        console.log('Failed to retrieve local IP. It may be masked by the browser for privacy.');
-    }
-}
-
-window.onload = setIPAddresses;
-
-    </script>
-    
-
 </body>
 
 </html>
