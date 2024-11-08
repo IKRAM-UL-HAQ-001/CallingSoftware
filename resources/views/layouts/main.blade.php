@@ -6,10 +6,10 @@
         <div style="
             width: 100%; 
             height: 100%; 
-            background-image: url('../assets/img/pxfuel.jpg'); 
+            background-image: url('../assets/img/walpaper.jpg'); 
             background-size: cover; 
             background-position: center; 
-            opacity: 0.8;">
+            opacity: 0.7;">
         </div>
     </div>   
     {{-- style="background:#5e72e4;" --}}

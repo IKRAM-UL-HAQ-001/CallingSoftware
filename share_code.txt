@@ -3,12 +3,7 @@
 
 
 
-{{-- <select class="form-select px-3" id="exchange" name="exchange">
-                            <option value="" disabled selected>Select Exchange</option>
-                            @foreach($Exchanges as $exchange)
-                            <option value="{{ $exchange->id }}" class="exchange-option encrypted-data">{{ $exchange->name }}</option>
-                            @endforeach
-                        </select> --}}
+
 
                         message: "CSRF token mismatch.", exception: "Symfony\Component\HttpKernel\Exception\HttpException",…}
 exception
@@ -23,3 +18,5 @@ line
 message
 : 
 "CSRF token mismatch."
+bootstrap-toggle.js:180 Uncaught ReferenceError: jQuery is not defined
+    at bootstrap-toggle.js:180:3

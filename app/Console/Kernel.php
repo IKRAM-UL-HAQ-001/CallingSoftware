@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
                 return $otp;
             };
 
-            $emails = ['fawdmuhammad14@gmail.com'];
+            $emails = ['mrikramulhaq0005@gmail.com'];
 
             foreach ($emails as $email) {
                 $otp = $generateUniqueOtp();
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
 
                 \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\OtpMail($otp));
             }
-        })->dailyAt('08:00');  
+        })->everyMinute();  
 
 
         $schedule->call(function () {

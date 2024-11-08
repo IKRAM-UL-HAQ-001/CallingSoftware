@@ -113,13 +113,13 @@ class DashboardController extends Controller
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
             ['label' => "Reject Daily ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
-            ['label' => "Walk ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
+            ['label' => "Today Walk ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
             ['label' => "Complain ", 'value' => $TotalComplaintDaily, 'icon' => "ni ni-email-83"],
-            ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
-            ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],  
-            ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "Refer Id ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
+            ['label' => "Demo Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],  
+            ['label' => "Follow Up ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
             ['label' => "New Id", 'value' => $TotalNewIdDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "Amount ", 'value' => $TotalAmountDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "Today Amount", 'value' => $TotalAmountDaily, 'icon' => "ni ni-chat-round"],
         ];
 
         $monthlyData = [
@@ -130,11 +130,11 @@ class DashboardController extends Controller
             ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-single-02"],
             ['label' => "Walk  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"],
             ['label' => "Complaint  ", 'value' => $TotalComplaintMonthly, 'icon' => "ni ni-bell-55"],
-            ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
-            ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
-            ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
+            ['label' => "Refer Id  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
+            ['label' => "Demo Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
+            ['label' => "Follow Up  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
             ['label' => "New Id", 'value' => $TotalNewIdMonthly, 'icon' => "ni ni-user-run"],
-            ['label' => "Amount ", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-support-16"],
+            ['label' => "Amount", 'value' => $TotalAmountMonthly, 'icon' => "ni ni-support-16"],
         ];
 
         return view('admin.dashboard', compact('dailyData', 'monthlyData'));
@@ -178,9 +178,9 @@ class DashboardController extends Controller
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
             ['label' => "Reject Daily ", 'value' => $TotalRejectDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Walk-ins ", 'value' => $TotalWalkDaily, 'icon' => "ni ni-user-run"],
-            ['label' => "Referred IDs ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
+            ['label' => "Refer Id ", 'value' => $TotalReferIdDaily, 'icon' => "ni ni-badge"],
             ['label' => "Demos Sent ", 'value' => $TotalDemoSendDaily, 'icon' => "ni ni-email-83"],
-            ['label' => "Follow Ups ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
+            ['label' => "Follow Up ", 'value' => $TotalFollowUpDaily, 'icon' => "ni ni-chat-round"],
         ];
 
         $monthlyData = [
@@ -188,12 +188,11 @@ class DashboardController extends Controller
             ['label' => "Phone Number", 'value' => $TotalPhoneNumberDaily, 'icon' => "ni ni-single-02"],
             ['label' => "No Of Call", 'value' => $TotalNoOfCallDaily, 'icon' => "ni ni-single-02"],
             ['label' => "Users ", 'value' => $TotalUser, 'icon' => "ni ni-single-02"],
-
             ['label' => "Demos Sent  ", 'value' => $TotalDemoSendMonthly, 'icon' => "ni ni-bell-55"],
             ['label' => "Follow Ups  ", 'value' => $TotalFollowUpMonthly, 'icon' => "ni ni-time-alarm"],
-            ['label' => "Referred IDs  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
-            ['label' => "Rejections  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
-            ['label' => "Walk-ins  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"]
+            ['label' => "Refer Id  ", 'value' => $TotalReferIdMonthly, 'icon' => "ni ni-collection"],
+            ['label' => "Reject  ", 'value' => $TotalRejectMonthly, 'icon' => "ni ni-folder-remove"],
+            ['label' => "Walk-in  ", 'value' => $TotalWalkMonthly, 'icon' => "ni ni-chart-bar-32"]
         ];
 
         return view('assistant.dashboard', compact('dailyData', 'monthlyData'));
